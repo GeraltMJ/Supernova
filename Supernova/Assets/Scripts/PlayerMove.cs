@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Test : MonoBehaviour {
+public class PlayerMove : MonoBehaviour
+{
 	public iTween.EaseType easeType;
 	public KeyCode up;
 	public KeyCode down;
@@ -13,6 +14,11 @@ public class Test : MonoBehaviour {
 
 	public float nowTime = 0.0f;
 
+	private float fixPositionX;
+	private float fixPositionY;
+
+
+
 	public bool isMoving = false;
 	public bool faceUp = false;
 	public bool faceDown = true;
@@ -20,28 +26,30 @@ public class Test : MonoBehaviour {
 	public bool faceRight = false;
 
 	//向上运动的参数
-	Hashtable upArgs1 = iTween.Hash("x", 0, "y", 0.75, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic); //向上的第一段位移：x坐标不变，y坐标 +0.75
+	Hashtable upArgs1 = iTween.Hash("x", 0, "y", 1.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic); //向上的第一段位移：x坐标不变，y坐标 +0.75
 	Hashtable upArgs2 = iTween.Hash("x", 0, "delay", 0.1, "y", -0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic); //向上的第二段位移，x坐标不变，y坐标 -0.25
 
 	//向下运动的参数
 	Hashtable downArgs1 = iTween.Hash("x", 0, "y", 0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
-	Hashtable downArgs2 = iTween.Hash("x", 0, "delay", 0.1, "y", -0.75, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
+	Hashtable downArgs2 = iTween.Hash("x", 0, "delay", 0.1, "y", -1.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
 
 	//向左运动的参数
-	Hashtable leftArgs1 = iTween.Hash("x", -0.25, "y", 0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
-	Hashtable leftArgs2 = iTween.Hash("x", -0.25, "delay", 0.1, "y", -0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
+	Hashtable leftArgs1 = iTween.Hash("x", -0.5, "y", 0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
+	Hashtable leftArgs2 = iTween.Hash("x", -0.5, "delay", 0.1, "y", -0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
 
 	//向右运动的参数
-	Hashtable rightArgs1 = iTween.Hash("x", 0.25, "y", 0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
-	Hashtable rightArgs2 = iTween.Hash("x", 0.25, "delay", 0.1, "y", -0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
+	Hashtable rightArgs1 = iTween.Hash("x", 0.5, "y", 0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
+	Hashtable rightArgs2 = iTween.Hash("x", 0.5, "delay", 0.1, "y", -0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start()
+	{
+
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
+	void Update()
+	{
 		if (!isMoving)
 		{
 			if (Input.GetKey(up) && !isMoving)
@@ -51,7 +59,7 @@ public class Test : MonoBehaviour {
 				faceUp = true;
 				faceLeft = false;
 				faceRight = false;
-			    
+
 				iTween.MoveBy(this.gameObject, upArgs1);
 				iTween.MoveBy(this.gameObject, upArgs2);
 			}
@@ -88,15 +96,20 @@ public class Test : MonoBehaviour {
 				iTween.MoveBy(this.gameObject, rightArgs1);
 				iTween.MoveBy(this.gameObject, rightArgs2);
 			}
+
+			fixPositionX = Mathf.Floor(this.transform.position.x) + 0.5f;
+			fixPositionY = Mathf.Floor(this.transform.position.y) + 0.5f;
+			this.transform.position = new Vector2(fixPositionX, fixPositionY);
 		}
 		else
 		{
 			nowTime += Time.deltaTime;
-			if(nowTime >= timer)
+			if (nowTime >= timer)
 			{
 				nowTime = 0;
 				isMoving = false;
 			}
 		}
+
 	}
 }

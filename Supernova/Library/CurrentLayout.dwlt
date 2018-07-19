@@ -108,7 +108,7 @@ MonoBehaviour:
   m_MinSize: {x: 713, y: 492}
   m_MaxSize: {x: 18008, y: 14042}
   vertical: 1
-  controlID: 154
+  controlID: 150
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_MinSize: {x: 713, y: 492}
   m_MaxSize: {x: 18008, y: 14042}
   vertical: 0
-  controlID: 155
+  controlID: 151
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -362,9 +362,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 313
+    y: 742
     width: 1023
-    height: 529
+    height: 100
   m_PersistentViewDataDictionary: {fileID: 0}
   m_MaximizeOnPlay: 0
   m_Gizmos: 0
@@ -376,8 +376,8 @@ MonoBehaviour:
     m_VRangeLocked: 0
     m_HBaseRangeMin: -511.5
     m_HBaseRangeMax: 511.5
-    m_VBaseRangeMin: -256
-    m_VBaseRangeMax: 256
+    m_VBaseRangeMin: -41.5
+    m_VBaseRangeMax: 41.5
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -395,9 +395,9 @@ MonoBehaviour:
       x: 0
       y: 17
       width: 1023
-      height: 512
+      height: 83
     m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 511.5, y: 256}
+    m_Translation: {x: 511.5, y: 41.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -405,14 +405,14 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -511.5
-      y: -256
+      y: -41.5
       width: 1023
-      height: 512
+      height: 83
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
-  m_LastWindowPixelSize: {x: 1023, y: 529}
+  m_LastWindowPixelSize: {x: 1023, y: 100}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000100000100
@@ -447,9 +447,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0.39645693, y: 0.106535755, z: 0}
+    m_Target: {x: -2.7721727, y: -0.02405639, z: 0.018956348}
     speed: 2
-    m_Value: {x: 0.39645693, y: 0.106535755, z: 0}
+    m_Value: {x: -2.7721727, y: -0.02405639, z: 0.018956348}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -481,9 +481,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 11.567498
+    m_Target: 9.596689
     speed: 2
-    m_Value: 11.567498
+    m_Value: 9.596689
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -623,18 +623,18 @@ MonoBehaviour:
     m_ExpandedIDs: 4cfbffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Player2
+      m_OriginalName: Player2
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: -9534
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 11}
     m_SearchString: 
@@ -681,19 +681,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets/Plugins/Pixelplacement
+    - Assets/Resources/Sprites
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Plugins/Pixelplacement
+  - Assets/Resources/Sprites
   m_LastFoldersGridSize: 16
-  m_LastProjectPath: D:\GitRepo\Supernova
+  m_LastProjectPath: C:\Users\liuli\Desktop\TencentProject\Supernova
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: e62b0000
-    m_LastClickedID: 11238
+    m_SelectedIDs: 8a2d0000
+    m_LastClickedID: 11658
     m_ExpandedIDs: 00000000462b0000f42c0000682d000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -722,7 +722,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000462b0000682d0000
+    m_ExpandedIDs: 00000000462b0000f42c0000682d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -749,22 +749,22 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
-    m_ExpandedInstanceIDs: ac2d0000b23e00002027000012250000142500001e250000d02f0000b62d000056270000da250000c879030000000000bc240000be2400005c2c0000ca250000c22400008e32fffff0bc0000923900001e84feff3e2f00005ea7ffff462900008ada00007c3100006c240000f6350000e6470000022600003e30000080280000502400006e7dfffffa310000542400005624000070240000323300004a4a000058350000
+    m_HadKeyboardFocusLastEvent: 1
+    m_ExpandedInstanceIDs: ac2d0000b23e00002027000012250000142500001e250000d02f0000b62d000056270000da250000c879030000000000bc240000be2400005c2c0000ca250000c22400008e32fffff0bc0000923900001e84feff3e2f00005ea7ffff462900008ada00007c3100006c240000f6350000e6470000022600003e30000080280000502400006e7dfffffa310000542400005624000070240000323300004a4a0000583500006a2b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: PlayerMove
+      m_OriginalName: PlayerMove
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 2388
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 12}
     m_CreateAssetUtility:
