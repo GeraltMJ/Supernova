@@ -88,13 +88,14 @@ public class EnemyMove : MonoBehaviour
 		iTween.MoveBy(this.gameObject, rightArgs1);
 		iTween.MoveBy(this.gameObject, rightArgs2);
 	}
-
+	
 	void FixPosition()
 	{
 		fixPositionX = Mathf.Floor(this.transform.position.x) + 0.5f;
 		fixPositionY = Mathf.Floor(this.transform.position.y) + 0.5f;
 		this.transform.position = new Vector2(fixPositionX, fixPositionY);
 	}
+	
 
 	void StatusCheck()
 	{
@@ -125,33 +126,25 @@ public class EnemyMove : MonoBehaviour
 			if (currentCommand == "W" && !isMoving)
 			{
 				MoveUp();
-				Debug.Log("up");
 			}
-			if (currentCommand == "S" && !isMoving)
+			else if (currentCommand == "S" && !isMoving)
 			{
 				MoveDown();
-				Debug.Log("left");
 			}
-			if (currentCommand == "A" && !isMoving)
+			else if (currentCommand == "A" && !isMoving)
 			{
 				MoveLeft();
-				Debug.Log("right");
 			}
-			if (currentCommand == "D" && !isMoving)
+			else if (currentCommand == "D" && !isMoving)
 			{
 				MoveRight();
-				Debug.Log("down");
 			}
 
 			FixPosition();
-			Debug.Log("1");
 		}
 		else
 		{
 			StatusCheck();
-			Debug.Log("2");
 		}
-		Debug.Log("Player2 currentcommand: " + currentCommand + "End");
-
 	}
 }

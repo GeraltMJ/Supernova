@@ -5,8 +5,13 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
 
-	public GameObject tcpHolder;
-	private TcpClient tcp;
+	//public GameObject tcpHolder;
+	//private TcpClient tcp;
+
+	private bool isMouse = false;
+	private bool isCat = false;
+	private bool isInCatPic = false;
+	private bool isInMousePic = false;
 
 	public iTween.EaseType easeType;
 	public KeyCode up;
@@ -110,9 +115,60 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
+	void OnCollisionEnter2D(Collision2D other) {
+		if(other.gameObject.CompareTag("HolePic") && isMouse == true)
+		{
+			other.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if(other.gameObject.CompareTag("CatPic"))
+		{
+			isInCatPic = true;
+		}
+		if(other.gameObject.CompareTag("MousePic"))
+		{
+			isInMousePic = true;
+		}		
+	}
+
+	void OnTriggerExit2D(Collider2D other) {
+		if(other.gameObject.CompareTag("CatPic"))
+		{
+			isInCatPic = false;
+		}
+		if(other.gameObject.CompareTag("MousePic"))
+		{
+			isInMousePic = false;
+		}
+		if(other.gameObject.CompareTag("HolePic"))
+		{
+			other.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+		}
+	}
+
+
 	void Start()
 	{
-		tcp = tcpHolder.GetComponent<TcpClient>();
+		//tcp = tcpHolder.GetComponent<TcpClient>();
+	}
+
+	void TurnFun()
+	{
+		if(isInCatPic == true)
+		{
+			isCat = true;
+			isMouse = false;
+			Debug.Log("turn into cat");
+		}
+		else if(isInMousePic == true)
+		{
+			isMouse = true;
+			isCat = false;
+			Debug.Log("turn into mouse");
+		}
 	}
 
 
@@ -124,25 +180,31 @@ public class PlayerMove : MonoBehaviour
 			if (Input.GetKey(up) && !isMoving)
 			{
 				MoveUp();
-				tcp.SendSelfCommand("W");
+				//tcp.SendSelfCommand("W");
 			}
 			else if (Input.GetKey(down) && !isMoving)
 			{
 				MoveDown();
-				tcp.SendSelfCommand("S");
+				//tcp.SendSelfCommand("S");
 			}
 			else if (Input.GetKey(left) && !isMoving)
 			{
 				MoveLeft();
-				tcp.SendSelfCommand("A");
+				//tcp.SendSelfCommand("A");
 			}
 			else if (Input.GetKey(right) && !isMoving)
 			{
 				MoveRight();
-				tcp.SendSelfCommand("D");
-			}else
+				//tcp.SendSelfCommand("D");
+			}
+			else if(Input.GetButton("Turn"))
 			{
-				tcp.SendSelfCommand(" ");
+				TurnFun();
+				//tcp.SendSelfCommand("T");
+			}
+			else
+			{	
+				//tcp.SendSelfCommand(" ");
 			}
 
 			FixPosition();
