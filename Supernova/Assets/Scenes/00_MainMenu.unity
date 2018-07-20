@@ -1294,14 +1294,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 103494555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14f5618aca431f44fb0c17784b3f3994, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b149ac54fd6144b2961999f67610ce8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tcpHolder: {fileID: 406355308}
   easeType: 0
-  up: 273
-  down: 274
-  left: 276
-  right: 275
   timer: 0.2
   nowTime: 0
   isMoving: 0
@@ -3093,7 +3090,7 @@ GameObject:
   - component: {fileID: 247813166}
   - component: {fileID: 247813165}
   m_Layer: 0
-  m_Name: "\u5FAE\u4FE1\u56FE\u7247_20180719184608"
+  m_Name: WinPic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4433,6 +4430,49 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &406355308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 406355310}
+  - component: {fileID: 406355309}
+  m_Layer: 0
+  m_Name: ConnectController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &406355309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 406355308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d77ea8485948a4e468281dcd97bf44e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetIP: 10.66.222.151
+  port: 8123
+  player2: {fileID: 103494555}
+--- !u!4 &406355310
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 406355308}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.9246436, y: -1.1143085, z: 0.2903706}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &409136316
 GameObject:
   m_ObjectHideFlags: 0
@@ -19128,6 +19168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f5618aca431f44fb0c17784b3f3994, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tcpHolder: {fileID: 406355308}
   easeType: 0
   up: 119
   down: 115
