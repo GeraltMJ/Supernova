@@ -8,16 +8,12 @@ public class PlayerMove : MonoBehaviour
 	//public GameObject tcpHolder;
 	//private TcpClient tcp;
 
-	private bool isMouse = false;
-	private bool isCat = false;
-	private bool isInCatPic = false;
-	private bool isInMousePic = false;
-
 	public iTween.EaseType easeType;
 	public KeyCode up;
 	public KeyCode down;
 	public KeyCode left;
 	public KeyCode right;
+	public Animator animator;
 
 	public float timer = 0.2f;
 
@@ -26,13 +22,9 @@ public class PlayerMove : MonoBehaviour
 	private float fixPositionX;
 	private float fixPositionY;
 
-
+	public FaceDirection dir = FaceDirection.Down;
 
 	public bool isMoving = false;
-	public bool faceUp = false;
-	public bool faceDown = true;
-	public bool faceLeft = false;
-	public bool faceRight = false;
 
 	//向上运动的参数
 	Hashtable upArgs1 = iTween.Hash("x", 0, "y", 1.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic); //向上的第一段位移：x坐标不变，y坐标 +0.75
@@ -55,10 +47,7 @@ public class PlayerMove : MonoBehaviour
 	public void MoveUp()
 	{
 		isMoving = true;
-		faceDown = false;
-		faceUp = true;
-		faceLeft = false;
-		faceRight = false;
+		dir = FaceDirection.Up;
 
 		iTween.MoveBy(this.gameObject, upArgs1);
 		iTween.MoveBy(this.gameObject, upArgs2);
@@ -67,10 +56,7 @@ public class PlayerMove : MonoBehaviour
 	public void MoveDown()
 	{
 		isMoving = true;
-		faceDown = true;
-		faceUp = false;
-		faceLeft = false;
-		faceRight = false;
+		dir = FaceDirection.Down;
 
 		iTween.MoveBy(this.gameObject, downArgs1);
 		iTween.MoveBy(this.gameObject, downArgs2);
@@ -78,10 +64,7 @@ public class PlayerMove : MonoBehaviour
 	public void MoveLeft()
 	{
 		isMoving = true;
-		faceDown = false;
-		faceUp = false;
-		faceLeft = true;
-		faceRight = false;
+		dir = FaceDirection.Left;
 
 		iTween.MoveBy(this.gameObject, leftArgs1);
 		iTween.MoveBy(this.gameObject, leftArgs2);
@@ -89,23 +72,22 @@ public class PlayerMove : MonoBehaviour
 	public void MoveRight()
 	{
 		isMoving = true;
-		faceDown = false;
-		faceUp = false;
-		faceLeft = false;
-		faceRight = true;
+		dir = FaceDirection.Right;
 
 		iTween.MoveBy(this.gameObject, rightArgs1);
 		iTween.MoveBy(this.gameObject, rightArgs2);
 	}
 
+	
 	public void FixPosition()
 	{
 		fixPositionX = Mathf.Floor(this.transform.position.x) + 0.5f;
 		fixPositionY = Mathf.Floor(this.transform.position.y) + 0.5f;
 		this.transform.position = new Vector2(fixPositionX, fixPositionY);
 	}
+	
 
-	public void StatusCheck()
+	public void TimeCheck()
 	{
 		nowTime += Time.deltaTime;
 		if (nowTime >= timer)
@@ -115,61 +97,14 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D other) {
-		if(other.gameObject.CompareTag("HolePic") && isMouse == true)
-		{
-			other.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
-		}
-	}
-
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if(other.gameObject.CompareTag("CatPic"))
-		{
-			isInCatPic = true;
-		}
-		if(other.gameObject.CompareTag("MousePic"))
-		{
-			isInMousePic = true;
-		}		
-	}
-
-	void OnTriggerExit2D(Collider2D other) {
-		if(other.gameObject.CompareTag("CatPic"))
-		{
-			isInCatPic = false;
-		}
-		if(other.gameObject.CompareTag("MousePic"))
-		{
-			isInMousePic = false;
-		}
-		if(other.gameObject.CompareTag("HolePic"))
-		{
-			other.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
-		}
-	}
-
-
 	void Start()
 	{
 		//tcp = tcpHolder.GetComponent<TcpClient>();
+		animator = GetComponent<Animator>();
+
 	}
 
-	void TurnFun()
-	{
-		if(isInCatPic == true)
-		{
-			isCat = true;
-			isMouse = false;
-			Debug.Log("turn into cat");
-		}
-		else if(isInMousePic == true)
-		{
-			isMouse = true;
-			isCat = false;
-			Debug.Log("turn into mouse");
-		}
-	}
+	
 
 
 	// Update is called once per frame
@@ -180,29 +115,28 @@ public class PlayerMove : MonoBehaviour
 			if (Input.GetKey(up) && !isMoving)
 			{
 				MoveUp();
+				animator.SetTrigger("UpWalk");
 				//tcp.SendSelfCommand("W");
 			}
 			else if (Input.GetKey(down) && !isMoving)
 			{
 				MoveDown();
+				animator.SetTrigger("DownWalk");
 				//tcp.SendSelfCommand("S");
 			}
 			else if (Input.GetKey(left) && !isMoving)
 			{
 				MoveLeft();
+				animator.SetTrigger("LeftWalk");
 				//tcp.SendSelfCommand("A");
 			}
 			else if (Input.GetKey(right) && !isMoving)
 			{
 				MoveRight();
+				animator.SetTrigger("RightWalk");
 				//tcp.SendSelfCommand("D");
 			}
-			else if(Input.GetButton("Turn"))
-			{
-				TurnFun();
-				//tcp.SendSelfCommand("T");
-			}
-			else
+			else 
 			{	
 				//tcp.SendSelfCommand(" ");
 			}
@@ -211,8 +145,13 @@ public class PlayerMove : MonoBehaviour
 		}
 		else
 		{
-			StatusCheck();
+			TimeCheck();
 		}
 
 	}
+}
+
+public enum FaceDirection
+{
+	Up, Down, Left, Right
 }

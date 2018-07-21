@@ -15,6 +15,7 @@ public class LoadGamePlay_1 : MonoBehaviour {
 	public void ToGamePlay_1()
 	{
 		loadingPicture.SetActive(true);
+		processBar.gameObject.SetActive(true);
 		StartCoroutine(LoadScene_1());
 	}
 	
