@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class GamePlay1Logic : MonoBehaviour {
 
+	
 	public bool isCat = false;
 	public bool isMouse = false;
 	public bool isInCatPic = false;
 	public bool isInMousePic = false;
+
+	private GameObject player1;
+	private GameObject player2;
+	
+
 	public SpriteRenderer spriteRender;
 	public Sprite[] sprite;
 	public RuntimeAnimatorController catController, mouseController;
@@ -20,6 +26,8 @@ public class GamePlay1Logic : MonoBehaviour {
 	{
 		spriteRender = this.GetComponent<SpriteRenderer>();
 		animator = this.GetComponent<Animator>();
+		player1 = GameObject.FindGameObjectWithTag("Player1");
+		player2 = GameObject.FindGameObjectWithTag("Player2");
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
@@ -83,17 +91,19 @@ public class GamePlay1Logic : MonoBehaviour {
 	{
 		if (Input.GetKeyDown(player1Turn))
 		{
-			if(isInCatPic == true)
+			if(isInCatPic == true && !player2.GetComponent<GamePlay1Logic>().isCat)
 			{
 				isCat = true;
 				isMouse = false;
+				
 				spriteRender.sprite = sprite[0];
 				animator.runtimeAnimatorController = catController;
 				Debug.Log("Player1 turn into cat");
-			} else if(isInMousePic == true)
+			} else if(isInMousePic == true && !player2.GetComponent<GamePlay1Logic>().isMouse)
 			{
 				isMouse = true;
 				isCat = false;
+				
 				spriteRender.sprite = sprite[1];
 				animator.runtimeAnimatorController = mouseController;
 				Debug.Log("Player1 turn into mouse");
@@ -105,18 +115,20 @@ public class GamePlay1Logic : MonoBehaviour {
 	{
 		if (Input.GetKeyDown(player2Turn))
 		{
-			if (isInCatPic == true)
+			if (isInCatPic == true && !player1.GetComponent<GamePlay1Logic>().isCat)
 			{
 				isCat = true;
 				isMouse = false;
+				
 				spriteRender.sprite = sprite[0];
 				animator.runtimeAnimatorController = catController;
 				Debug.Log("Player2 turn into cat");
 			}
-			else if (isInMousePic == true)
+			else if (isInMousePic == true && !player1.GetComponent<GamePlay1Logic>().isMouse)
 			{
 				isMouse = true;
 				isCat = false;
+				
 				spriteRender.sprite = sprite[1];
 				animator.runtimeAnimatorController = mouseController;
 				Debug.Log("Player2 turn into mouse");
