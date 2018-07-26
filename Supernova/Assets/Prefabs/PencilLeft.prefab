@@ -22,9 +22,10 @@ GameObject:
   - component: {fileID: 212693909317575762}
   - component: {fileID: 114292858341119384}
   - component: {fileID: 61799712675879552}
+  - component: {fileID: 50374425092503188}
   m_Layer: 0
   m_Name: PencilLeft
-  m_TagString: Player1
+  m_TagString: Player1Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,6 +43,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50374425092503188
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1947666264124838}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!61 &61799712675879552
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -51,7 +72,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -80,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dir: 0
   speed: 6
+  explosion: {fileID: 1170070905422660, guid: 2062f0f1755964682af74c99a6c10c31, type: 2}
 --- !u!212 &212693909317575762
 SpriteRenderer:
   m_ObjectHideFlags: 1

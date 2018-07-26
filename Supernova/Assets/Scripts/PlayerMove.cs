@@ -1,91 +1,99 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : MonoBehaviour 
 {
-
-	//public GameObject tcpHolder;
-	//private TcpClient tcp;
-
-	public iTween.EaseType easeType;
+	private Animator anim;
 	public KeyCode up;
 	public KeyCode down;
 	public KeyCode left;
 	public KeyCode right;
-	public Animator animator;
-
 	public float timer = 0.2f;
-
 	public float nowTime = 0.0f;
-
-	private float fixPositionX;
-	private float fixPositionY;
-
 	public FaceDirection dir = FaceDirection.Down;
-
 	public bool isMoving = false;
-
-	//向上运动的参数
-	Hashtable upArgs1 = iTween.Hash("x", 0, "y", 1.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic); //向上的第一段位移：x坐标不变，y坐标 +0.75
-	Hashtable upArgs2 = iTween.Hash("x", 0, "delay", 0.1, "y", -0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic); //向上的第二段位移，x坐标不变，y坐标 -0.25
-
-	//向下运动的参数
-	Hashtable downArgs1 = iTween.Hash("x", 0, "y", 0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
-	Hashtable downArgs2 = iTween.Hash("x", 0, "delay", 0.1, "y", -1.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
-
-	//向左运动的参数
-	Hashtable leftArgs1 = iTween.Hash("x", -0.5, "y", 0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
-	Hashtable leftArgs2 = iTween.Hash("x", -0.5, "delay", 0.1, "y", -0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
-
-	//向右运动的参数
-	Hashtable rightArgs1 = iTween.Hash("x", 0.5, "y", 0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
-	Hashtable rightArgs2 = iTween.Hash("x", 0.5, "delay", 0.1, "y", -0.25, "time", 0.1, "easetype", iTween.EaseType.easeInOutCubic);
-
+	public int rightObstacle = 0;
+	public int leftObstacle = 0;
+	public int upObstacle = 0;
+	public int downObstacle = 0;
+	//public Camera cam;
+	//private Animator camAnimator;
 	// Use this for initialization
 
-	public void MoveUp()
-	{
+	public void MoveRight()
+	{	
+		//camAnimator.SetTrigger("RightMove");
+		
+		dir = FaceDirection.Right;
+		if(rightObstacle == 0)
+		{
+			anim.SetTrigger("RightWalk");
+			dir = FaceDirection.Right;
+		}
+		else
+		{
+			anim.SetTrigger("Jump");
+			dir = FaceDirection.Down;
+		}
 		isMoving = true;
-		dir = FaceDirection.Up;
+		
+	}
 
-		iTween.MoveBy(this.gameObject, upArgs1);
-		iTween.MoveBy(this.gameObject, upArgs2);
+	public void MoveLeft()
+	{	
+		
+		//camAnimator.SetTrigger("LeftMove");
+		dir = FaceDirection.Left;
+		if(leftObstacle == 0)
+		{
+			anim.SetTrigger("LeftWalk");
+			dir = FaceDirection.Left;
+		}
+		else
+		{
+			anim.SetTrigger("Jump");
+			dir = FaceDirection.Down;
+		}
+		isMoving = true;
+		
+	}
+
+	public void MoveUp()
+	{	
+			//camAnimator.SetTrigger("UpMove");
+		dir = FaceDirection.Up;
+		if(upObstacle == 0)
+		{
+			anim.SetTrigger("UpWalk");
+			dir = FaceDirection.Up;
+		}
+		else
+		{
+			anim.SetTrigger("Jump");
+			dir = FaceDirection.Down;
+		}
+		isMoving = true;
+		
 	}
 
 	public void MoveDown()
 	{
-		isMoving = true;
+		//camAnimator.SetTrigger("DownMove");
 		dir = FaceDirection.Down;
-
-		iTween.MoveBy(this.gameObject, downArgs1);
-		iTween.MoveBy(this.gameObject, downArgs2);
-	}
-	public void MoveLeft()
-	{
+		if(downObstacle == 0)
+		{
+			anim.SetTrigger("DownWalk");
+			dir = FaceDirection.Down;
+		}
+		else
+		{
+			anim.SetTrigger("Jump");
+			dir = FaceDirection.Down;
+		}
 		isMoving = true;
-		dir = FaceDirection.Left;
-
-		iTween.MoveBy(this.gameObject, leftArgs1);
-		iTween.MoveBy(this.gameObject, leftArgs2);
 	}
-	public void MoveRight()
-	{
-		isMoving = true;
-		dir = FaceDirection.Right;
-
-		iTween.MoveBy(this.gameObject, rightArgs1);
-		iTween.MoveBy(this.gameObject, rightArgs2);
-	}
-
-	
-	public void FixPosition()
-	{
-		fixPositionX = Mathf.Floor(this.transform.position.x) + 0.5f;
-		fixPositionY = Mathf.Floor(this.transform.position.y) + 0.5f;
-		this.transform.position = new Vector2(fixPositionX, fixPositionY);
-	}
-	
 
 	public void TimeCheck()
 	{
@@ -97,57 +105,39 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
-	void Start()
-	{
-		//tcp = tcpHolder.GetComponent<TcpClient>();
-		animator = GetComponent<Animator>();
-
+	void Start () 
+	{	
+		anim = GetComponent<Animator>();
+		//camAnimator = cam.GetComponent<Animator>();
 	}
 
-	
-
-
-	// Update is called once per frame
-	void FixedUpdate()
-	{
-		if (!isMoving)
+	private void FixedUpdate() 
+	{	
+		if(!isMoving)
 		{
-			if (Input.GetKey(up) && !isMoving)
+			if ((Input.GetKey(up) || ETCInput.GetAxisPressedUp("Vertical")) && !isMoving)
 			{
 				MoveUp();
-				animator.SetTrigger("UpWalk");
-				//tcp.SendSelfCommand("W");
+				
 			}
-			else if (Input.GetKey(down) && !isMoving)
+			else if((Input.GetKey(down) || ETCInput.GetAxisPressedDown("Vertical"))&& !isMoving)
 			{
 				MoveDown();
-				animator.SetTrigger("DownWalk");
-				//tcp.SendSelfCommand("S");
+				
 			}
-			else if (Input.GetKey(left) && !isMoving)
+			else if((Input.GetKey(left) || ETCInput.GetAxisPressedLeft("Horizontal"))&& !isMoving)
 			{
 				MoveLeft();
-				animator.SetTrigger("LeftWalk");
-				//tcp.SendSelfCommand("A");
 			}
-			else if (Input.GetKey(right) && !isMoving)
+			else if((Input.GetKey(right) || ETCInput.GetAxisPressedRight("Horizontal"))&& !isMoving)
 			{
 				MoveRight();
-				animator.SetTrigger("RightWalk");
-				//tcp.SendSelfCommand("D");
 			}
-			else 
-			{	
-				//tcp.SendSelfCommand(" ");
-			}
-
-			FixPosition();
 		}
 		else
 		{
 			TimeCheck();
 		}
-
 	}
 }
 

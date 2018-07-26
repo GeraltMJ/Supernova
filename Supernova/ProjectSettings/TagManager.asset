@@ -10,6 +10,17 @@ TagManager:
   - WinPic
   - Player1
   - Player2
+  - UpCube
+  - RightCube
+  - DownCube
+  - LeftCube
+  - Wall
+  - Player1Bullet
+  - Player2Bullet
+  - CatAbility1
+  - CatAbility2
+  - MouseAbility1
+  - MouseAbility2
   layers:
   - Default
   - TransparentFX
