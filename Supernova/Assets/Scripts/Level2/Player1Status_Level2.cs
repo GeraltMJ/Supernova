@@ -17,27 +17,14 @@ public class Player1Status_Level2 : MonoBehaviour {
 	public static Player1Status_Level2 _instance;
 
 	//character
-	public bool isDragon = false;
-	public bool isMagic = false;
-	public bool isAssassin = false;
-	public bool isKnight = false;
-	public bool isBoss = false;
 
-	//power
-	public bool hasDragonPower = false;
-	public bool hasMagicPower = false;
-	public bool hasAssassinPower = false;
-	public bool hasKnightPower = false;
-	public bool hasBossPower = false;
-
-	private PlayerCharacter playerCharacter;
-	private PlayerPower playerPower;
+	public PlayerCharacter playerCharacter = PlayerCharacter.None;
+	public PlayerPower playerPower = PlayerPower.None;
 
 	public float hp = 3.0f;
 	private bool isDead = false;
 	//private PlayerAttack attack;
 	//private PlayerMove move;
-	public Text text;
 	private AudioSource audio;
 	public GameObject redHeart;
 	private Camera cam;
@@ -109,7 +96,6 @@ public class Player1Status_Level2 : MonoBehaviour {
 		isDead = true;
 		//attack.enabled = false;
 		//move.enabled = false;
-		text.gameObject.SetActive(true);
 		Debug.Log("Player1死了！！！");
 	}
 }

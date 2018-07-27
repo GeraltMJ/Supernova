@@ -18,13 +18,12 @@ public class PlayerMove : MonoBehaviour
 	public int leftObstacle = 0;
 	public int upObstacle = 0;
 	public int downObstacle = 0;
-	//public Camera cam;
-	//private Animator camAnimator;
-	// Use this for initialization
+	public Camera cam;
+	private Animator camAnimator;
 
 	public void MoveRight()
 	{	
-		//camAnimator.SetTrigger("RightMove");
+		camAnimator.SetTrigger("RightMove");
 		
 		dir = FaceDirection.Right;
 		if(rightObstacle == 0)
@@ -44,7 +43,7 @@ public class PlayerMove : MonoBehaviour
 	public void MoveLeft()
 	{	
 		
-		//camAnimator.SetTrigger("LeftMove");
+		camAnimator.SetTrigger("LeftMove");
 		dir = FaceDirection.Left;
 		if(leftObstacle == 0)
 		{
@@ -62,7 +61,7 @@ public class PlayerMove : MonoBehaviour
 
 	public void MoveUp()
 	{	
-			//camAnimator.SetTrigger("UpMove");
+		camAnimator.SetTrigger("UpMove");
 		dir = FaceDirection.Up;
 		if(upObstacle == 0)
 		{
@@ -80,7 +79,7 @@ public class PlayerMove : MonoBehaviour
 
 	public void MoveDown()
 	{
-		//camAnimator.SetTrigger("DownMove");
+		camAnimator.SetTrigger("DownMove");
 		dir = FaceDirection.Down;
 		if(downObstacle == 0)
 		{
@@ -108,30 +107,45 @@ public class PlayerMove : MonoBehaviour
 	void Start () 
 	{	
 		anim = GetComponent<Animator>();
-		//camAnimator = cam.GetComponent<Animator>();
+		camAnimator = cam.GetComponent<Animator>();
 	}
 
 	private void FixedUpdate() 
 	{	
+
+		if ((Input.GetKey(up) || ETCInput.GetAxisPressedUp("Vertical")))
+		{
+			dir = FaceDirection.Up;
+		}
+		else if(Input.GetKey(down) || ETCInput.GetAxisPressedDown("Vertical"))
+		{
+			dir = FaceDirection.Down;
+		}
+		else if(Input.GetKey(left) || ETCInput.GetAxisPressedLeft("Horizontal"))
+		{
+			dir = FaceDirection.Left;
+		}
+		else if(Input.GetKey(right) || ETCInput.GetAxisPressedRight("Horizontal"))
+		{
+			dir = FaceDirection.Right;
+		}
+
 		if(!isMoving)
 		{
-			if ((Input.GetKey(up) || ETCInput.GetAxisPressedUp("Vertical")) && !isMoving)
+			switch(dir)
 			{
-				MoveUp();
-				
-			}
-			else if((Input.GetKey(down) || ETCInput.GetAxisPressedDown("Vertical"))&& !isMoving)
-			{
-				MoveDown();
-				
-			}
-			else if((Input.GetKey(left) || ETCInput.GetAxisPressedLeft("Horizontal"))&& !isMoving)
-			{
-				MoveLeft();
-			}
-			else if((Input.GetKey(right) || ETCInput.GetAxisPressedRight("Horizontal"))&& !isMoving)
-			{
-				MoveRight();
+				case FaceDirection.Up:
+					MoveUp();
+					break;
+				case FaceDirection.Down:
+					MoveDown();
+					break;
+				case FaceDirection.Left:
+					MoveLeft();
+					break;
+				case FaceDirection.Right:
+					MoveRight();
+					break;
 			}
 		}
 		else

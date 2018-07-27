@@ -7,24 +7,15 @@ public class Player2Status_Level2 : MonoBehaviour {
 	public static Player2Status_Level2 _instance;
 
 	//character
-	public bool isDragon = false;
-	public bool isMagic = false;
-	public bool isAssassin = false;
-	public bool isKnight = false;
-	public bool isBoss = false;
+	public PlayerCharacter playerCharacter = PlayerCharacter.None;
+	public PlayerPower playerPower = PlayerPower.None;
 
 	//power
-	public bool hasDragonPower = false;
-	public bool hasMagicPower = false;
-	public bool hasAssassinPower = false;
-	public bool hasKnightPower = false;
-	public bool hasBossPower = false;
 
 	public float hp = 3.0f;
 	private bool isDead = false;
-	private PlayerAttack attack;
-	private PlayerMove move;
-	public Text text;
+	//private PlayerAttack attack;
+	//private PlayerMove move;
 	private AudioSource audio;
 	public GameObject blueHeart;
 	private Camera cam;
@@ -51,11 +42,12 @@ public class Player2Status_Level2 : MonoBehaviour {
 			heartPosition.x = heartPosition.x - 2*heartWidth - 0.1f;
 			heartIndex++;
 		}
-		attack = GetComponent<PlayerAttack>();
-		move = GetComponent<PlayerMove>();
+		//attack = GetComponent<PlayerAttack>();
+		//move = GetComponent<PlayerMove>();
 		audio = GetComponent<AudioSource>();
 	}
 
+	/* 
 	void Unfreeze()
 	{
 		attack.enabled = true;
@@ -67,6 +59,7 @@ public class Player2Status_Level2 : MonoBehaviour {
 		attack.enabled = false;
 		move.enabled = false;
 	}
+	*/
 
 
 	public void Damage(float damage)
@@ -92,9 +85,8 @@ public class Player2Status_Level2 : MonoBehaviour {
 	public void Dead()
 	{
 		isDead = true;
-		attack.enabled = false;
-		move.enabled = false;
-		text.gameObject.SetActive(true);
+		//attack.enabled = false;
+		//move.enabled = false;
 		Debug.Log("Player2死了！！！");
 	}
 }

@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class PlayerLogic_Level2 : MonoBehaviour {
 
-	private bool isInDragonPic = false;
-	private bool isInMagicPic = false;
-	private bool isInKnightPic = false;
-	private bool isInAssassinPic = false;
-	private bool isInBossPic = false;
-
 	private bool[] isDragonPowerPic;
 	private bool[] isMagicPowerPic;
 	private bool[] isKnightPowerPic;
@@ -28,17 +22,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 	public int assassinPowerCount;
 	public int bossPowerCount;
 
-	private int dragonPowerIndex = 0;
-	private int magicPowerIndex = 0;
-	private int knightPowerIndex = 0;
-	private int assassinPowerIndex = 0;
-	private int bossPowerIndex = 0;
-
-	private bool dragonPowerReady = false;
-	private bool magicPowerReady = false;
-	private bool knightPowerReady = false;
-	private bool assassinPowerReady = false;
-	private bool bossPowerReady = false;
+	private int powerIndex = 0;
+	private int checkindex = 0;
 
 	private enum isInPicType{
 		isInDragonPic,
@@ -63,7 +48,6 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 	public RuntimeAnimatorController catController, mouseController;
 	private Animator animator;
 
-	public KeyCode turnKey;
 
 	void Awake() {
 		spriteRender = this.GetComponent<SpriteRenderer>();
@@ -108,17 +92,35 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 		else if(collision.gameObject.CompareTag("DragonPowerPic"))
 		{
 			picType = isInPicType.isInDragonPowerPic;
+
+			if(collision.gameObject.name == "DragonPowerPic" + checkindex.ToString())
+			{
+				checkindex++;
+			}
+			else
+			{
+				checkindex = 0;
+			}
+			if(checkindex == dragonPowerCount)
+			{
+				Debug.Log("Player1 has Dragon Power");
+			}
+			/* 
+
 			for(int i = 0; i < dragonPowerCount; i++)
 			{
 				if(collision.gameObject.name == "DragonPowerPic" + i.ToString())
 				{
 					isDragonPowerPic[i] = true;
+					Debug.Log("DragonPowerPic" + i.ToString());
+					Debug.Log(i + "true");
 				}
 				else
 				{
 					isDragonPowerPic[i] = false;
 				}
 			}
+			*/
 		}
 		else if(collision.gameObject.CompareTag("MagicPowerPic"))
 		{
@@ -187,7 +189,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 		
 	}
 
-	void Update()
+	void FixedUpdate()
 	{
 		if(gameObject.CompareTag("Player1"))
 		{
@@ -199,193 +201,280 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 		}
 	}
 
+	void TurnEffect()
+	{
+		GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
+		Destroy(smoke, 1);
+		//Instantiate(redCross, transform.position, Quaternion.identity);
+		Instantiate(redCross, new Vector3(-11,6,0), Quaternion.identity);
+	}
+
 	void Player1TurnCheck()
 	{	
-		if (Input.GetKeyDown(turnKey) || ETCInput.GetButton("TurnButton"))
+		switch(picType)
 		{
-			switch(picType)
-			{
-				case isInPicType.isInDragonPic:
+			case isInPicType.isInDragonPic:
+				if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter.Dragon && 
+					Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Dragon)
+				{
+					Player1Status_Level2._instance.playerCharacter = PlayerCharacter.Dragon;
+					TurnEffect();
+					//spriteRender.sprite = sprite[0];
+					//animator.runtimeAnimatorController = catController;
+					Debug.Log("Player1 turn into Dragon");
+				}
 				break;
-				case isInPicType.isInMagicPic:
+			case isInPicType.isInMagicPic:
+				if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter.Magic &&
+					Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Magic)
+				{
+					Player1Status_Level2._instance.playerCharacter = PlayerCharacter.Magic;
+					TurnEffect();
+					//spriteRender.sprite = sprite[0];
+					//animator.runtimeAnimatorController = catController;
+					Debug.Log("Player1 turn into Magic");
+				}
 				break;
-				case isInPicType.isInAssassinPic:
+			case isInPicType.isInAssassinPic:
+				if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter.Assassin &&
+					Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Assassin)
+				{
+					Player1Status_Level2._instance.playerCharacter = PlayerCharacter.Assassin;
+					TurnEffect();
+					//spriteRender.sprite = sprite[0];
+					//animator.runtimeAnimatorController = catController;
+					Debug.Log("Player1 turn into Assassin");
+				}
 				break;
-				case isInPicType.isInKnightPic:
+			case isInPicType.isInKnightPic:
+				if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter.Knight &&
+					Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Knight)
+				{
+					Player1Status_Level2._instance.playerCharacter = PlayerCharacter.Knight;
+					TurnEffect();
+					//spriteRender.sprite = sprite[0];
+					//animator.runtimeAnimatorController = catController;
+					Debug.Log("Player1 turn into Knight");
+				}
 				break;
-				case isInPicType.isInBossPic:
+			case isInPicType.isInBossPic:
+				if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter.Boss &&
+					Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Boss)
+				{
+					Player1Status_Level2._instance.playerCharacter = PlayerCharacter.Boss;
+					TurnEffect();
+					//spriteRender.sprite = sprite[0];
+					//animator.runtimeAnimatorController = catController;
+					Debug.Log("Player1 turn into Boss");
+				}
 				break;
-				case isInPicType.isInDragonPowerPic:
+			case isInPicType.isInDragonPowerPic:
+				Debug.Log(powerIndex + "h");
+				if(isDragonPowerPic[powerIndex])
+				{	
+					Debug.Log(powerIndex);
+					powerIndex++;
+					if(powerIndex == dragonPowerCount)
+					{
+						Player1Status_Level2._instance.playerPower = PlayerPower.DragonPower;
+						Debug.Log("Player1 has Dragon Power");
+					}
+				}else
+				{
+					powerIndex = 0;
+				}
 				break;
-				case isInPicType.isInMagicPowerPic:
+			case isInPicType.isInMagicPowerPic:
+				if(isMagicPowerPic[powerIndex])
+				{
+					powerIndex++;
+					if(powerIndex == magicPowerCount)
+					{
+						Player1Status_Level2._instance.playerPower = PlayerPower.MagicPower;
+						Debug.Log("Player1 has Magic Power");
+					}
+				}else
+				{
+					powerIndex = 0;
+				}
 				break;
-				case isInPicType.isInAssassinPowerPic:
+			case isInPicType.isInAssassinPowerPic:
+				if(isAssassinPowerPic[powerIndex])
+				{
+					powerIndex++;
+					if(powerIndex == assassinPowerCount)
+					{
+						Player1Status_Level2._instance.playerPower = PlayerPower.AssassinPower;
+						Debug.Log("Player1 has Assassin Power");
+					}
+				}else
+				{
+					powerIndex = 0;
+				}
 				break;
-				case isInPicType.isInKnightPowerPic:
+			case isInPicType.isInKnightPowerPic:
+				if(isKnightPowerPic[powerIndex])
+				{
+					powerIndex++;
+					if(powerIndex == knightPowerCount)
+					{
+						Player1Status_Level2._instance.playerPower = PlayerPower.KnightPower;
+						Debug.Log("Player1 has Knight Power");
+					}
+				}else
+				{
+					powerIndex = 0;
+				}
 				break;
-				case isInPicType.isInBossPowerPic:
+			case isInPicType.isInBossPowerPic:
+				if(isBossPowerPic[powerIndex])
+				{
+					powerIndex++;
+					if(powerIndex == bossPowerCount)
+					{
+						Player1Status_Level2._instance.playerPower = PlayerPower.BossPower;
+						Debug.Log("Player1 has Boss Power");
+					}
+				}else
+				{
+					powerIndex = 0;
+				}
 				break;
-				case isInPicType.defaultType:
-				break;
-			}
-			if(isInDragonPic == true && Player2Status_Level2._instance.isDragon == false)
-			{
-				Player1Status_Level2._instance.isDragon = true;
-				Player1Status_Level2._instance.isMagic = false;
-				Player1Status_Level2._instance.isKnight = false;
-				Player1Status_Level2._instance.isAssassin = false;
-				Player1Status_Level2._instance.isBoss = false;
-				
-				GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-				Destroy(smoke, 1);
-				Instantiate(redCross, transform.position, Quaternion.identity);
-				//spriteRender.sprite = sprite[0];
-				//animator.runtimeAnimatorController = catController;
-				Debug.Log("Player1 turn into Dragon");
-			} 
-			else if(isInMagicPic == true && Player2Status_Level2._instance.isMagic == false)
-			{
-				Player1Status_Level2._instance.isDragon = false;
-				Player1Status_Level2._instance.isMagic = true;
-				Player1Status_Level2._instance.isKnight = false;
-				Player1Status_Level2._instance.isAssassin = false;
-				Player1Status_Level2._instance.isBoss = false;
-				
-				GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-				Destroy(smoke, 1);
-				Instantiate(redCross, transform.position, Quaternion.identity);
-				//spriteRender.sprite = sprite[1];
-				//animator.runtimeAnimatorController = mouseController;
-				Debug.Log("Player1 turn into Magic");
-			}
-			else if(isInKnightPic == true && Player2Status_Level2._instance.isKnight == false)
-			{
-				Player1Status_Level2._instance.isDragon = false;
-				Player1Status_Level2._instance.isMagic = false;
-				Player1Status_Level2._instance.isKnight = true;
-				Player1Status_Level2._instance.isAssassin = false;
-				Player1Status_Level2._instance.isBoss = false;
-				
-				GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-				Destroy(smoke, 1);
-				Instantiate(redCross, transform.position, Quaternion.identity);
-				//spriteRender.sprite = sprite[1];
-				//animator.runtimeAnimatorController = mouseController;
-				Debug.Log("Player1 turn into Knight");
-			}
-			else if(isInAssassinPic == true && Player2Status_Level2._instance.isAssassin == false)
-			{
-				Player1Status_Level2._instance.isDragon = false;
-				Player1Status_Level2._instance.isMagic = false;
-				Player1Status_Level2._instance.isKnight = false;
-				Player1Status_Level2._instance.isAssassin = true;
-				Player1Status_Level2._instance.isBoss = false;
-				
-				GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-				Destroy(smoke, 1);
-				Instantiate(redCross, transform.position, Quaternion.identity);
-				//spriteRender.sprite = sprite[1];
-				//animator.runtimeAnimatorController = mouseController;
-				Debug.Log("Player1 turn into Assassin");
-			}
-			else if(isInBossPic == true && Player2Status_Level2._instance.isBoss == false)
-			{
-				Player1Status_Level2._instance.isDragon = false;
-				Player1Status_Level2._instance.isMagic = false;
-				Player1Status_Level2._instance.isKnight = false;
-				Player1Status_Level2._instance.isAssassin = false;
-				Player1Status_Level2._instance.isBoss = true;
-				
-				GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-				Destroy(smoke, 1);
-				Instantiate(redCross, transform.position, Quaternion.identity);
-				//spriteRender.sprite = sprite[1];
-				//animator.runtimeAnimatorController = mouseController;
-				Debug.Log("Player1 turn into Boss");
-			}
-			
+			case isInPicType.defaultType:
+			break;
 		}
+			
 	}
 
 	void Player2TurnCheck()
 	{	
-		if (Input.GetKeyDown(turnKey) || ETCInput.GetButton("TurnButton"))
+		switch(picType)
 		{
-			if(isInDragonPic == true && Player1Status_Level2._instance.isDragon == false)
-			{
-				Player2Status_Level2._instance.isDragon = true;
-				Player2Status_Level2._instance.isMagic = false;
-				Player2Status_Level2._instance.isKnight = false;
-				Player2Status_Level2._instance.isAssassin = false;
-				Player2Status_Level2._instance.isBoss = false;
-				
-				GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-				Destroy(smoke, 1);
-				Instantiate(redCross, transform.position, Quaternion.identity);
-				//spriteRender.sprite = sprite[0];
-				//animator.runtimeAnimatorController = catController;
-				Debug.Log("Player2 turn into Dragon");
-			} 
-			else if(isInMagicPic == true && Player1Status_Level2._instance.isMagic == false)
-			{
-				Player2Status_Level2._instance.isDragon = false;
-				Player2Status_Level2._instance.isMagic = true;
-				Player2Status_Level2._instance.isKnight = false;
-				Player2Status_Level2._instance.isAssassin = false;
-				Player2Status_Level2._instance.isBoss = false;
-				
-				GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-				Destroy(smoke, 1);
-				Instantiate(redCross, transform.position, Quaternion.identity);
-				//spriteRender.sprite = sprite[1];
-				//animator.runtimeAnimatorController = mouseController;
-				Debug.Log("Player2 turn into Magic");
-			}
-			else if(isInKnightPic == true && Player1Status_Level2._instance.isKnight == false)
-			{
-				Player2Status_Level2._instance.isDragon = false;
-				Player2Status_Level2._instance.isMagic = false;
-				Player2Status_Level2._instance.isKnight = true;
-				Player2Status_Level2._instance.isAssassin = false;
-				Player2Status_Level2._instance.isBoss = false;
-				
-				GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-				Destroy(smoke, 1);
-				Instantiate(redCross, transform.position, Quaternion.identity);
-				//spriteRender.sprite = sprite[1];
-				//animator.runtimeAnimatorController = mouseController;
-				Debug.Log("Player2 turn into Knight");
-			}
-			else if(isInAssassinPic == true && Player1Status_Level2._instance.isAssassin == false)
-			{
-				Player2Status_Level2._instance.isDragon = false;
-				Player2Status_Level2._instance.isMagic = false;
-				Player2Status_Level2._instance.isKnight = false;
-				Player2Status_Level2._instance.isAssassin = true;
-				Player2Status_Level2._instance.isBoss = false;
-				
-				GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-				Destroy(smoke, 1);
-				Instantiate(redCross, transform.position, Quaternion.identity);
-				//spriteRender.sprite = sprite[1];
-				//animator.runtimeAnimatorController = mouseController;
-				Debug.Log("Player1 turn into Assassin");
-			}
-			else if(isInBossPic == true && Player1Status_Level2._instance.isBoss == false)
-			{
-				Player2Status_Level2._instance.isDragon = false;
-				Player2Status_Level2._instance.isMagic = false;
-				Player2Status_Level2._instance.isKnight = false;
-				Player2Status_Level2._instance.isAssassin = false;
-				Player2Status_Level2._instance.isBoss = true;
-				
-				GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-				Destroy(smoke, 1);
-				Instantiate(redCross, transform.position, Quaternion.identity);
-				//spriteRender.sprite = sprite[1];
-				//animator.runtimeAnimatorController = mouseController;
-				Debug.Log("Player1 turn into Boss");
-			}
+			case isInPicType.isInDragonPic:
+				if(Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Dragon)
+				{
+					Player2Status_Level2._instance.playerCharacter = PlayerCharacter.Dragon;
+					TurnEffect();
+					//spriteRender.sprite = sprite[0];
+					//animator.runtimeAnimatorController = catController;
+					Debug.Log("Player2 turn into Dragon");
+				}
+				break;
+			case isInPicType.isInMagicPic:
+				if(Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Magic)
+				{
+					Player2Status_Level2._instance.playerCharacter = PlayerCharacter.Magic;
+					TurnEffect();
+					//spriteRender.sprite = sprite[0];
+					//animator.runtimeAnimatorController = catController;
+					Debug.Log("Player2 turn into Magic");
+				}
+				break;
+			case isInPicType.isInAssassinPic:
+				if(Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Assassin)
+				{
+					Player2Status_Level2._instance.playerCharacter = PlayerCharacter.Assassin;
+					TurnEffect();
+					//spriteRender.sprite = sprite[0];
+					//animator.runtimeAnimatorController = catController;
+					Debug.Log("Player2 turn into Assassin");
+				}
+				break;
+			case isInPicType.isInKnightPic:
+				if(Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Knight)
+				{
+					Player2Status_Level2._instance.playerCharacter = PlayerCharacter.Knight;
+					TurnEffect();
+					//spriteRender.sprite = sprite[0];
+					//animator.runtimeAnimatorController = catController;
+					Debug.Log("Player2 turn into Knight");
+				}
+				break;
+			case isInPicType.isInBossPic:
+				if(Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Boss)
+				{
+					Player2Status_Level2._instance.playerCharacter = PlayerCharacter.Boss;
+					TurnEffect();
+					//spriteRender.sprite = sprite[0];
+					//animator.runtimeAnimatorController = catController;
+					Debug.Log("Player2 turn into Boss");
+				}
+				break;
+			case isInPicType.isInDragonPowerPic:
+				if(isDragonPowerPic[powerIndex])
+				{
+					powerIndex++;
+					if(powerIndex == dragonPowerCount)
+					{
+						Player2Status_Level2._instance.playerPower = PlayerPower.DragonPower;
+						Debug.Log("Player2 has Dragon Power");
+					}
+				}else
+				{
+					powerIndex = 0;
+				}
+				break;
+			case isInPicType.isInMagicPowerPic:
+				if(isMagicPowerPic[powerIndex])
+				{
+					powerIndex++;
+					if(powerIndex == magicPowerCount)
+					{
+						Player2Status_Level2._instance.playerPower = PlayerPower.MagicPower;
+						Debug.Log("Player2 has Magic Power");
+					}
+				}else
+				{
+					powerIndex = 0;
+				}
+				break;
+			case isInPicType.isInAssassinPowerPic:
+				if(isAssassinPowerPic[powerIndex])
+				{
+					powerIndex++;
+					if(powerIndex == assassinPowerCount)
+					{
+						Player2Status_Level2._instance.playerPower = PlayerPower.AssassinPower;
+						Debug.Log("Player2 has Assassin Power");
+					}
+				}else
+				{
+					powerIndex = 0;
+				}
+				break;
+			case isInPicType.isInKnightPowerPic:
+				if(isKnightPowerPic[powerIndex])
+				{
+					powerIndex++;
+					if(powerIndex == knightPowerCount)
+					{
+						Player2Status_Level2._instance.playerPower = PlayerPower.KnightPower;
+						Debug.Log("Player2 has Knight Power");
+						
+					}
+				}else
+				{
+					powerIndex = 0;
+				}
+				break;
+			case isInPicType.isInBossPowerPic:
+				if(isBossPowerPic[powerIndex])
+				{
+					powerIndex++;
+					if(powerIndex == bossPowerCount)
+					{
+						Player2Status_Level2._instance.playerPower = PlayerPower.BossPower;
+						Debug.Log("Player2 has Boss Power");
+					}
+				}else
+				{
+					powerIndex = 0;
+				}
+				break;
+			case isInPicType.defaultType:
+				powerIndex = 0;
+				break;
 		}
+			
 	}
 }

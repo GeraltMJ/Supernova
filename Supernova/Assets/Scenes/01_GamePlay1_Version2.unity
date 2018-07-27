@@ -2227,6 +2227,7 @@ MonoBehaviour:
   leftObstacle: 0
   upObstacle: 0
   downObstacle: 0
+  cam: {fileID: 0}
 --- !u!114 &303461650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10979,7 +10980,7 @@ GameObject:
   - component: {fileID: 1121903278}
   - component: {fileID: 1121903277}
   m_Layer: 0
-  m_Name: Player11
+  m_Name: Player1
   m_TagString: Player1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11123,6 +11124,7 @@ MonoBehaviour:
   leftObstacle: 0
   upObstacle: 0
   downObstacle: 0
+  cam: {fileID: 1540328749}
 --- !u!114 &1121903278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14977,7 +14979,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.8
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

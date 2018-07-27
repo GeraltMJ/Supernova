@@ -21,6 +21,16 @@ TagManager:
   - CatAbility2
   - MouseAbility1
   - MouseAbility2
+  - DragonPic
+  - MagicPic
+  - KnightPic
+  - AssassinPic
+  - BossPic
+  - DragonPowerPic
+  - MagicPowerPic
+  - KnightPowerPic
+  - AssassinPowerPic
+  - BossPowerPic
   layers:
   - Default
   - TransparentFX
