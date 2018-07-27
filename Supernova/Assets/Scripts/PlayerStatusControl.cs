@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
+public enum FaceDirection
+{
+	Up, Down, Left, Right
+}
 public class PlayerStatusControl : MonoBehaviour {
 
 
@@ -9,8 +14,8 @@ public class PlayerStatusControl : MonoBehaviour {
 	public bool isPlayer1 = false;
 	public GameObject player1;
 	public GameObject player2;
-	private PlayerMove player1Move;
-	private PlayerMove player2Move;
+	private PlayerMove_Sudden player1Move;
+	private PlayerMove_Sudden player2Move;
 
 	public Text text;
 	private float remainSeconds;
@@ -59,8 +64,8 @@ public class PlayerStatusControl : MonoBehaviour {
 	void Awake()
 	{
 		_instance = this;
-		player1Move = player1.GetComponent<PlayerMove>();
-		player2Move = player2.GetComponent<PlayerMove>();
+		player1Move = player1.GetComponent<PlayerMove_Sudden>();
+		player2Move = player2.GetComponent<PlayerMove_Sudden>();
 		player1Move.enabled = false;
 		player2Move.enabled = false;
 		remainSeconds = 3f;
@@ -68,6 +73,34 @@ public class PlayerStatusControl : MonoBehaviour {
 		text.text = "Wait for another player";
 		audio = GetComponent<AudioSource>();
 
+	}
+
+	void Update()
+	{
+		if(player1Win)
+		{
+			if(isPlayer1)
+			{
+				text.text = "Winner Winner Chicken Dinner";
+			}else
+			{
+				text.text = "<<<< Loser >>>>";
+			}
+			player1Move.enabled = false;
+			player2Move.enabled = false;
+		}
+		else if(player2Win)
+		{
+			if(!isPlayer1)
+			{
+				text.text = "Winner Winner Chicken Dinner";
+			}else
+			{
+				text.text = "<<<< Loser >>>>";
+			}
+			player1Move.enabled = false;
+			player2Move.enabled = false;
+		}
 	}
 	void FixedUpdate()
 	{	

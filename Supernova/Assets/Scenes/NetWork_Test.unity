@@ -199,6 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82eb35397790b40a8af5408f97d97463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoke: {fileID: 0}
 --- !u!1 &1381609808
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82eb35397790b40a8af5408f97d97463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoke: {fileID: 1777380605390410, guid: 0615325eb87474db5874e2204722faf2, type: 2}
 --- !u!212 &1381609810
 SpriteRenderer:
   m_ObjectHideFlags: 0

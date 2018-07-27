@@ -14,6 +14,9 @@ public class PlayerAttack : MonoBehaviour {
 	private FaceDirection faceDir;
 	private string currentCommand;
 
+	public GameObject networkManager;
+	private TcpClient tcpClient;
+
 	public bool autoAttack;
 
 	public void SetCurrentCommand(string str)
@@ -24,6 +27,7 @@ public class PlayerAttack : MonoBehaviour {
 	void Start()
 	{
 		anim = GetComponent<Animator>();
+		tcpClient = networkManager.GetComponent<TcpClient>();
 	}
 
 	void FixedUpdate()
@@ -69,8 +73,9 @@ public class PlayerAttack : MonoBehaviour {
 
 	void ControlShoot()
 	{
-		if(ETCInput.GetButton("Button"))
+		if(ETCInput.GetButton("Button") || Input.GetKeyDown(shootKey))
 		{
+			tcpClient.SendSelfCommand("F");
 			Fire();
 		}
 	}
@@ -88,7 +93,7 @@ public class PlayerAttack : MonoBehaviour {
 	void Fire()
 	{
 		isShoot = true;
-		faceDir = gameObject.GetComponent<PlayerMove>().dir;
+		faceDir = gameObject.GetComponent<PlayerMove_Sudden>().dir;
 		switch (faceDir)
 		{
 			case FaceDirection.Up:

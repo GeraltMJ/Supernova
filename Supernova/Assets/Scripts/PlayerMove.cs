@@ -218,8 +218,3 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 }
-
-public enum FaceDirection
-{
-	Up, Down, Left, Right
-}

@@ -23,9 +23,40 @@ public class TcpClient : MonoBehaviour
 	Thread connectThread;
 	public GameObject player1;
 	public GameObject player2;
-	private PlayerMove em1;
-	private PlayerMove em2;
+	private PlayerMove_Sudden em1;
+	private PlayerMove_Sudden em2;
+	private PlayerAttack pa1;
+	private PlayerAttack pa2;
 
+
+	void StringToInfo(string str)
+	{
+		str = str.Replace("(","").Replace(")","");
+		string[] number = str.Split(',');
+		Vector3 positionToSet = new Vector3(float.Parse(number[0]),float.Parse(number[1]),float.Parse(number[2]));
+		int dirCount = int.Parse(number[3]);
+		if(PlayerStatusControl._instance.isPlayer1)
+		{
+			em2.SetNextPosition(positionToSet);
+			em2.SetDirection(dirCount);
+		}
+		else
+		{
+			em1.SetNextPosition(positionToSet);
+			em1.SetDirection(dirCount);
+		}
+	}
+
+	void FireInfo(string str)
+	{
+		if(PlayerStatusControl._instance.isPlayer1)
+		{
+			pa2.SetCurrentCommand(str);
+		}else
+		{
+			pa1.SetCurrentCommand(str);
+		}
+	}
 
 	void InitSocket()
 	{
@@ -76,17 +107,17 @@ public class TcpClient : MonoBehaviour
 			{
 				continue;
 			}
-			recvStr = Encoding.ASCII.GetString(recvData,0,1);
-			Debug.Log("Rcvd From Server: " + recvStr + "END");
-			Debug.Log("END2");
-			if(PlayerStatusControl._instance.isPlayer1)
+			if(recvLen <= 2)
 			{
-				em2.SetCurrentCommand(recvStr);
-			}else
-			{
-				em1.SetCurrentCommand(recvStr);
+				recvStr = Encoding.ASCII.GetString(recvData,0,1);
+				FireInfo(recvStr);
 			}
-			
+			else
+			{
+				recvStr = Encoding.ASCII.GetString(recvData);
+				StringToInfo(recvStr);
+			}
+			Debug.Log("Rcvd From Server: " + recvStr + "END");
 		}
 	}
 
@@ -107,8 +138,10 @@ public class TcpClient : MonoBehaviour
 
 	void Start()
 	{
-		em1 = player1.GetComponent<PlayerMove>();
-		em2 = player2.GetComponent<PlayerMove>();
+		em1 = player1.GetComponent<PlayerMove_Sudden>();
+		em2 = player2.GetComponent<PlayerMove_Sudden>();
+		pa1 = player1.GetComponent<PlayerAttack>();
+		pa2 = player2.GetComponent<PlayerAttack>();
 		InitSocket();
 		
 	}
@@ -118,6 +151,30 @@ public class TcpClient : MonoBehaviour
 		byte[] commandSelf = new byte[msgLen];
 		commandSelf = Encoding.ASCII.GetBytes(str);
 		serverSocket.Send(commandSelf, 1, SocketFlags.None);
+	}
+
+	public void SendCurrentInfo(Vector3 pos, FaceDirection dir)
+	{
+		int count = 0;
+		switch(dir)
+		{
+			case FaceDirection.Up:
+				count = 0;
+				break;
+			case FaceDirection.Down:
+				count = 1;
+				break;
+			case FaceDirection.Left:
+				count = 2;
+				break;
+			case FaceDirection.Right:
+				count = 3;
+				break;
+		}
+		byte[] byteToSend = new byte[msgLen];
+		string posStr = pos.ToString() + "," + count.ToString();
+		byteToSend = Encoding.ASCII.GetBytes(posStr);
+		serverSocket.Send(byteToSend);
 	}
 
 

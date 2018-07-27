@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4498778074852412}
   - component: {fileID: 212408205265552392}
   - component: {fileID: 61708973718508078}
-  - component: {fileID: 50951810642062596}
   - component: {fileID: 114153856288989160}
+  - component: {fileID: 50622862869877846}
   m_Layer: 0
   m_Name: EraserUp
   m_TagString: Player2Bullet
@@ -43,21 +43,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50951810642062596
+--- !u!50 &50622862869877846
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1557834091509176}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

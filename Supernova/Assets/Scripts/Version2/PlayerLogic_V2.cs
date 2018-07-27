@@ -196,6 +196,28 @@ public class PlayerLogic_V2 : MonoBehaviour {
 		}
 	}
 
+	
+	void OnTriggerExit2D(Collider2D other)
+	{
+		if(other.gameObject.CompareTag("HolePic"))
+		{
+			if(gameObject.CompareTag("Player1"))
+			{
+				if(Player1Status_V2._instance.playerPower == PlayerPower_V2.MousePower)
+				{
+					other.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+				}
+
+			}
+			else if(gameObject.CompareTag("Player2"))
+			{
+				if(Player1Status_V2._instance.playerPower == PlayerPower_V2.MousePower)
+				{
+					other.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+				}
+			}
+		}	
+	}
 
 	void TurnEffect()
 	{

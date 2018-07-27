@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4380199586070310}
   - component: {fileID: 212424779182927742}
   - component: {fileID: 61532150587079682}
-  - component: {fileID: 50135850351534810}
   - component: {fileID: 114242572825095446}
+  - component: {fileID: 50573013309028470}
   m_Layer: 0
   m_Name: EraserDown
   m_TagString: Player2Bullet
@@ -43,21 +43,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50135850351534810
+--- !u!50 &50573013309028470
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1503119622258366}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1

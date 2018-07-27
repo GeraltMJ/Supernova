@@ -12,7 +12,7 @@ public class Player2Status_V2 : MonoBehaviour {
 	public float hp = 3.0f;
 	private bool isDead = false;
 	private PlayerAttack attack;
-	private PlayerMove move;
+	private PlayerMove_Sudden move;
 	public Text text;
 	private AudioSource audio;
 	public GameObject blueHeart;
@@ -41,7 +41,7 @@ public class Player2Status_V2 : MonoBehaviour {
 			heartIndex++;
 		}
 		attack = GetComponent<PlayerAttack>();
-		move = GetComponent<PlayerMove>();
+		move = GetComponent<PlayerMove_Sudden>();
 		audio = GetComponent<AudioSource>();
 	}
 
@@ -81,9 +81,6 @@ public class Player2Status_V2 : MonoBehaviour {
 	public void Dead()
 	{
 		isDead = true;
-		attack.enabled = false;
-		move.enabled = false;
-		text.gameObject.SetActive(true);
-		Debug.Log("Player2死了！！！");
+		PlayerStatusControl._instance.player1Win = true;
 	}
 }
