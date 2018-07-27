@@ -21,8 +21,10 @@ public class TcpClient : MonoBehaviour
 	byte[] sendData = new byte[1024];
 	int recvLen;
 	Thread connectThread;
+	public GameObject player1;
 	public GameObject player2;
-	private EnemyMove em;
+	private PlayerMove em1;
+	private PlayerMove em2;
 
 
 	void InitSocket()
@@ -39,6 +41,33 @@ public class TcpClient : MonoBehaviour
 		Debug.Log("Before Connect");
 		serverSocket.Connect(ipEnd);
 		Debug.Log("Connecting success");
+		recvData = new byte[1024];
+		recvLen = serverSocket.Receive(recvData);
+		recvStr = Encoding.ASCII.GetString(recvData,0,1);
+		Debug.Log("I will be player " + recvStr);
+
+		if(recvStr == "1"){
+			PlayerStatusControl._instance.isPlayer1 = true;
+			recvData = new byte[1024];
+			recvLen = serverSocket.Receive(recvData);
+			recvStr = Encoding.ASCII.GetString(recvData,0,1);
+
+			if(recvStr == "G")
+			{
+				PlayerStatusControl._instance.gameStart = true;
+				Debug.Log("Game Will Start in 3 seconds");
+			}
+		}else if(recvStr == "2")
+		{
+			PlayerStatusControl._instance.isPlayer1 = false;
+			PlayerStatusControl._instance.gameStart = true;
+			Debug.Log("Game Will Start in 3 seconds");
+		}
+		else
+		{
+			Debug.Log("unknown player");
+		}
+
 		while(true)
 		{
 			recvData = new byte[1024];
@@ -50,7 +79,13 @@ public class TcpClient : MonoBehaviour
 			recvStr = Encoding.ASCII.GetString(recvData,0,1);
 			Debug.Log("Rcvd From Server: " + recvStr + "END");
 			Debug.Log("END2");
-			em.SetCurrentCommand(recvStr);
+			if(PlayerStatusControl._instance.isPlayer1)
+			{
+				em2.SetCurrentCommand(recvStr);
+			}else
+			{
+				em1.SetCurrentCommand(recvStr);
+			}
 			
 		}
 	}
@@ -72,15 +107,17 @@ public class TcpClient : MonoBehaviour
 
 	void Start()
 	{
+		em1 = player1.GetComponent<PlayerMove>();
+		em2 = player2.GetComponent<PlayerMove>();
 		InitSocket();
-		em = player2.GetComponent<EnemyMove>();
+		
 	}
 
 	public void SendSelfCommand(string str)
 	{	
 		byte[] commandSelf = new byte[msgLen];
 		commandSelf = Encoding.ASCII.GetBytes(str);
-		serverSocket.Send(commandSelf, commandSelf.Length, SocketFlags.None);
+		serverSocket.Send(commandSelf, 1, SocketFlags.None);
 	}
 
 

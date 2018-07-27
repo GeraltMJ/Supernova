@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCube : MonoBehaviour {
+public class PlayerCube_V2 : MonoBehaviour {
 
 	public PlayerMove player;
 
@@ -12,14 +12,14 @@ public class PlayerCube : MonoBehaviour {
 		{	
 			if(other.gameObject.CompareTag("HolePic") && player.CompareTag("Player1"))
 			{
-				if(Player1Status_V2._instance.hasMouseAbility == true)
+				if(Player1Status_V2._instance.playerPower == PlayerPower_V2.MousePower)
 				{
 					return;
 				}
 			}
 			else if(other.gameObject.CompareTag("HolePic") && player.CompareTag("Player2"))
 			{
-				if(Player2Status_V2._instance.hasMouseAbility == true)
+				if(Player2Status_V2._instance.playerPower == PlayerPower_V2.MousePower)
 				{
 					return;
 				}
@@ -48,14 +48,14 @@ public class PlayerCube : MonoBehaviour {
 		{
 			if(other.gameObject.CompareTag("HolePic") && player.CompareTag("Player1"))
 			{
-				if(Player1Status_V2._instance.hasMouseAbility == true)
+				if(Player1Status_V2._instance.playerPower == PlayerPower_V2.MousePower)
 				{
 					return;
 				}
 			}
 			else if(other.gameObject.CompareTag("HolePic") && player.CompareTag("Player2"))
 			{
-				if(Player2Status_V2._instance.hasMouseAbility == true)
+				if(Player2Status_V2._instance.playerPower == PlayerPower_V2.MousePower)
 				{
 					return;
 				}

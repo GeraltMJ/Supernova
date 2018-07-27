@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum PlayerCharacter_V2
+{
+	Cat,Mouse,Default
+}
+
+public enum PlayerPower_V2
+{
+	CatPower, MousePower, Default
+}
 public class Player1Status_V2 : MonoBehaviour {
 
-	public bool isCat = false;
-	public bool isMouse = false;
-	public bool hasCatAbility = false;
-	public bool hasMouseAbility = false;
 	public static Player1Status_V2 _instance;
+
+	public PlayerCharacter_V2 playerCharacter = PlayerCharacter_V2.Default;
+	public PlayerPower_V2 playerPower = PlayerPower_V2.Default;
 
 	public float maxHp = 5.0f;
 	public float hp = 3.0f;
@@ -97,15 +105,6 @@ public class Player1Status_V2 : MonoBehaviour {
 		{
 			audio.Play();
 			_instance.hp -= damage;
-			/* 
-			int i = 0;
-			while(i < damage && heartIndex >= 0)
-			{
-				Destroy(hearts[heartIndex--]);
-				heartPosition.x = heartPosition.x - 2*heartWidth+0.1f;
-				i++;
-			}
-			*/
 			Debug.Log("Player1收到了" + damage + "点伤害");
 			if (_instance.hp <= 0)
 			{

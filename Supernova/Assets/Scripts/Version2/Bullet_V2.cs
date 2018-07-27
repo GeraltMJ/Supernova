@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet_Level2 : MonoBehaviour {
+public class Bullet_V2 : MonoBehaviour {
 
 	public FaceDirection dir;
 	public float speed = 6.0f;
@@ -47,7 +47,8 @@ public class Bullet_Level2 : MonoBehaviour {
 		{
 			if(collision.gameObject.tag == "Player1")
 			{	
-				if(Player2Status_V2._instance.hasCatAbility == true && Player1Status_V2._instance.isMouse == true)
+				if(Player2Status_V2._instance.playerPower == PlayerPower_V2.CatPower && 
+					Player1Status_V2._instance.playerCharacter == PlayerCharacter_V2.Mouse)
 				{
 					Player1Status_V2._instance.Damage(10);
 				}
@@ -70,7 +71,8 @@ public class Bullet_Level2 : MonoBehaviour {
 		{	
 			if(collision.gameObject.tag == "Player2")
 			{
-				if(Player1Status_V2._instance.hasCatAbility == true && Player2Status_V2._instance.isMouse == true)
+				if(Player1Status_V2._instance.playerPower == PlayerPower_V2.CatPower && 
+					Player2Status_V2._instance.playerCharacter == PlayerCharacter_V2.Mouse)
 				{
 					Player2Status_V2._instance.Damage(10);
 				}

@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4943580403156436}
   - component: {fileID: 212853741420628420}
-  - component: {fileID: 114580728387100056}
   - component: {fileID: 61637861291811360}
   - component: {fileID: 50015691899758384}
+  - component: {fileID: 114412229790826204}
   m_Layer: 0
   m_Name: PencilRight
   m_TagString: Player1Bullet
@@ -88,7 +88,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.14}
   m_EdgeRadius: 0
---- !u!114 &114580728387100056
+--- !u!114 &114412229790826204
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1251148435895474}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 640a8cdc6f7ca894aa6683ce52f4ece2, type: 3}
+  m_Script: {fileID: 11500000, guid: ded0e996f0b2f48e696a51b22b1ccfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dir: 0

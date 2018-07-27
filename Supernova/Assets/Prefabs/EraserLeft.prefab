@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4251850515796160}
   - component: {fileID: 212144636715342216}
-  - component: {fileID: 114641296581447964}
   - component: {fileID: 61395597739770828}
   - component: {fileID: 50926320978394012}
+  - component: {fileID: 114667313333926230}
   m_Layer: 0
   m_Name: EraserLeft
   m_TagString: Player2Bullet
@@ -88,7 +88,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.31, y: 0.16}
   m_EdgeRadius: 0
---- !u!114 &114641296581447964
+--- !u!114 &114667313333926230
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1887894732890580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 640a8cdc6f7ca894aa6683ce52f4ece2, type: 3}
+  m_Script: {fileID: 11500000, guid: ded0e996f0b2f48e696a51b22b1ccfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dir: 0

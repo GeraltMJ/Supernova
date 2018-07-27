@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 public class Player2Status_V2 : MonoBehaviour {
 
-	public bool isCat = false;
-	public bool isMouse = false;
-	public bool hasCatAbility = false;
-	public bool hasMouseAbility = false;
 	public static Player2Status_V2 _instance;
 
+	public PlayerCharacter_V2 playerCharacter = PlayerCharacter_V2.Default;
+	public PlayerPower_V2 playerPower = PlayerPower_V2.Default;
 	public float hp = 3.0f;
 	private bool isDead = false;
 	private PlayerAttack attack;

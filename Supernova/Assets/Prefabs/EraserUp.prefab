@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4498778074852412}
   - component: {fileID: 212408205265552392}
-  - component: {fileID: 114269012357788056}
   - component: {fileID: 61708973718508078}
   - component: {fileID: 50951810642062596}
+  - component: {fileID: 114153856288989160}
   m_Layer: 0
   m_Name: EraserUp
   m_TagString: Player2Bullet
@@ -88,7 +88,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.32}
   m_EdgeRadius: 0
---- !u!114 &114269012357788056
+--- !u!114 &114153856288989160
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1557834091509176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 640a8cdc6f7ca894aa6683ce52f4ece2, type: 3}
+  m_Script: {fileID: 11500000, guid: ded0e996f0b2f48e696a51b22b1ccfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dir: 0

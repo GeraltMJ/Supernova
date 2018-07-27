@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4400308517289622}
   - component: {fileID: 212167800596470164}
-  - component: {fileID: 114287748563853620}
   - component: {fileID: 61307429882633764}
   - component: {fileID: 50484331785514504}
+  - component: {fileID: 114825029767222468}
   m_Layer: 0
   m_Name: PencilDown
   m_TagString: Player1Bullet
@@ -88,7 +88,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.14, y: 0.3}
   m_EdgeRadius: 0
---- !u!114 &114287748563853620
+--- !u!114 &114825029767222468
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1964605871199536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 640a8cdc6f7ca894aa6683ce52f4ece2, type: 3}
+  m_Script: {fileID: 11500000, guid: ded0e996f0b2f48e696a51b22b1ccfa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   dir: 0

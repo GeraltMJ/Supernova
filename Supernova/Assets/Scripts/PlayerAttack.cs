@@ -12,8 +12,14 @@ public class PlayerAttack : MonoBehaviour {
 	private float shootTimer = 0.0f;// 射击的计时器
 	public float shootTime = 0.47f;// 表示射击的CD时间
 	private FaceDirection faceDir;
+	private string currentCommand;
 
 	public bool autoAttack;
+
+	public void SetCurrentCommand(string str)
+	{
+		currentCommand = str;
+	}
 
 	void Start()
 	{
@@ -41,37 +47,77 @@ public class PlayerAttack : MonoBehaviour {
 	{
 		if(gameObject.CompareTag("Player1"))
 		{
-			if (autoAttack || Input.GetKeyDown(shootKey) || ETCInput.GetButton("Button"))
+			if(PlayerStatusControl._instance.isPlayer1 == true)
 			{
-				isShoot = true;
-				faceDir = gameObject.GetComponent<PlayerMove>().dir;
-				switch (faceDir)
-				{
-					case FaceDirection.Up:
-						anim.SetTrigger("UpAttack");
-						GameObject go1 = GameManager.Instantiate(bullet[0], new Vector3(this.transform.position.x, this.transform.position.y + 0.5f, this.transform.position.z), Quaternion.identity);
-						go1.GetComponent<Bullet>().dir = FaceDirection.Up;
-						break;
-
-					case FaceDirection.Down:
-						anim.SetTrigger("DownAttack");
-						GameObject go2 = GameManager.Instantiate(bullet[1], new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, this.transform.position.z), Quaternion.identity);
-						go2.GetComponent<Bullet>().dir = FaceDirection.Down;
-						break;
-
-					case FaceDirection.Left:
-						anim.SetTrigger("LeftAttack");
-						GameObject go3 = GameManager.Instantiate(bullet[2], new Vector3(this.transform.position.x - 0.5f, this.transform.position.y, this.transform.position.z), Quaternion.identity);
-						go3.GetComponent<Bullet>().dir = FaceDirection.Left;
-						break;
-
-					case FaceDirection.Right:
-						anim.SetTrigger("RightAttack");
-						GameObject go4 = GameManager.Instantiate(bullet[3], new Vector3(this.transform.position.x + 0.5f, this.transform.position.y, this.transform.position.z), Quaternion.identity);
-						go4.GetComponent<Bullet>().dir = FaceDirection.Right;
-						break;
-				}
+				ControlShoot();
+			}else
+			{
+				EnemyShoot();
+			}
+		}
+		else if(gameObject.CompareTag("Player2"))
+		{
+			if(PlayerStatusControl._instance.isPlayer1 == false)
+			{
+				ControlShoot();
+			}else
+			{
+				EnemyShoot();
 			}
 		}
 	}
+
+	void ControlShoot()
+	{
+		if(ETCInput.GetButton("Button"))
+		{
+			Fire();
+		}
+	}
+
+	void EnemyShoot()
+	{
+		if(currentCommand == "F")
+		{
+			Fire();
+			currentCommand = "";
+		}
+	}
+
+
+	void Fire()
+	{
+		isShoot = true;
+		faceDir = gameObject.GetComponent<PlayerMove>().dir;
+		switch (faceDir)
+		{
+			case FaceDirection.Up:
+				anim.SetTrigger("UpAttack");
+				GameObject go1 = GameManager.Instantiate(bullet[0], new Vector3(this.transform.position.x, this.transform.position.y + 0.5f, this.transform.position.z), Quaternion.identity);
+				go1.GetComponent<Bullet_V2>().dir = FaceDirection.Up;
+				break;
+
+			case FaceDirection.Down:
+				anim.SetTrigger("DownAttack");
+				GameObject go2 = GameManager.Instantiate(bullet[1], new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, this.transform.position.z), Quaternion.identity);
+				go2.GetComponent<Bullet_V2>().dir = FaceDirection.Down;
+				break;
+
+			case FaceDirection.Left:
+				anim.SetTrigger("LeftAttack");
+				GameObject go3 = GameManager.Instantiate(bullet[2], new Vector3(this.transform.position.x - 0.5f, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+				go3.GetComponent<Bullet_V2>().dir = FaceDirection.Left;
+				break;
+
+			case FaceDirection.Right:
+				anim.SetTrigger("RightAttack");
+				GameObject go4 = GameManager.Instantiate(bullet[3], new Vector3(this.transform.position.x + 0.5f, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+				go4.GetComponent<Bullet_V2>().dir = FaceDirection.Right;
+				break;
+		}
+		
+	}
 }
+
+
+			

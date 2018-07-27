@@ -18,18 +18,36 @@ public class PlayerMove : MonoBehaviour
 	public int leftObstacle = 0;
 	public int upObstacle = 0;
 	public int downObstacle = 0;
+
+	public GameObject networkManager;
+	private TcpClient tcpClient;
+	private string currentCommand;
 	public Camera cam;
 	private Animator camAnimator;
 
+	public void SetCurrentCommand(string command)
+	{
+		currentCommand = command;
+	}
+
+	void CameraMove(string str)
+	{
+		if(gameObject.name == "Player1" && PlayerStatusControl._instance.isPlayer1)
+		{
+			camAnimator.SetTrigger(str);
+		}else if(gameObject.name == "Player2" && !PlayerStatusControl._instance.isPlayer1)
+		{
+			camAnimator.SetTrigger(str);
+		}
+	}
+
 	public void MoveRight()
 	{	
-		camAnimator.SetTrigger("RightMove");
+		//CameraMove("RightMove");
 		
-		dir = FaceDirection.Right;
 		if(rightObstacle == 0)
 		{
 			anim.SetTrigger("RightWalk");
-			dir = FaceDirection.Right;
 		}
 		else
 		{
@@ -43,12 +61,10 @@ public class PlayerMove : MonoBehaviour
 	public void MoveLeft()
 	{	
 		
-		camAnimator.SetTrigger("LeftMove");
-		dir = FaceDirection.Left;
+		//CameraMove("LeftMove");
 		if(leftObstacle == 0)
 		{
 			anim.SetTrigger("LeftWalk");
-			dir = FaceDirection.Left;
 		}
 		else
 		{
@@ -61,12 +77,10 @@ public class PlayerMove : MonoBehaviour
 
 	public void MoveUp()
 	{	
-		camAnimator.SetTrigger("UpMove");
-		dir = FaceDirection.Up;
+		//CameraMove("UpMove");
 		if(upObstacle == 0)
 		{
 			anim.SetTrigger("UpWalk");
-			dir = FaceDirection.Up;
 		}
 		else
 		{
@@ -79,12 +93,10 @@ public class PlayerMove : MonoBehaviour
 
 	public void MoveDown()
 	{
-		camAnimator.SetTrigger("DownMove");
-		dir = FaceDirection.Down;
+		//CameraMove("DownMove");
 		if(downObstacle == 0)
 		{
 			anim.SetTrigger("DownWalk");
-			dir = FaceDirection.Down;
 		}
 		else
 		{
@@ -104,30 +116,82 @@ public class PlayerMove : MonoBehaviour
 		}
 	}
 
+	void ControlMove()
+	{
+		if ((Input.GetKey(up) || ETCInput.GetAxisPressedUp("Vertical")))
+		{
+			tcpClient.SendSelfCommand("W");
+			dir = FaceDirection.Up;
+		}
+		else if(Input.GetKey(down) || ETCInput.GetAxisPressedDown("Vertical"))
+		{
+			tcpClient.SendSelfCommand("S");
+			dir = FaceDirection.Down;
+		}
+		else if(Input.GetKey(left) || ETCInput.GetAxisPressedLeft("Horizontal"))
+		{
+			tcpClient.SendSelfCommand("A");
+			dir = FaceDirection.Left;
+		}
+		else if(Input.GetKey(right) || ETCInput.GetAxisPressedRight("Horizontal"))
+		{
+			tcpClient.SendSelfCommand("D");
+			dir = FaceDirection.Right;
+		}
+	}
+
+	void EnemyMove()
+	{
+		if (currentCommand == "W")
+		{
+			dir = FaceDirection.Up;
+		}
+		else if(currentCommand == "S")
+		{
+			dir = FaceDirection.Down;
+		}
+		else if(currentCommand == "A")
+		{
+			dir = FaceDirection.Left;
+		}
+		else if(currentCommand == "D")
+		{
+			dir = FaceDirection.Right;
+		}
+		currentCommand = "";
+	}
+
 	void Start () 
 	{	
 		anim = GetComponent<Animator>();
 		camAnimator = cam.GetComponent<Animator>();
+		tcpClient = networkManager.GetComponent<TcpClient>();
 	}
 
 	private void FixedUpdate() 
 	{	
 
-		if ((Input.GetKey(up) || ETCInput.GetAxisPressedUp("Vertical")))
+		if(gameObject.name == "Player1")
 		{
-			dir = FaceDirection.Up;
+			if(PlayerStatusControl._instance.isPlayer1)
+			{
+				ControlMove();
+			}
+			else
+			{
+				EnemyMove();
+			}
 		}
-		else if(Input.GetKey(down) || ETCInput.GetAxisPressedDown("Vertical"))
+		else if(gameObject.name == "Player2")
 		{
-			dir = FaceDirection.Down;
-		}
-		else if(Input.GetKey(left) || ETCInput.GetAxisPressedLeft("Horizontal"))
-		{
-			dir = FaceDirection.Left;
-		}
-		else if(Input.GetKey(right) || ETCInput.GetAxisPressedRight("Horizontal"))
-		{
-			dir = FaceDirection.Right;
+			if(!PlayerStatusControl._instance.isPlayer1)
+			{
+				ControlMove();
+			}
+			else
+			{
+				EnemyMove();
+			}
 		}
 
 		if(!isMoving)

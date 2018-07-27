@@ -17,10 +17,6 @@ TagManager:
   - Wall
   - Player1Bullet
   - Player2Bullet
-  - CatAbility1
-  - CatAbility2
-  - MouseAbility1
-  - MouseAbility2
   - DragonPic
   - MagicPic
   - KnightPic
@@ -31,6 +27,8 @@ TagManager:
   - KnightPowerPic
   - AssassinPowerPic
   - BossPowerPic
+  - CatPowerPic
+  - MousePowerPic
   layers:
   - Default
   - TransparentFX
