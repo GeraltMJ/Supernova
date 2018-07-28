@@ -3,60 +3,64 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum PlayerCharacter
+public enum PlayerCharacter_Level2
 {
-	Dragon, Magic, Assassin, Knight, Boss, None
-}
-public enum PlayerPower
-{
-	DragonPower, MagicPower, AssassinPower, KnightPower, BossPower, None
+	Dragon, Knight, Magic, Assassin, Boss, Default
 }
 
+public enum PlayerPower_Level2
+{
+	DragonPower, KnightPower, MagicPower, AssassinPower, BossPower, Default
+}
 public class Player1Status_Level2 : MonoBehaviour {
 
 	public static Player1Status_Level2 _instance;
 
-	//character
+	public PlayerCharacter_Level2 playerCharacter = PlayerCharacter_Level2.Default;
+	public PlayerPower_Level2 playerPower = PlayerPower_Level2.Default;
 
-	public PlayerCharacter playerCharacter = PlayerCharacter.None;
-	public PlayerPower playerPower = PlayerPower.None;
-
+	public bool overPoison = false;
+	public bool overArea = false;
+	public bool damageReflect = false;
+	public bool attackBuff = false;
 	public float hp = 3.0f;
+	public float attackAbility = 1.0f;
 	private bool isDead = false;
-	//private PlayerAttack attack;
-	//private PlayerMove move;
+	private PlayerAttack_Level2 attack;
+	private PlayerMove_Level2 move;
 	private AudioSource audio;
-	public GameObject redHeart;
 	private Camera cam;
-	private Renderer heartRenderer;
-	private GameObject[] hearts;
-	private int heartIndex = -1;
-	private float timePause = 0.48f;
-	private int count = 1;
-	private int firstcount = 1;
+
+	public Text heartText;
+	public Text weaponText;
+
+	
 	// Use this for initialization
 	void Awake () {
 		_instance = this;
 		cam = Camera.main;
-		heartRenderer = redHeart.GetComponent<Renderer>();
-		float heartWidth = heartRenderer.bounds.extents.x;
-		float heartHeight = heartRenderer.bounds.extents.y;
-		Vector3 upperCorner = new Vector3(Screen.width, Screen.height, 0.0f);
-		Vector3 targetwidth = cam.ScreenToWorldPoint(upperCorner);
-		Vector3 heartPosition = new Vector3(-targetwidth.x  + heartWidth, targetwidth.y - heartWidth-0.5f, 0.0f);
-		hearts = new GameObject[Mathf.FloorToInt(hp)];
-		for(int i = 0; i < Mathf.FloorToInt(hp); i++)
-		{
-			hearts[i] = (GameObject)Instantiate(redHeart, heartPosition, Quaternion.identity);
-			heartPosition.x = heartPosition.x + 2*heartWidth+0.1f;
-			heartIndex++;
-		}
-		//attack = GetComponent<PlayerAttack>();
-		//move = GetComponent<PlayerMove>();
+		attack = GetComponent<PlayerAttack_Level2>();
+		move = GetComponent<PlayerMove_Level2>();
 		audio = GetComponent<AudioSource>();
 	}
 
-	/* 
+	void CheckHpAndHearts()
+	{
+		heartText.text = "x " + Mathf.RoundToInt(hp).ToString();
+	}
+
+	void CheckAttackAbility()
+	{
+		weaponText.text = "x " + Mathf.RoundToInt(attackAbility).ToString();
+	}
+
+	void Update()
+	{
+		CheckHpAndHearts();
+		CheckAttackAbility();
+	}
+
+	
 	void Unfreeze()
 	{
 		attack.enabled = true;
@@ -68,7 +72,7 @@ public class Player1Status_Level2 : MonoBehaviour {
 		attack.enabled = false;
 		move.enabled = false;
 	}
-	*/
+	
 
 
 	public void Damage(float damage)
@@ -77,12 +81,6 @@ public class Player1Status_Level2 : MonoBehaviour {
 		{
 			audio.Play();
 			_instance.hp -= damage;
-			int i = 0;
-			while(i < damage && heartIndex >= 0)
-			{
-				Destroy(hearts[heartIndex--]);
-				i++;
-			}
 			Debug.Log("Player1收到了" + damage + "点伤害");
 			if (_instance.hp <= 0)
 			{
@@ -91,11 +89,19 @@ public class Player1Status_Level2 : MonoBehaviour {
 		}
 	}
 
+	public void Recover(float recorvery)
+	{
+		if(!isDead)
+		{
+			_instance.hp += recorvery;
+			Debug.Log("Player1 回复" + recorvery + "点血");
+		}
+	}
+
 	public void Dead()
 	{
 		isDead = true;
-		//attack.enabled = false;
-		//move.enabled = false;
+		PlayerStatusControl_Level2._instance.player2Win = true;
 		Debug.Log("Player1死了！！！");
 	}
 }

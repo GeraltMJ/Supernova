@@ -5485,6 +5485,7 @@ GameObject:
   - component: {fileID: 2032090172}
   - component: {fileID: 2032090171}
   - component: {fileID: 2032090170}
+  - component: {fileID: 2032090169}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -5492,6 +5493,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &2032090169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2032090168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abab906d67074c879693fcc667be800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &2032090170
 AudioSource:
   m_ObjectHideFlags: 0

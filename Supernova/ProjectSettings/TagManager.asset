@@ -29,6 +29,15 @@ TagManager:
   - BossPowerPic
   - CatPowerPic
   - MousePowerPic
+  - Default
+  - PoisonPic
+  - AreaPic
+  - AddOnePic
+  - AddTwoPic
+  - OverPoisonPic
+  - OverAreaPic
+  - DamageReflectPic
+  - AttackBuffPic
   layers:
   - Default
   - TransparentFX

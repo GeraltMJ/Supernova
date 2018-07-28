@@ -4,50 +4,35 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Player2Status_Level2 : MonoBehaviour {
+
 	public static Player2Status_Level2 _instance;
 
-	//character
-	public PlayerCharacter playerCharacter = PlayerCharacter.None;
-	public PlayerPower playerPower = PlayerPower.None;
+	public PlayerCharacter_Level2 playerCharacter = PlayerCharacter_Level2.Default;
+	public PlayerPower_Level2 playerPower = PlayerPower_Level2.Default;
 
-	//power
-
+	public bool overPoison = false;
+	public bool overArea = false;
+	public bool damageReflect = false;
+	public bool attackBuff = false;
 	public float hp = 3.0f;
+	public float attackAbility = 1.0f;
 	private bool isDead = false;
-	//private PlayerAttack attack;
-	//private PlayerMove move;
+	private PlayerAttack_Level2 attack;
+	private PlayerMove_Level2 move;
 	private AudioSource audio;
-	public GameObject blueHeart;
 	private Camera cam;
-	private Renderer heartRenderer;
-	private GameObject[] hearts;
-	private int heartIndex = -1;
-	private float timePause = 0.48f;
-	private int count = 1;
-	private int firstcount = 1;
 	// Use this for initialization
+
+	public Text heartText;
+	public Text weaponText;
 	void Awake () {
 		_instance = this;
 		cam = Camera.main;
-		heartRenderer = blueHeart.GetComponent<Renderer>();
-		float heartWidth = heartRenderer.bounds.extents.x;
-		float heartHeight = heartRenderer.bounds.extents.y;
-		Vector3 upperCorner = new Vector3(Screen.width, Screen.height, 0.0f);
-		Vector3 targetwidth = cam.ScreenToWorldPoint(upperCorner);
-		Vector3 heartPosition = new Vector3(targetwidth.x-heartWidth, targetwidth.y - heartWidth-0.5f, 0.0f);
-		hearts = new GameObject[Mathf.FloorToInt(hp)];
-		for(int i = 0; i < Mathf.FloorToInt(hp); i++)
-		{
-			hearts[i] = (GameObject)Instantiate(blueHeart, heartPosition, Quaternion.identity);
-			heartPosition.x = heartPosition.x - 2*heartWidth - 0.1f;
-			heartIndex++;
-		}
-		//attack = GetComponent<PlayerAttack>();
-		//move = GetComponent<PlayerMove>();
+		attack = GetComponent<PlayerAttack_Level2>();
+		move = GetComponent<PlayerMove_Level2>();
 		audio = GetComponent<AudioSource>();
 	}
 
-	/* 
 	void Unfreeze()
 	{
 		attack.enabled = true;
@@ -59,7 +44,22 @@ public class Player2Status_Level2 : MonoBehaviour {
 		attack.enabled = false;
 		move.enabled = false;
 	}
-	*/
+
+	void CheckHpAndHearts()
+	{
+		heartText.text = Mathf.RoundToInt(hp).ToString() + " x";
+	}
+
+	void CheckAttackAbility()
+	{
+		weaponText.text = Mathf.RoundToInt(attackAbility).ToString() + " x";
+	}
+
+	void Update()
+	{
+		CheckHpAndHearts();
+		CheckAttackAbility();
+	}
 
 
 	public void Damage(float damage)
@@ -68,12 +68,6 @@ public class Player2Status_Level2 : MonoBehaviour {
 		{
 			audio.Play();
 			_instance.hp -= damage;
-			int i = 0;
-			while(i < damage && heartIndex >= 0)
-			{
-				Destroy(hearts[heartIndex--]);
-				i++;
-			}
 			Debug.Log("Player2收到了" + damage + "点伤害");
 			if (_instance.hp <= 0)
 			{
@@ -82,11 +76,18 @@ public class Player2Status_Level2 : MonoBehaviour {
 		}
 	}
 
+	public void Recover(float recorvery)
+	{
+		if(!isDead)
+		{
+			_instance.hp += recorvery;
+			Debug.Log("Player1 回复" + recorvery + "点血");
+		}
+	}
+
 	public void Dead()
 	{
 		isDead = true;
-		//attack.enabled = false;
-		//move.enabled = false;
-		Debug.Log("Player2死了！！！");
+		PlayerStatusControl_Level2._instance.player1Win = true;
 	}
 }

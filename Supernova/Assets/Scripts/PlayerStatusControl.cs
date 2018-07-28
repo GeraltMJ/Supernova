@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum FaceDirection
-{
-	Up, Down, Left, Right
-}
 public class PlayerStatusControl : MonoBehaviour {
 
 
@@ -66,8 +62,8 @@ public class PlayerStatusControl : MonoBehaviour {
 		_instance = this;
 		player1Move = player1.GetComponent<PlayerMove_Sudden>();
 		player2Move = player2.GetComponent<PlayerMove_Sudden>();
-		player1Move.enabled = false;
-		player2Move.enabled = false;
+		//player1Move.enabled = false;
+		//player2Move.enabled = false;
 		remainSeconds = 3f;
 		durationSeconds = 0;
 		text.text = "Wait for another player";

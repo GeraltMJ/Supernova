@@ -4,68 +4,769 @@ using UnityEngine;
 
 public class PlayerLogic_Level2 : MonoBehaviour {
 
-	private bool[] isDragonPowerPic;
-	private bool[] isMagicPowerPic;
-	private bool[] isKnightPowerPic;
-	private bool[] isAssassinPowerPic;
-	private bool[] isBossPowerPic;
+	private int dragonPowerCount = 10;
+	private int knightPowerCount = 10;
+	private int magicPowerCount = 8;
 
-	private bool[] dragonPower;
-	private bool[] magicPower;
-	private bool[] knightPower;
-	private bool[] assassinPower;
-	private bool[] bossPower;
+	private int assassinPowerCount = 8;
 
-	public int dragonPowerCount;
-	public int magicPowerCount;
-	public int knightPowerCount;
-	public int assassinPowerCount;
-	public int bossPowerCount;
+	private int bossPowerCount = 31;
+
 
 	private int powerIndex = 0;
-	private int checkindex = 0;
+	private int addOneCount = 3;
+	private int addTwoCount = 6;
+	private int overPoisonCount = 5;
+	private int overAreaCount = 5;
+	private int attackBuffCount = 6;
+	private int damageReflectCount = 6;
 
-	private enum isInPicType{
-		isInDragonPic,
-		isInMagicPic,
-		isInKnightPic,
-		isInAssassinPic,
-		isInBossPic,
-		isInDragonPowerPic,
-		isInMagicPowerPic,
-		isInKnightPowerPic,
-		isInAssassinPowerPic,
-		isInBossPowerPic,
-		defaultType
-	}
-
-	private isInPicType picType;
+	public Sprite poisonReplace;
+	public Sprite areaReplace;
+	
 
 	public GameObject smokeEffect;
 	public GameObject redCross;
-	public SpriteRenderer spriteRender;
+	private SpriteRenderer spriteRender;
 	public Sprite[] sprite;
-	public RuntimeAnimatorController catController, mouseController;
+	public RuntimeAnimatorController dragonController, knightController, magicController, assassinController, bossController;
 	private Animator animator;
+	private int deleteIndex = 0;
 
+	private GameObject[] powerRedCrossToDelete;
+	private GameObject characterRedCross;
 
 	void Awake() {
 		spriteRender = this.GetComponent<SpriteRenderer>();
 		animator = this.GetComponent<Animator>();
-
-		dragonPower = new bool[dragonPowerCount];
-		magicPower = new bool[magicPowerCount];
-		knightPower = new bool[knightPowerCount];
-		assassinPower = new bool[assassinPowerCount];
-		bossPower = new bool[bossPowerCount];
-
-		isDragonPowerPic = new bool[dragonPowerCount];
-		isMagicPowerPic = new bool[magicPowerCount];
-		isKnightPowerPic = new bool[knightPowerCount];
-		isAssassinPowerPic = new bool[assassinPowerCount];
-		isBossPowerPic = new bool[bossPowerCount];
-		picType = isInPicType.defaultType;
 	}
+
+	void Start()
+	{
+		powerRedCrossToDelete = new GameObject[50];
+	}
+
+	void ChangeToArea(Collider2D collision)
+	{
+		collision.gameObject.GetComponent<SpriteRenderer>().sprite = areaReplace;
+		collision.gameObject.tag = "AreaPic";
+	}
+
+	void ChangeToPoison(Collider2D collision)
+	{
+		collision.gameObject.GetComponent<SpriteRenderer>().sprite = poisonReplace;
+		collision.gameObject.tag = "PoisonPic";
+	}
+
+	void BecomeInvisible()
+	{
+
+	}
+
+	void RecoverEffect()
+	{
+
+	}
+
+	void RemovePowerRedCrossOnMap()
+	{
+		for(int i = 0; i < deleteIndex; i++)
+		{
+			if(powerRedCrossToDelete[i])
+			{
+				Destroy(powerRedCrossToDelete[i]);
+			}
+		}
+		deleteIndex = 0;
+	}
+
+	void AddPowerRedCrossToList(GameObject rc)
+	{
+		powerRedCrossToDelete[deleteIndex] = rc;
+		deleteIndex++;
+	}
+
+	void RemoveCharacterRedCross()
+	{
+		if(characterRedCross)
+		{
+			Destroy(characterRedCross);
+		}
+	}
+
+	
+
+	void CheckPlayer1Trigger(Collider2D collision)
+	{
+		if (collision.gameObject.CompareTag("DragonPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Dragon 
+				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Dragon)
+			{	
+				Player1Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Dragon;
+				RemoveCharacterRedCross();
+				TurnEffect();
+				CharacterRedCrossEffect(collision);
+				spriteRender.sprite = sprite[0];
+				animator.runtimeAnimatorController = dragonController;
+				Debug.Log("Player1 turn into Dragon");
+			}
+			powerIndex = 0;
+		}
+		else if (collision.gameObject.CompareTag("KnightPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Knight 
+				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Knight)
+			{	
+				Player1Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Knight;
+				RemoveCharacterRedCross();
+				TurnEffect();
+				CharacterRedCrossEffect(collision);
+				spriteRender.sprite = sprite[1];
+				animator.runtimeAnimatorController = knightController;
+				Debug.Log("Player1 turn into Knight");
+			}
+			powerIndex = 0;
+		}
+		else if (collision.gameObject.CompareTag("MagicPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Magic 
+				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Magic)
+			{	
+				Player1Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Magic;
+				RemoveCharacterRedCross();
+				TurnEffect();
+				CharacterRedCrossEffect(collision);
+				spriteRender.sprite = sprite[2];
+				animator.runtimeAnimatorController = magicController;
+				Debug.Log("Player1 turn into Magic");
+			}
+			powerIndex = 0;
+		}
+		else if (collision.gameObject.CompareTag("AssassinPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Assassin 
+				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Assassin)
+			{	
+				Player1Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Assassin;
+				RemoveCharacterRedCross();
+				TurnEffect();
+				CharacterRedCrossEffect(collision);
+				spriteRender.sprite = sprite[3];
+				animator.runtimeAnimatorController = assassinController;
+				Debug.Log("Player1 turn into Assassin");
+			}
+			powerIndex = 0;
+		}
+		else if (collision.gameObject.CompareTag("BossPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Boss 
+				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Boss)
+			{	
+				Player1Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Boss;
+				RemoveCharacterRedCross();
+				TurnEffect();
+				CharacterRedCrossEffect(collision);
+				spriteRender.sprite = sprite[4];
+				animator.runtimeAnimatorController = bossController;
+				Debug.Log("Player1 turn into Boss");
+			}
+			powerIndex = 0;
+		}
+		else if(collision.gameObject.CompareTag("DragonPowerPic"))
+		{
+			if(Player1Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Dragon)
+			{
+				if(collision.gameObject.name == "DragonPowerPic" + powerIndex.ToString())
+				{
+					RedCrossEffect(collision);
+					powerIndex++;
+				}else
+				{
+					RemovePowerRedCrossOnMap();
+					powerIndex = 0;
+				}
+				if(powerIndex == dragonPowerCount)
+				{
+					Player1Status_Level2._instance.playerPower = PlayerPower_Level2.DragonPower;
+					Debug.Log("Player1 has Dragon Power");
+					TurnEffect();
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("KnightPowerPic"))
+		{
+			if(Player1Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Knight)
+			{
+				if(collision.gameObject.name == "KnightPowerPic" + powerIndex.ToString())
+				{
+					RedCrossEffect(collision);
+					powerIndex++;
+				}else
+				{
+					RemovePowerRedCrossOnMap();
+					powerIndex = 0;
+				}
+				if(powerIndex == knightPowerCount)
+				{
+					Player1Status_Level2._instance.playerPower = PlayerPower_Level2.KnightPower;
+					Debug.Log("Player1 has Knight Power");
+					TurnEffect();
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("MagicPowerPic"))
+		{
+			if(Player1Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Magic)
+			{
+				if(collision.gameObject.name == "MagicPowerPic" + powerIndex.ToString())
+				{
+					RedCrossEffect(collision);
+					powerIndex++;
+				}else
+				{
+					RemovePowerRedCrossOnMap();
+					powerIndex = 0;
+				}
+				if(powerIndex == magicPowerCount)
+				{
+					Player1Status_Level2._instance.playerPower = PlayerPower_Level2.MagicPower;
+					Debug.Log("Player1 has Magic Power");
+					TurnEffect();
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("AssassinPowerPic"))
+		{
+			if(Player1Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Assassin)
+			{
+				if(collision.gameObject.name == "AssassinPowerPic" + powerIndex.ToString())
+				{
+					RedCrossEffect(collision);
+					powerIndex++;
+				}else
+				{
+					RemovePowerRedCrossOnMap();
+					powerIndex = 0;
+				}
+				if(powerIndex == assassinPowerCount)
+				{
+					Player1Status_Level2._instance.playerPower = PlayerPower_Level2.AssassinPower;
+					Debug.Log("Player1 has Assassin Power");
+					TurnEffect();
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("BossPowerPic"))
+		{
+			if(Player1Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Boss)
+			{
+				if(collision.gameObject.name == "BossPowerPic" + powerIndex.ToString())
+				{
+					RedCrossEffect(collision);
+					powerIndex++;
+				}else
+				{
+					RemovePowerRedCrossOnMap();
+					powerIndex = 0;
+				}
+				if(powerIndex == bossPowerCount)
+				{
+					Player1Status_Level2._instance.playerPower = PlayerPower_Level2.BossPower;
+					Debug.Log("Player1 has Boss Power");
+					TurnEffect();
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("PoisonPic"))
+		{
+			switch(Player1Status_Level2._instance.playerPower)
+			{
+				case PlayerPower_Level2.DragonPower:
+					break;
+				case PlayerPower_Level2.KnightPower:
+					Player1Status_Level2._instance.Damage(1);
+					break;
+				case PlayerPower_Level2.MagicPower:
+					ChangeToArea(collision);
+					break;
+				case PlayerPower_Level2.AssassinPower:
+					BecomeInvisible();
+					break;
+				case PlayerPower_Level2.BossPower:
+					break;
+				case PlayerPower_Level2.Default:
+					break;
+			}
+		}
+		else if(collision.gameObject.CompareTag("AreaPic"))
+		{
+			switch(Player1Status_Level2._instance.playerPower)
+			{
+				case PlayerPower_Level2.DragonPower:
+					ChangeToPoison(collision);
+					break;
+				case PlayerPower_Level2.KnightPower:
+					Player1Status_Level2._instance.attackAbility += 1;
+					break;
+				case PlayerPower_Level2.MagicPower:
+					break;
+				case PlayerPower_Level2.AssassinPower:
+					Player1Status_Level2._instance.Damage(1);
+					break;
+				case PlayerPower_Level2.BossPower:
+					break;
+				case PlayerPower_Level2.Default:
+					break;
+			}
+		}
+		else if(collision.gameObject.CompareTag("AddOnePic"))
+		{
+			if(collision.gameObject.name == "AddOnePic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == addOneCount)
+			{
+				Player1Status_Level2._instance.Recover(1f);
+				RecoverEffect();
+				Debug.Log("Player1 recorve 1 hp");
+			}
+		}
+		else if(collision.gameObject.CompareTag("AddTwoPic"))
+		{
+			if(collision.gameObject.name == "AddTwoPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == addTwoCount)
+			{
+				Player1Status_Level2._instance.Recover(2f);
+				RecoverEffect();
+				Debug.Log("Player1 recorve 2 hp");
+			}
+		}
+		else if(collision.gameObject.CompareTag("OverPoisonPic"))
+		{
+			if(collision.gameObject.name == "OverPoisonPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == overPoisonCount)
+			{
+				Player1Status_Level2._instance.overPoison = true;
+				Debug.Log("Player1 is poison no effect");
+			}
+		}
+		else if(collision.gameObject.CompareTag("OverAreaPic"))
+		{
+			if(collision.gameObject.name == "OverAreaPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == overAreaCount)
+			{
+				Player1Status_Level2._instance.overArea = true;
+				Debug.Log("Player1 is area no effect");
+			}
+		}
+		else if(collision.gameObject.CompareTag("DamageReflectPic"))
+		{
+			if(collision.gameObject.name == "DamageReflectPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == damageReflectCount)
+			{
+				Player1Status_Level2._instance.damageReflect = true;
+				Debug.Log("Player1 is damage Reflect");
+			}
+		}
+		else if(collision.gameObject.CompareTag("AttackBuffPic"))
+		{
+			if(collision.gameObject.name == "AttackBuffPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == attackBuffCount)
+			{
+				Player1Status_Level2._instance.attackBuff = true;
+				Debug.Log("Player1 is attack buff");
+			}
+		}
+		else
+		{
+			RemovePowerRedCrossOnMap();
+			powerIndex = 0;
+		}
+	}
+
+	void CheckPlayer2Trigger(Collider2D collision)
+	{
+		if (collision.gameObject.CompareTag("DragonPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Dragon 
+				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Dragon)
+			{	
+				Player2Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Dragon;
+				RemoveCharacterRedCross();
+				TurnEffect();
+				CharacterRedCrossEffect(collision);
+				spriteRender.sprite = sprite[0];
+				animator.runtimeAnimatorController = dragonController;
+				Debug.Log("Player2 turn into Dragon");
+			}
+			powerIndex = 0;
+		}
+		else if (collision.gameObject.CompareTag("KnightPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Knight 
+				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Knight)
+			{	
+				Player2Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Knight;
+				RemoveCharacterRedCross();
+				TurnEffect();
+				CharacterRedCrossEffect(collision);
+				spriteRender.sprite = sprite[1];
+				animator.runtimeAnimatorController = knightController;
+				Debug.Log("Player2 turn into Knight");
+			}
+			powerIndex = 0;
+		}
+		else if (collision.gameObject.CompareTag("MagicPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Magic 
+				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Magic)
+			{	
+				Player2Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Magic;
+				RemoveCharacterRedCross();
+				TurnEffect();
+				CharacterRedCrossEffect(collision);
+				spriteRender.sprite = sprite[2];
+				animator.runtimeAnimatorController = magicController;
+				Debug.Log("Player2 turn into Magic");
+			}
+			powerIndex = 0;
+		}
+		else if (collision.gameObject.CompareTag("AssassinPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Assassin 
+				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Assassin)
+			{	
+				Player2Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Assassin;
+				RemoveCharacterRedCross();
+				TurnEffect();
+				CharacterRedCrossEffect(collision);
+				spriteRender.sprite = sprite[3];
+				animator.runtimeAnimatorController = assassinController;
+				Debug.Log("Player2 turn into Assassin");
+			}
+			powerIndex = 0;
+		}
+		else if (collision.gameObject.CompareTag("BossPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Boss 
+				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Boss)
+			{	
+				Player2Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Boss;
+				RemoveCharacterRedCross();
+				TurnEffect();
+				CharacterRedCrossEffect(collision);
+				spriteRender.sprite = sprite[4];
+				animator.runtimeAnimatorController = bossController;
+				Debug.Log("Player2 turn into Boss");
+			}
+			powerIndex = 0;
+		}
+		else if(collision.gameObject.CompareTag("DragonPowerPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Dragon)
+			{
+				if(collision.gameObject.name == "DragonPowerPic" + powerIndex.ToString())
+				{
+					RedCrossEffect(collision);
+					powerIndex++;
+				}else
+				{
+					RemovePowerRedCrossOnMap();
+					powerIndex = 0;
+				}
+				if(powerIndex == dragonPowerCount)
+				{
+					Player2Status_Level2._instance.playerPower = PlayerPower_Level2.DragonPower;
+					Debug.Log("Player2 has Dragon Power");
+					TurnEffect();
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("KnightPowerPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Knight)
+			{
+				if(collision.gameObject.name == "KnightPowerPic" + powerIndex.ToString())
+				{
+					RedCrossEffect(collision);
+					powerIndex++;
+				}else
+				{
+					RemovePowerRedCrossOnMap();
+					powerIndex = 0;
+				}
+				if(powerIndex == knightPowerCount)
+				{
+					Player2Status_Level2._instance.playerPower = PlayerPower_Level2.KnightPower;
+					Debug.Log("Player2 has Knight Power");
+					TurnEffect();
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("MagicPowerPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Magic)
+			{
+				if(collision.gameObject.name == "MagicPowerPic" + powerIndex.ToString())
+				{
+					RedCrossEffect(collision);
+					powerIndex++;
+				}else
+				{
+					RemovePowerRedCrossOnMap();
+					powerIndex = 0;
+				}
+				if(powerIndex == magicPowerCount)
+				{
+					Player2Status_Level2._instance.playerPower = PlayerPower_Level2.MagicPower;
+					Debug.Log("Player2 has Magic Power");
+					TurnEffect();
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("AssassinPowerPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Assassin)
+			{
+				if(collision.gameObject.name == "AssassinPowerPic" + powerIndex.ToString())
+				{
+					RedCrossEffect(collision);
+					powerIndex++;
+				}else
+				{
+					RemovePowerRedCrossOnMap();
+					powerIndex = 0;
+				}
+				if(powerIndex == assassinPowerCount)
+				{
+					Player2Status_Level2._instance.playerPower = PlayerPower_Level2.AssassinPower;
+					Debug.Log("Player2 has Assassin Power");
+					TurnEffect();
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("BossPowerPic"))
+		{
+			if(Player2Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Boss)
+			{
+				if(collision.gameObject.name == "BossPowerPic" + powerIndex.ToString())
+				{
+					RedCrossEffect(collision);
+					powerIndex++;
+				}else
+				{
+					RemovePowerRedCrossOnMap();
+					powerIndex = 0;
+				}
+				if(powerIndex == bossPowerCount)
+				{
+					Player2Status_Level2._instance.playerPower = PlayerPower_Level2.BossPower;
+					Debug.Log("Player2 has Boss Power");
+					TurnEffect();
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("PoisonPic"))
+		{
+			switch(Player2Status_Level2._instance.playerPower)
+			{
+				case PlayerPower_Level2.DragonPower:
+					break;
+				case PlayerPower_Level2.KnightPower:
+					Player2Status_Level2._instance.Damage(1);
+					break;
+				case PlayerPower_Level2.MagicPower:
+					ChangeToArea(collision);
+					break;
+				case PlayerPower_Level2.AssassinPower:
+					BecomeInvisible();
+					break;
+				case PlayerPower_Level2.BossPower:
+					break;
+				case PlayerPower_Level2.Default:
+					break;
+			}
+		}
+		else if(collision.gameObject.CompareTag("AreaPic"))
+		{
+			switch(Player2Status_Level2._instance.playerPower)
+			{
+				case PlayerPower_Level2.DragonPower:
+					ChangeToPoison(collision);
+					break;
+				case PlayerPower_Level2.KnightPower:
+					Player2Status_Level2._instance.attackAbility += 1;
+					break;
+				case PlayerPower_Level2.MagicPower:
+					break;
+				case PlayerPower_Level2.AssassinPower:
+					Player2Status_Level2._instance.Damage(1);
+					break;
+				case PlayerPower_Level2.BossPower:
+					break;
+				case PlayerPower_Level2.Default:
+					break;
+			}
+		}
+		else if(collision.gameObject.CompareTag("AddOnePic"))
+		{
+			if(collision.gameObject.name == "AddOnePic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == addOneCount)
+			{
+				Player2Status_Level2._instance.Recover(1f);
+				RecoverEffect();
+				Debug.Log("Player2 recorve 1 hp");
+			}
+		}
+		else if(collision.gameObject.CompareTag("AddTwoPic"))
+		{
+			if(collision.gameObject.name == "AddTwoPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == addTwoCount)
+			{
+				Player2Status_Level2._instance.Recover(2f);
+				RecoverEffect();
+				Debug.Log("Player2 recorve 2 hp");
+			}
+		}
+		else if(collision.gameObject.CompareTag("OverPoisonPic"))
+		{
+			if(collision.gameObject.name == "OverPoisonPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == overPoisonCount)
+			{
+				Player2Status_Level2._instance.overPoison = true;
+				Debug.Log("Player2 is poison no effect");
+			}
+		}
+		else if(collision.gameObject.CompareTag("OverAreaPic"))
+		{
+			if(collision.gameObject.name == "OverAreaPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == overAreaCount)
+			{
+				Player2Status_Level2._instance.overArea = true;
+				Debug.Log("Player2 is area no effect");
+			}
+		}
+		else if(collision.gameObject.CompareTag("DamageReflectPic"))
+		{
+			if(collision.gameObject.name == "DamageReflectPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == damageReflectCount)
+			{
+				Player2Status_Level2._instance.damageReflect = true;
+				Debug.Log("Player2 is damage Reflect");
+			}
+		}
+		else if(collision.gameObject.CompareTag("AttackBuffPic"))
+		{
+			if(collision.gameObject.name == "AttackBuffPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == attackBuffCount)
+			{
+				Player2Status_Level2._instance.attackBuff = true;
+				Debug.Log("Player2 is attack buff");
+			}
+		}
+		
+		else
+		{
+			RemovePowerRedCrossOnMap();
+			powerIndex = 0;
+		}
+	}
+
 
 	void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -73,408 +774,32 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 		{
 			return;
 		}
-		if (collision.gameObject.CompareTag("DragonPic"))
-		{
-			picType = isInPicType.isInDragonPic;
-		}
-		else if (collision.gameObject.CompareTag("MagicPic"))
-		{
-			picType = isInPicType.isInMagicPic;
-		}
-		else if (collision.gameObject.CompareTag("AssassinPic"))
-		{
-			picType = isInPicType.isInAssassinPic;
-		}
-		else if (collision.gameObject.CompareTag("KnightPic"))
-		{
-			picType = isInPicType.isInKnightPic;
-		}
-		else if(collision.gameObject.CompareTag("DragonPowerPic"))
-		{
-			picType = isInPicType.isInDragonPowerPic;
 
-			if(collision.gameObject.name == "DragonPowerPic" + checkindex.ToString())
-			{
-				checkindex++;
-			}
-			else
-			{
-				checkindex = 0;
-			}
-			if(checkindex == dragonPowerCount)
-			{
-				Debug.Log("Player1 has Dragon Power");
-			}
-			/* 
-
-			for(int i = 0; i < dragonPowerCount; i++)
-			{
-				if(collision.gameObject.name == "DragonPowerPic" + i.ToString())
-				{
-					isDragonPowerPic[i] = true;
-					Debug.Log("DragonPowerPic" + i.ToString());
-					Debug.Log(i + "true");
-				}
-				else
-				{
-					isDragonPowerPic[i] = false;
-				}
-			}
-			*/
-		}
-		else if(collision.gameObject.CompareTag("MagicPowerPic"))
-		{
-			picType = isInPicType.isInMagicPowerPic;
-			for(int i = 0; i < magicPowerCount; i++)
-			{
-				if(collision.gameObject.name == "MagicPowerPic" + i.ToString())
-				{
-					isMagicPowerPic[i] = true;
-				}
-				else
-				{
-					isMagicPowerPic[i] = false;
-				}
-			}
-		}
-		else if(collision.gameObject.CompareTag("AssassinPowerPic"))
-		{
-			picType = isInPicType.isInAssassinPowerPic;
-			for(int i = 0; i < assassinPowerCount; i++)
-			{
-				if(collision.gameObject.name == "AssassinPowerPic" + i.ToString())
-				{
-					isAssassinPowerPic[i] = true;
-				}
-				else
-				{
-					isAssassinPowerPic[i] = false;
-				}
-			}
-		}
-		else if(collision.gameObject.CompareTag("KnightPowerPic"))
-		{
-			picType = isInPicType.isInKnightPowerPic;
-			for(int i = 0; i < knightPowerCount; i++)
-			{
-				if(collision.gameObject.name == "KnightPowerPic" + i.ToString())
-				{
-					isKnightPowerPic[i] = true;
-				}
-				else
-				{
-					isKnightPowerPic[i] = false;
-				}
-			}
-		}
-		else if(collision.gameObject.CompareTag("BossPowerPic"))
-		{
-			picType = isInPicType.isInBossPowerPic;
-			for(int i = 0; i < bossPowerCount; i++)
-			{
-				if(collision.gameObject.name == "BossPowerPic" + i.ToString())
-				{
-					isBossPowerPic[i] = true;
-				}
-				else
-				{
-					isBossPowerPic[i] = false;
-				}
-			}
-		}
-		else
-		{
-			picType = isInPicType.defaultType;
-		}
-		
-	}
-
-	void FixedUpdate()
-	{
 		if(gameObject.CompareTag("Player1"))
 		{
-			Player1TurnCheck();
-		}
-		else if(gameObject.CompareTag("Player2"))
+			CheckPlayer1Trigger(collision);
+		}else if(gameObject.CompareTag("Player2"))
 		{
-			Player2TurnCheck();
+			CheckPlayer2Trigger(collision);
 		}
 	}
+
+	
 
 	void TurnEffect()
 	{
 		GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
 		Destroy(smoke, 1);
-		//Instantiate(redCross, transform.position, Quaternion.identity);
-		Instantiate(redCross, new Vector3(-11,6,0), Quaternion.identity);
 	}
 
-	void Player1TurnCheck()
-	{	
-		switch(picType)
-		{
-			case isInPicType.isInDragonPic:
-				if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter.Dragon && 
-					Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Dragon)
-				{
-					Player1Status_Level2._instance.playerCharacter = PlayerCharacter.Dragon;
-					TurnEffect();
-					//spriteRender.sprite = sprite[0];
-					//animator.runtimeAnimatorController = catController;
-					Debug.Log("Player1 turn into Dragon");
-				}
-				break;
-			case isInPicType.isInMagicPic:
-				if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter.Magic &&
-					Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Magic)
-				{
-					Player1Status_Level2._instance.playerCharacter = PlayerCharacter.Magic;
-					TurnEffect();
-					//spriteRender.sprite = sprite[0];
-					//animator.runtimeAnimatorController = catController;
-					Debug.Log("Player1 turn into Magic");
-				}
-				break;
-			case isInPicType.isInAssassinPic:
-				if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter.Assassin &&
-					Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Assassin)
-				{
-					Player1Status_Level2._instance.playerCharacter = PlayerCharacter.Assassin;
-					TurnEffect();
-					//spriteRender.sprite = sprite[0];
-					//animator.runtimeAnimatorController = catController;
-					Debug.Log("Player1 turn into Assassin");
-				}
-				break;
-			case isInPicType.isInKnightPic:
-				if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter.Knight &&
-					Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Knight)
-				{
-					Player1Status_Level2._instance.playerCharacter = PlayerCharacter.Knight;
-					TurnEffect();
-					//spriteRender.sprite = sprite[0];
-					//animator.runtimeAnimatorController = catController;
-					Debug.Log("Player1 turn into Knight");
-				}
-				break;
-			case isInPicType.isInBossPic:
-				if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter.Boss &&
-					Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Boss)
-				{
-					Player1Status_Level2._instance.playerCharacter = PlayerCharacter.Boss;
-					TurnEffect();
-					//spriteRender.sprite = sprite[0];
-					//animator.runtimeAnimatorController = catController;
-					Debug.Log("Player1 turn into Boss");
-				}
-				break;
-			case isInPicType.isInDragonPowerPic:
-				Debug.Log(powerIndex + "h");
-				if(isDragonPowerPic[powerIndex])
-				{	
-					Debug.Log(powerIndex);
-					powerIndex++;
-					if(powerIndex == dragonPowerCount)
-					{
-						Player1Status_Level2._instance.playerPower = PlayerPower.DragonPower;
-						Debug.Log("Player1 has Dragon Power");
-					}
-				}else
-				{
-					powerIndex = 0;
-				}
-				break;
-			case isInPicType.isInMagicPowerPic:
-				if(isMagicPowerPic[powerIndex])
-				{
-					powerIndex++;
-					if(powerIndex == magicPowerCount)
-					{
-						Player1Status_Level2._instance.playerPower = PlayerPower.MagicPower;
-						Debug.Log("Player1 has Magic Power");
-					}
-				}else
-				{
-					powerIndex = 0;
-				}
-				break;
-			case isInPicType.isInAssassinPowerPic:
-				if(isAssassinPowerPic[powerIndex])
-				{
-					powerIndex++;
-					if(powerIndex == assassinPowerCount)
-					{
-						Player1Status_Level2._instance.playerPower = PlayerPower.AssassinPower;
-						Debug.Log("Player1 has Assassin Power");
-					}
-				}else
-				{
-					powerIndex = 0;
-				}
-				break;
-			case isInPicType.isInKnightPowerPic:
-				if(isKnightPowerPic[powerIndex])
-				{
-					powerIndex++;
-					if(powerIndex == knightPowerCount)
-					{
-						Player1Status_Level2._instance.playerPower = PlayerPower.KnightPower;
-						Debug.Log("Player1 has Knight Power");
-					}
-				}else
-				{
-					powerIndex = 0;
-				}
-				break;
-			case isInPicType.isInBossPowerPic:
-				if(isBossPowerPic[powerIndex])
-				{
-					powerIndex++;
-					if(powerIndex == bossPowerCount)
-					{
-						Player1Status_Level2._instance.playerPower = PlayerPower.BossPower;
-						Debug.Log("Player1 has Boss Power");
-					}
-				}else
-				{
-					powerIndex = 0;
-				}
-				break;
-			case isInPicType.defaultType:
-			break;
-		}
-			
+	void CharacterRedCrossEffect(Collider2D collision)
+	{
+		characterRedCross = (GameObject)Instantiate(redCross, collision.transform.position, Quaternion.identity);
 	}
 
-	void Player2TurnCheck()
-	{	
-		switch(picType)
-		{
-			case isInPicType.isInDragonPic:
-				if(Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Dragon)
-				{
-					Player2Status_Level2._instance.playerCharacter = PlayerCharacter.Dragon;
-					TurnEffect();
-					//spriteRender.sprite = sprite[0];
-					//animator.runtimeAnimatorController = catController;
-					Debug.Log("Player2 turn into Dragon");
-				}
-				break;
-			case isInPicType.isInMagicPic:
-				if(Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Magic)
-				{
-					Player2Status_Level2._instance.playerCharacter = PlayerCharacter.Magic;
-					TurnEffect();
-					//spriteRender.sprite = sprite[0];
-					//animator.runtimeAnimatorController = catController;
-					Debug.Log("Player2 turn into Magic");
-				}
-				break;
-			case isInPicType.isInAssassinPic:
-				if(Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Assassin)
-				{
-					Player2Status_Level2._instance.playerCharacter = PlayerCharacter.Assassin;
-					TurnEffect();
-					//spriteRender.sprite = sprite[0];
-					//animator.runtimeAnimatorController = catController;
-					Debug.Log("Player2 turn into Assassin");
-				}
-				break;
-			case isInPicType.isInKnightPic:
-				if(Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Knight)
-				{
-					Player2Status_Level2._instance.playerCharacter = PlayerCharacter.Knight;
-					TurnEffect();
-					//spriteRender.sprite = sprite[0];
-					//animator.runtimeAnimatorController = catController;
-					Debug.Log("Player2 turn into Knight");
-				}
-				break;
-			case isInPicType.isInBossPic:
-				if(Player1Status_Level2._instance.playerCharacter != PlayerCharacter.Boss)
-				{
-					Player2Status_Level2._instance.playerCharacter = PlayerCharacter.Boss;
-					TurnEffect();
-					//spriteRender.sprite = sprite[0];
-					//animator.runtimeAnimatorController = catController;
-					Debug.Log("Player2 turn into Boss");
-				}
-				break;
-			case isInPicType.isInDragonPowerPic:
-				if(isDragonPowerPic[powerIndex])
-				{
-					powerIndex++;
-					if(powerIndex == dragonPowerCount)
-					{
-						Player2Status_Level2._instance.playerPower = PlayerPower.DragonPower;
-						Debug.Log("Player2 has Dragon Power");
-					}
-				}else
-				{
-					powerIndex = 0;
-				}
-				break;
-			case isInPicType.isInMagicPowerPic:
-				if(isMagicPowerPic[powerIndex])
-				{
-					powerIndex++;
-					if(powerIndex == magicPowerCount)
-					{
-						Player2Status_Level2._instance.playerPower = PlayerPower.MagicPower;
-						Debug.Log("Player2 has Magic Power");
-					}
-				}else
-				{
-					powerIndex = 0;
-				}
-				break;
-			case isInPicType.isInAssassinPowerPic:
-				if(isAssassinPowerPic[powerIndex])
-				{
-					powerIndex++;
-					if(powerIndex == assassinPowerCount)
-					{
-						Player2Status_Level2._instance.playerPower = PlayerPower.AssassinPower;
-						Debug.Log("Player2 has Assassin Power");
-					}
-				}else
-				{
-					powerIndex = 0;
-				}
-				break;
-			case isInPicType.isInKnightPowerPic:
-				if(isKnightPowerPic[powerIndex])
-				{
-					powerIndex++;
-					if(powerIndex == knightPowerCount)
-					{
-						Player2Status_Level2._instance.playerPower = PlayerPower.KnightPower;
-						Debug.Log("Player2 has Knight Power");
-						
-					}
-				}else
-				{
-					powerIndex = 0;
-				}
-				break;
-			case isInPicType.isInBossPowerPic:
-				if(isBossPowerPic[powerIndex])
-				{
-					powerIndex++;
-					if(powerIndex == bossPowerCount)
-					{
-						Player2Status_Level2._instance.playerPower = PlayerPower.BossPower;
-						Debug.Log("Player2 has Boss Power");
-					}
-				}else
-				{
-					powerIndex = 0;
-				}
-				break;
-			case isInPicType.defaultType:
-				powerIndex = 0;
-				break;
-		}
-			
+	void RedCrossEffect(Collider2D collision)
+	{
+		GameObject rc = (GameObject)Instantiate(redCross, collision.transform.position, Quaternion.identity);
+		AddPowerRedCrossToList(rc);
 	}
 }
