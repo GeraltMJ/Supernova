@@ -24,14 +24,32 @@ public class PlayerMove_Level2 : MonoBehaviour
 
 	private Vector2 nextPosition;
 	private FaceDirection nextDir;
-	private FaceDirection dirToSend;
-	private Vector2 positionToSend;
-
-	private Rigidbody2D rb2d;
+	private AudioSource[] audioSources;
+	private AudioSource audioSource;
+	public AudioClip stepSound;
 
 	public void SetNextPosition(Vector2 pos)
 	{
 		nextPosition = pos;
+	}
+
+	public void SetDir(int number)
+	{
+		switch(number)
+		{
+			case 0:
+				dir = FaceDirection.Up;
+				break;
+			case 1:
+				dir = FaceDirection.Down;
+				break;
+			case 2:
+				dir = FaceDirection.Left;
+				break;
+			case 3:
+				dir = FaceDirection.Right;
+				break;
+		}
 	}
 
 	public void SetDirection(int number)
@@ -104,57 +122,6 @@ public class PlayerMove_Level2 : MonoBehaviour
 		oldPosition.y = Mathf.RoundToInt(oldPosition.y);
 		transform.position = oldPosition;
 	}
-	public void MoveRight()
-	{	
-		//CameraMove("RightMove");
-		
-		SmokeEffect();
-		Vector3 oldPosition = transform.position;
-		oldPosition.x += 1;
-		transform.position = oldPosition;
-
-		isMoving = true;
-		
-	}
-
-	public void MoveLeft()
-	{	
-		
-		//CameraMove("LeftMove");
-		
-		SmokeEffect();
-		Vector3 oldPosition = transform.position;
-		oldPosition.x -= 1;
-		transform.position = oldPosition;
-		
-		isMoving = true;
-		
-	}
-
-	public void MoveUp()
-	{	
-		//CameraMove("UpMove");
-		
-		SmokeEffect();
-		Vector3 oldPosition = transform.position;
-		oldPosition.y += 1;
-		transform.position = oldPosition;
-		
-		isMoving = true;
-		
-	}
-
-	public void MoveDown()
-	{
-		//CameraMove("DownMove");
-		
-		SmokeEffect();
-		Vector3 oldPosition = transform.position;
-		oldPosition.y -= 1;
-		transform.position = oldPosition;
-		
-		isMoving = true;
-	}
 
 	public void TimeCheck()
 	{
@@ -188,6 +155,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 			dir = FaceDirection.Right;
 			anim.SetTrigger("RightWalk");
 		}
+		
 	}
 	
 	
@@ -292,6 +260,8 @@ public class PlayerMove_Level2 : MonoBehaviour
 			{
 				isMoving = false;
 				FixPosition();
+				audioSource.clip = stepSound;
+				audioSource.Play();
 			}
 		}
 	}
@@ -301,9 +271,11 @@ public class PlayerMove_Level2 : MonoBehaviour
 		anim = GetComponent<Animator>();
 		//camAnimator = cam.GetComponent<Animator>();
 		tcpClient = networkManager.GetComponent<TcpClient_Level2>();
-		nextPosition = transform.position;
+		nextPosition = new Vector2(transform.position.x, transform.position.y - 1);
 		nextDir = FaceDirection.Down;
-		rb2d = GetComponent<Rigidbody2D>();
+		audioSources = GetComponents<AudioSource>();
+		audioSource = audioSources[1];
+
 	}
 
 	void FixCameraPosition()
@@ -342,71 +314,13 @@ public class PlayerMove_Level2 : MonoBehaviour
 		
 	}
 	
-	/* 
-	void PlayerControlMove()
-	{
-		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1 ) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
-		{
-			if ((Input.GetKeyDown(KeyCode.W) || ETCInput.GetAxisPressedUp("Vertical")))
-			{
-				dir = FaceDirection.Up;
-			}
-			else if(Input.GetKeyDown(KeyCode.S) || ETCInput.GetAxisPressedDown("Vertical"))
-			{
-				dir = FaceDirection.Down;
-			}
-			else if(Input.GetKeyDown(KeyCode.A) || ETCInput.GetAxisPressedLeft("Horizontal"))
-			{
-				dir = FaceDirection.Left;
-			}
-			else if(Input.GetKeyDown(KeyCode.D) || ETCInput.GetAxisPressedRight("Horizontal"))
-			{
-				dir = FaceDirection.Right;
-			}
-		}
-		
-		switch(dirToSend)
-		{
-			case FaceDirection.Up:
-				positionToSend = new Vector2(transform.position.x, transform.position.y + 1);
-				break;
-			case FaceDirection.Down:
-				positionToSend = new Vector2(transform.position.x, transform.position.y - 1);
-				break;
-			case FaceDirection.Left:
-				positionToSend = new Vector2(transform.position.x - 1, transform.position.y);
-				break;
-			case FaceDirection.Right:
-				positionToSend = new Vector2(transform.position.x+1, transform.position.y);
-				break;
-		}
-		
-	}
-	void MoveAccordingToNext()
+	void MoveAccordingToServer()
 	{
 		if(!isMoving)
-		{
-			switch(dir)
-			{
-				case FaceDirection.Up:
-					anim.SetTrigger("UpWalk");
-					endPosition = new Vector2(transform.position.x, transform.position.y + 1);
-					break;
-				case FaceDirection.Down:
-					anim.SetTrigger("DownWalk");
-					endPosition = new Vector2(transform.position.x, transform.position.y - 1);
-					break;
-				case FaceDirection.Left:
-					anim.SetTrigger("LeftWalk");
-					endPosition = new Vector2(transform.position.x - 1, transform.position.y);
-					break;
-				case FaceDirection.Right:
-					anim.SetTrigger("RightWalk");
-					endPosition = new Vector2(transform.position.x+1, transform.position.y);
-					break;
-			}
+		{	
 			process = 0;
 			isMoving = true;
+			endPosition = nextPosition;
 		}
 		if(isMoving)
 		{
@@ -414,22 +328,57 @@ public class PlayerMove_Level2 : MonoBehaviour
 			if(process < 1)
 			{
 				transform.position = Vector2.Lerp(transform.position, endPosition, process);
-				if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1 ) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
+				if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
 				{
 					FixCameraPosition();
 				}
+				Debug.Log(process);
+				//tcpClient.SendCurrentInfo(transform.position, dir);
 			}
 			else
 			{
-				isMoving = false;
 				FixPosition();
+				Vector2 predictPosition = new Vector2(0f,0f);
+				switch(dir)
+				{
+					case FaceDirection.Up:
+						predictPosition = new Vector2(transform.position.x, transform.position.y + 1);
+						break;
+					case FaceDirection.Down:
+						predictPosition = new Vector2(transform.position.x, transform.position.y - 1);
+						break;
+					case FaceDirection.Left:
+						predictPosition = new Vector2(transform.position.x - 1, transform.position.y);
+						break;
+					case FaceDirection.Right:
+						predictPosition = new Vector2(transform.position.x + 1, transform.position.y);
+						break;
+				}
+				
+				if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1))
+				{
+					tcpClient.SendPlayerCurrentInfo(predictPosition, dir,1);
+				}
+				else if((gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
+				{
+					tcpClient.SendPlayerCurrentInfo(predictPosition, dir,2);
+				}
+				isMoving = false;
 			}
 		}
 	}
-	void FixedUpdate()
-	{	
-		PlayerControlMove();
-		MoveAccordingToNext();
+
+	
+	/* 
+	private void FixedUpdate()
+	{
+		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
+		{
+			ControlMove();
+		}
+		MoveAccordingToServer();
 	}
 	*/
+	
+	
 }

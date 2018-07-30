@@ -31,7 +31,9 @@ public class Player1Status_Level2 : MonoBehaviour {
 	private bool isDead = false;
 	private PlayerAttack_Level2 attack;
 	private PlayerMove_Level2 move;
-	private AudioSource audio;
+	private AudioSource[] audioSources;
+	private AudioSource audioSource;
+	public AudioClip bloodSound;
 	private Camera cam;
 
 	public Text heartText;
@@ -39,6 +41,8 @@ public class Player1Status_Level2 : MonoBehaviour {
 	public Image weaponImage;
 
 	public Sprite defaultWeapon, dragonWeapon, knightWeapon, magicWeapon, assassinWeapon, bossWeapon;
+
+	public GameObject bloodEffect;
 
 	private float attackBuffRemain = 10.0f;
 	private float damageReflectRemain = 10.0f;
@@ -54,7 +58,8 @@ public class Player1Status_Level2 : MonoBehaviour {
 		cam = Camera.main;
 		attack = GetComponent<PlayerAttack_Level2>();
 		move = GetComponent<PlayerMove_Level2>();
-		audio = GetComponent<AudioSource>();
+		audioSources = GetComponents<AudioSource>();
+		audioSource = audioSources[0];
 		damageReflectText.enabled = false;
 		attackBuffText.enabled = false;
 		overPoisonText.enabled = false;
@@ -188,8 +193,11 @@ public class Player1Status_Level2 : MonoBehaviour {
 	{
 		if (!isDead)
 		{
-			audio.Play();
+			audioSource.clip = bloodSound;
+			audioSource.Play();
 			_instance.hp -= damage;
+			GameObject blood = (GameObject)Instantiate(bloodEffect, transform.position, Quaternion.identity);
+			Destroy(blood.gameObject,1);
 			Debug.Log("Player1收到了" + damage + "点伤害");
 			if (_instance.hp <= 0)
 			{

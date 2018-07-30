@@ -19,6 +19,10 @@ public class PlayerAttack_Level2 : MonoBehaviour {
 	public GameObject networkManager;
 	private TcpClient_Level2 tcpClient;
 
+	public AudioClip dragonAttack, knightAttack, magicAttack, assassinAttack, bossAttack;
+	private AudioSource audioSource;
+	private AudioSource[] audioSources;
+
 	public bool autoAttack;
 
 	public void SetCurrentCommand(string str)
@@ -30,6 +34,8 @@ public class PlayerAttack_Level2 : MonoBehaviour {
 	{
 		anim = GetComponent<Animator>();
 		tcpClient = networkManager.GetComponent<TcpClient_Level2>();
+		audioSources = GetComponents<AudioSource>();
+		audioSource = audioSources[0];
 	}
 
 	void FixedUpdate()
@@ -115,49 +121,61 @@ public class PlayerAttack_Level2 : MonoBehaviour {
 			{
 				case PlayerPower_Level2.DragonPower:
 					bullet = dragonBullet;
+					audioSource.clip = dragonAttack;
 					break;
 				case PlayerPower_Level2.KnightPower:
 					bullet = knightBullet;
+					audioSource.clip = knightAttack;
 					break;
 				case PlayerPower_Level2.MagicPower:
 					bullet = magicBullet;
+					audioSource.clip = magicAttack;
 					break;
 				case PlayerPower_Level2.AssassinPower:
 					bullet = assassinBullet;
+					audioSource.clip = assassinAttack;
 					break;
 				case PlayerPower_Level2.BossPower:
 					bullet = bossBullet;
+					audioSource.clip = bossAttack;
 					break;
 				case PlayerPower_Level2.Default:
 					bullet = null;
+					audioSource.clip = null;
 					break;
 			}
 		}
 		else if(gameObject.CompareTag("Player2"))
 		{
-			switch(Player1Status_Level2._instance.playerPower)
+			switch(Player2Status_Level2._instance.playerPower)
 			{
 				case PlayerPower_Level2.DragonPower:
 					bullet = dragonBullet;
+					audioSource.clip = dragonAttack;
 					break;
 				case PlayerPower_Level2.KnightPower:
 					bullet = knightBullet;
+					audioSource.clip = knightAttack;
 					break;
 				case PlayerPower_Level2.MagicPower:
 					bullet = magicBullet;
+					audioSource.clip = magicAttack;
 					break;
 				case PlayerPower_Level2.AssassinPower:
 					bullet = assassinBullet;
+					audioSource.clip = assassinAttack;
 					break;
 				case PlayerPower_Level2.BossPower:
 					bullet = bossBullet;
+					audioSource.clip = bossAttack;
 					break;
 				case PlayerPower_Level2.Default:
 					bullet = null;
+					audioSource.clip = null;
 					break;
 			}
 		}
-
+		audioSource.Play();
 		switch (faceDir)
 		{
 			case FaceDirection.Up:

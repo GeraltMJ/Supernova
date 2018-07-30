@@ -57,12 +57,12 @@ public class TcpClient_Level2 : MonoBehaviour
 		if(player == 1)
 		{
 			em1.SetNextPosition(positionToSet);
-			em1.SetDirection(dirCount);
+			em1.SetDir(dirCount);
 		}
 		else if(player == 2)
 		{
 			em2.SetNextPosition(positionToSet);
-			em2.SetDirection(dirCount);
+			em2.SetDir(dirCount);
 		}
 	}
 
@@ -102,20 +102,28 @@ public class TcpClient_Level2 : MonoBehaviour
 			recvLen = serverSocket.Receive(recvData);
 			recvStr = Encoding.ASCII.GetString(recvData,0,1);
 
-			if(recvStr == "G")
+			if(recvStr == "R")
 			{
-				PlayerStatusControl_Level2._instance.gameStart = true;
-				Debug.Log("Game Will Start in 3 seconds");
+				PlayerStatusControl_Level2._instance.twoReady = true;
+				Debug.Log("Two Players ready");
 			}
 		}else if(recvStr == "2")
 		{
 			PlayerStatusControl_Level2._instance.isPlayer1 = false;
-			PlayerStatusControl_Level2._instance.gameStart = true;
-			Debug.Log("Game Will Start in 3 seconds");
+			PlayerStatusControl_Level2._instance.twoReady = true;
+			Debug.Log("Two Playes ready");
 		}
 		else
 		{
 			Debug.Log("unknown player");
+		}
+
+		recvData = new byte[1024];
+		recvLen = serverSocket.Receive(recvData);
+		recvStr = Encoding.ASCII.GetString(recvData,0,1);
+		if(recvStr == "G")
+		{
+			PlayerStatusControl_Level2._instance.enemyCheck = true;
 		}
 
 		while(true)

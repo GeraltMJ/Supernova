@@ -8,6 +8,10 @@ public class Bullet_Level2 : MonoBehaviour {
 	public GameObject explosion;
 	private GameObject explo;
 
+	void Start() {
+		
+	}
+
 	void Update () {
 
 		transform.Translate(Vector3.right * speed * Time.deltaTime);
@@ -39,7 +43,7 @@ public class Bullet_Level2 : MonoBehaviour {
 					}
 				}
 				explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
-				Destroy(explo,0.5f);
+				Destroy(explo,1);
 				Destroy(gameObject);
 			}
 		}
@@ -64,7 +68,7 @@ public class Bullet_Level2 : MonoBehaviour {
 				}
 				
 				explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
-				Destroy(explo,0.5f);
+				Destroy(explo,1);
 				Destroy(gameObject);
 			}
 		}

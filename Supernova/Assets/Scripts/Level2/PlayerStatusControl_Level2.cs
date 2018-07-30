@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerStatusControl_Level2 : MonoBehaviour {
 
@@ -19,18 +20,30 @@ public class PlayerStatusControl_Level2 : MonoBehaviour {
 	public bool gameStart = false;
 	private bool onGame = false;
 	private bool first = true;
-	private AudioSource audio;
+	private AudioSource audioSource;
+	public Image win_lose_Image;
+	public Sprite winPic, losePic;
+	public Image win_lose_black;
 
 	public bool player1Win = false;
 	public bool player2Win = false;
 
+	public GameObject restartButton, startButton;
+	private bool gameOver = false;
+	public bool twoReady = false;
+	private TcpClient_Level2 tcpClient;
+	public bool selfCheck = false;
+	public bool enemyCheck = false;
+
+
+/*
 	void CheckGameStart()
 	{
 		if(gameStart)
 		{	
 			if(first)
 			{
-				audio.Play();
+				audioSource.Play();
 				first = false;
 			}
 			if(remainSeconds > 0f)
@@ -57,6 +70,7 @@ public class PlayerStatusControl_Level2 : MonoBehaviour {
 			}
 		}
 	}
+	*/
 	void Awake()
 	{
 		_instance = this;
@@ -67,51 +81,86 @@ public class PlayerStatusControl_Level2 : MonoBehaviour {
 		remainSeconds = 3f;
 		durationSeconds = 0;
 		text.text = "Wait for another player";
-		audio = GetComponent<AudioSource>();
+		audioSource = GetComponent<AudioSource>();
+		win_lose_Image.enabled = false;
+		win_lose_black.enabled = false;
+		tcpClient = GetComponent<TcpClient_Level2>();
+		
 
 	}
 
 	void Update()
 	{
-		if(player1Win)
+		if(!gameOver)
 		{
-			if(isPlayer1)
+			if(player1Win)
 			{
-				text.text = "Winner Winner Chicken Dinner";
-			}else
-			{
-				text.text = "<<<< Loser >>>>";
+				if(isPlayer1)
+				{
+					win_lose_Image.sprite = winPic;
+				}else
+				{
+					win_lose_Image.sprite = losePic;
+				}
+				win_lose_Image.enabled = true;
+				win_lose_black.enabled = true;
+				player1Move.enabled = false;
+				player2Move.enabled = false;
+				restartButton.SetActive(true);
+				gameOver = true;
 			}
-			player1Move.enabled = false;
-			player2Move.enabled = false;
+			else if(player2Win)
+			{
+				if(!isPlayer1)
+				{
+					win_lose_Image.sprite = winPic;
+				}else
+				{
+					win_lose_Image.sprite = losePic;
+				}
+				win_lose_Image.enabled = true;
+				win_lose_black.enabled = true;
+				player1Move.enabled = false;
+				player2Move.enabled = false;
+				restartButton.SetActive(true);
+				gameOver = true;
+			}
 		}
-		else if(player2Win)
+		else
 		{
-			if(!isPlayer1)
+			if(ETCInput.GetButton("RestartButton"))
 			{
-				text.text = "Winner Winner Chicken Dinner";
-			}else
-			{
-				text.text = "<<<< Loser >>>>";
+				SceneManager.LoadScene("02_GamePlay",LoadSceneMode.Single);
 			}
-			player1Move.enabled = false;
-			player2Move.enabled = false;
+		}
+	}
+	void WaitForStart()
+	{
+		if(!selfCheck)
+		{
+			if(ETCInput.GetButton("StartButton"))
+			{
+				tcpClient.SendSelfCommand("G");
+				startButton.SetActive(false);
+				selfCheck = true;
+			}
 		}
 	}
 	void FixedUpdate()
 	{	
-		if(!onGame)
+		if(twoReady)
 		{
-			CheckGameStart();
-		}else
+			WaitForStart();
+		}
+		if(selfCheck && enemyCheck)
 		{
-			if(durationSeconds > 0)
+			if(first)
 			{
-				durationSeconds -= Time.deltaTime;
-			}
-			else
-			{
+				audioSource.Play();
+				first = false;
 				text.text = "";
+				player1Move.enabled = true;
+				player2Move.enabled = true;
 			}
 		}
 	}

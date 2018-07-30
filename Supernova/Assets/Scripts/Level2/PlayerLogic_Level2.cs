@@ -42,6 +42,10 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 	private float assassinHp = 8f;
 	private float bossHp = 20f;
 
+	public AudioClip buffSound, dragonAttack, knightAttack, magicAttack, assassinAttack, bossAttack;
+	private AudioSource audioSource;
+	private AudioSource[] audioSources;
+
 	void Awake() {
 		spriteRender = this.GetComponent<SpriteRenderer>();
 		animator = this.GetComponent<Animator>();
@@ -50,6 +54,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 	void Start()
 	{
 		powerRedCrossToDelete = new GameObject[50];
+		audioSources = GetComponents<AudioSource>();
+		audioSource = audioSources[0];
 	}
 
 	void ChangeToArea(Collider2D collision)
@@ -124,6 +130,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[0];
 				animator.runtimeAnimatorController = dragonController;
+				audioSource.clip = dragonAttack;
+				audioSource.Play();
 				Debug.Log("Player1 turn into Dragon");
 			}
 			powerIndex = 0;
@@ -141,6 +149,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[1];
 				animator.runtimeAnimatorController = knightController;
+				audioSource.clip = knightAttack;
+				audioSource.Play();
 				Debug.Log("Player1 turn into Knight");
 			}
 			powerIndex = 0;
@@ -158,6 +168,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[2];
 				animator.runtimeAnimatorController = magicController;
+				audioSource.clip = magicAttack;
+				audioSource.Play();
 				Debug.Log("Player1 turn into Magic");
 			}
 			powerIndex = 0;
@@ -175,6 +187,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[3];
 				animator.runtimeAnimatorController = assassinController;
+				audioSource.clip = assassinAttack;
+				audioSource.Play();
 				Debug.Log("Player1 turn into Assassin");
 			}
 			powerIndex = 0;
@@ -192,6 +206,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[4];
 				animator.runtimeAnimatorController = bossController;
+				audioSource.clip = bossAttack;
+				audioSource.Play();
 				Debug.Log("Player1 turn into Boss");
 			}
 			powerIndex = 0;
@@ -217,6 +233,9 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					float percent = Player1Status_Level2._instance.hp / Player1Status_Level2._instance.maxHp;
 					Player1Status_Level2._instance.hp = Mathf.RoundToInt(percent * dragonHp);
 					Player1Status_Level2._instance.maxHp = dragonHp;
+
+					audioSource.clip = dragonAttack;
+					audioSource.Play();
 
 					Debug.Log("Player1 has Dragon Power");
 					TurnEffect();
@@ -245,6 +264,9 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					Player1Status_Level2._instance.hp = Mathf.RoundToInt(percent * knightHp);
 					Player1Status_Level2._instance.maxHp = knightHp;
 
+					audioSource.clip = knightAttack;
+					audioSource.Play();
+
 					Debug.Log("Player1 has Knight Power");
 					TurnEffect();
 				}
@@ -271,6 +293,9 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					float percent = Player1Status_Level2._instance.hp / Player1Status_Level2._instance.maxHp;
 					Player1Status_Level2._instance.hp = Mathf.RoundToInt(percent * magicHp);
 					Player1Status_Level2._instance.maxHp = magicHp;
+
+					audioSource.clip = magicAttack;
+					audioSource.Play();
 
 					Debug.Log("Player1 has Magic Power");
 					TurnEffect();
@@ -299,6 +324,9 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					Player1Status_Level2._instance.hp = Mathf.RoundToInt(percent * assassinHp);
 					Player1Status_Level2._instance.maxHp = assassinHp;
 
+					audioSource.clip = assassinAttack;
+					audioSource.Play();
+
 					Debug.Log("Player1 has Assassin Power");
 					TurnEffect();
 				}
@@ -325,6 +353,9 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					float percent = Player1Status_Level2._instance.hp / Player1Status_Level2._instance.maxHp;
 					Player1Status_Level2._instance.hp = Mathf.RoundToInt(percent * bossHp);
 					Player1Status_Level2._instance.maxHp = bossHp;
+
+					audioSource.clip = bossAttack;
+					audioSource.Play();
 
 					Debug.Log("Player1 has Boss Power");
 					TurnEffect();
@@ -406,6 +437,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == addOneCount)
 			{
 				Player1Status_Level2._instance.Recover(1f);
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				RecoverEffect();
 				Debug.Log("Player1 recorve 1 hp");
 			}
@@ -424,6 +457,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == addTwoCount)
 			{
 				Player1Status_Level2._instance.Recover(2f);
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				RecoverEffect();
 				Debug.Log("Player1 recorve 2 hp");
 			}
@@ -442,6 +477,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == overPoisonCount)
 			{
 				Player1Status_Level2._instance.overPoison = true;
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				Debug.Log("Player1 is poison no effect");
 			}
 		}
@@ -459,6 +496,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == overAreaCount)
 			{
 				Player1Status_Level2._instance.overArea = true;
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				Debug.Log("Player1 is area no effect");
 			}
 		}
@@ -476,6 +515,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == damageReflectCount)
 			{
 				Player1Status_Level2._instance.damageReflect = true;
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				Debug.Log("Player1 is damage Reflect");
 			}
 		}
@@ -493,6 +534,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == attackBuffCount)
 			{
 				Player1Status_Level2._instance.attackBuff = true;
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				Debug.Log("Player1 is attack buff");
 			}
 		}
@@ -528,6 +571,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[0];
 				animator.runtimeAnimatorController = dragonController;
+				audioSource.clip = dragonAttack;
+				audioSource.Play();
 				Debug.Log("Player2 turn into Dragon");
 			}
 			powerIndex = 0;
@@ -545,6 +590,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[1];
 				animator.runtimeAnimatorController = knightController;
+				audioSource.clip = knightAttack;
+				audioSource.Play();
 				Debug.Log("Player2 turn into Knight");
 			}
 			powerIndex = 0;
@@ -562,6 +609,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[2];
 				animator.runtimeAnimatorController = magicController;
+				audioSource.clip = magicAttack;
+				audioSource.Play();
 				Debug.Log("Player2 turn into Magic");
 			}
 			powerIndex = 0;
@@ -579,6 +628,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[3];
 				animator.runtimeAnimatorController = assassinController;
+				audioSource.clip = assassinAttack;
+				audioSource.Play();
 				Debug.Log("Player2 turn into Assassin");
 			}
 			powerIndex = 0;
@@ -596,6 +647,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[4];
 				animator.runtimeAnimatorController = bossController;
+				audioSource.clip = bossAttack;
+				audioSource.Play();
 				Debug.Log("Player2 turn into Boss");
 			}
 			powerIndex = 0;
@@ -621,6 +674,9 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					float percent = Player2Status_Level2._instance.hp / Player2Status_Level2._instance.maxHp;
 					Player2Status_Level2._instance.hp = Mathf.RoundToInt(percent * dragonHp);
 					Player2Status_Level2._instance.maxHp = dragonHp;
+
+					audioSource.clip = dragonAttack;
+					audioSource.Play();
 
 					Debug.Log("Player2 has Dragon Power");
 					TurnEffect();
@@ -649,6 +705,9 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					Player2Status_Level2._instance.hp = Mathf.RoundToInt(percent * knightHp);
 					Player2Status_Level2._instance.maxHp = knightHp;
 
+					audioSource.clip = knightAttack;
+					audioSource.Play();
+
 					Debug.Log("Player2 has Knight Power");
 					TurnEffect();
 				}
@@ -675,6 +734,9 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					float percent = Player2Status_Level2._instance.hp / Player2Status_Level2._instance.maxHp;
 					Player2Status_Level2._instance.hp = Mathf.RoundToInt(percent * magicHp);
 					Player2Status_Level2._instance.maxHp = magicHp;
+
+					audioSource.clip = magicAttack;
+					audioSource.Play();
 
 					Debug.Log("Player2 has Magic Power");
 					TurnEffect();
@@ -703,6 +765,9 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					Player2Status_Level2._instance.hp = Mathf.RoundToInt(percent * assassinHp);
 					Player2Status_Level2._instance.maxHp = assassinHp;
 
+					audioSource.clip = assassinAttack;
+					audioSource.Play();
+
 					Debug.Log("Player2 has Assassin Power");
 					TurnEffect();
 				}
@@ -729,6 +794,9 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					float percent = Player2Status_Level2._instance.hp / Player2Status_Level2._instance.maxHp;
 					Player2Status_Level2._instance.hp = Mathf.RoundToInt(percent * bossHp);
 					Player2Status_Level2._instance.maxHp = bossHp;
+
+					audioSource.clip = bossAttack;
+					audioSource.Play();
 
 					Debug.Log("Player2 has Boss Power");
 					TurnEffect();
@@ -810,6 +878,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == addOneCount)
 			{
 				Player2Status_Level2._instance.Recover(1f);
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				RecoverEffect();
 				Debug.Log("Player2 recorve 1 hp");
 			}
@@ -828,6 +898,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == addTwoCount)
 			{
 				Player2Status_Level2._instance.Recover(2f);
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				RecoverEffect();
 				Debug.Log("Player2 recorve 2 hp");
 			}
@@ -846,6 +918,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == overPoisonCount)
 			{
 				Player2Status_Level2._instance.overPoison = true;
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				Debug.Log("Player2 is poison no effect");
 			}
 		}
@@ -863,6 +937,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == overAreaCount)
 			{
 				Player2Status_Level2._instance.overArea = true;
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				Debug.Log("Player2 is area no effect");
 			}
 		}
@@ -880,6 +956,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == damageReflectCount)
 			{
 				Player2Status_Level2._instance.damageReflect = true;
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				Debug.Log("Player2 is damage Reflect");
 			}
 		}
@@ -897,6 +975,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == attackBuffCount)
 			{
 				Player2Status_Level2._instance.attackBuff = true;
+				audioSource.clip = buffSound;
+				audioSource.Play();
 				Debug.Log("Player2 is attack buff");
 			}
 		}
