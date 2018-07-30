@@ -22,12 +22,14 @@ public class PlayerMove_Level2 : MonoBehaviour
 	private Vector2 endPosition;
 	private float process;
 
-	private Vector3 nextPosition;
+	private Vector2 nextPosition;
 	private FaceDirection nextDir;
+	private FaceDirection dirToSend;
+	private Vector2 positionToSend;
 
 	private Rigidbody2D rb2d;
 
-	public void SetNextPosition(Vector3 pos)
+	public void SetNextPosition(Vector2 pos)
 	{
 		nextPosition = pos;
 	}
@@ -69,7 +71,6 @@ public class PlayerMove_Level2 : MonoBehaviour
 		{
 			return;
 		}
-
 		switch(dir)
 		{
 			case FaceDirection.Down:
@@ -164,7 +165,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 			moveCD = false;
 		}
 	}
-
+	
 	void ControlMove()
 	{	
 		if ((Input.GetKeyDown(KeyCode.W) || ETCInput.GetAxisPressedUp("Vertical")))
@@ -188,7 +189,9 @@ public class PlayerMove_Level2 : MonoBehaviour
 			anim.SetTrigger("RightWalk");
 		}
 	}
-
+	
+	
+	/* 
 	void EnemyMove()
 	{
 		transform.position = nextPosition;
@@ -199,16 +202,59 @@ public class PlayerMove_Level2 : MonoBehaviour
 				anim.SetTrigger("UpWalk");
 				break;
 			case FaceDirection.Down:
-			anim.SetTrigger("DownWalk");
-			break;
+				anim.SetTrigger("DownWalk");
+				break;
 			case FaceDirection.Left:
-			anim.SetTrigger("LeftWalk");
-			break;
+				anim.SetTrigger("LeftWalk");
+				break;
 			case FaceDirection.Right:
-			anim.SetTrigger("RightWalk");
-			break;
+				anim.SetTrigger("RightWalk");
+				break;
 		}
 	}
+	*/
+	
+	
+	 
+	void EnemyMove()
+	{
+		dir = nextDir;
+		switch(dir)
+		{
+			case FaceDirection.Up:
+				anim.SetTrigger("UpWalk");
+				break;
+			case FaceDirection.Down:
+				anim.SetTrigger("DownWalk");
+				break;
+			case FaceDirection.Left:
+				anim.SetTrigger("LeftWalk");
+				break;
+			case FaceDirection.Right:
+				anim.SetTrigger("RightWalk");
+				break;
+		}
+		if(!isMoving)
+		{
+			endPosition = nextPosition;
+			process = 0;
+			isMoving = true;
+		}
+		if(isMoving)
+		{
+			process += Time.deltaTime*speed;
+			if(process < 1)
+			{
+				transform.position = Vector2.Lerp(transform.position, endPosition, process);
+			}
+			else
+			{
+				isMoving = false;
+				FixPosition();
+			}
+		}
+	}
+	
 
 	void NextMove()
 	{
@@ -231,7 +277,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 			}
 			process = 0;
 			isMoving = true;
-			tcpClient.SendCurrentInfo(transform.position, dir);
+			tcpClient.SendCurrentInfo(endPosition, dir);
 		}
 		if(isMoving)
 		{
@@ -240,6 +286,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 			{
 				transform.position = Vector2.Lerp(transform.position, endPosition, process);
 				FixCameraPosition();
+				//tcpClient.SendCurrentInfo(transform.position, dir);
 			}
 			else
 			{
@@ -264,6 +311,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 		cam.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
 	}
 
+	
 	private void FixedUpdate() 
 	{	
 		if(gameObject.name == "Player1")
@@ -293,4 +341,95 @@ public class PlayerMove_Level2 : MonoBehaviour
 		
 		
 	}
+	
+	/* 
+	void PlayerControlMove()
+	{
+		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1 ) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
+		{
+			if ((Input.GetKeyDown(KeyCode.W) || ETCInput.GetAxisPressedUp("Vertical")))
+			{
+				dir = FaceDirection.Up;
+			}
+			else if(Input.GetKeyDown(KeyCode.S) || ETCInput.GetAxisPressedDown("Vertical"))
+			{
+				dir = FaceDirection.Down;
+			}
+			else if(Input.GetKeyDown(KeyCode.A) || ETCInput.GetAxisPressedLeft("Horizontal"))
+			{
+				dir = FaceDirection.Left;
+			}
+			else if(Input.GetKeyDown(KeyCode.D) || ETCInput.GetAxisPressedRight("Horizontal"))
+			{
+				dir = FaceDirection.Right;
+			}
+		}
+		
+		switch(dirToSend)
+		{
+			case FaceDirection.Up:
+				positionToSend = new Vector2(transform.position.x, transform.position.y + 1);
+				break;
+			case FaceDirection.Down:
+				positionToSend = new Vector2(transform.position.x, transform.position.y - 1);
+				break;
+			case FaceDirection.Left:
+				positionToSend = new Vector2(transform.position.x - 1, transform.position.y);
+				break;
+			case FaceDirection.Right:
+				positionToSend = new Vector2(transform.position.x+1, transform.position.y);
+				break;
+		}
+		
+	}
+	void MoveAccordingToNext()
+	{
+		if(!isMoving)
+		{
+			switch(dir)
+			{
+				case FaceDirection.Up:
+					anim.SetTrigger("UpWalk");
+					endPosition = new Vector2(transform.position.x, transform.position.y + 1);
+					break;
+				case FaceDirection.Down:
+					anim.SetTrigger("DownWalk");
+					endPosition = new Vector2(transform.position.x, transform.position.y - 1);
+					break;
+				case FaceDirection.Left:
+					anim.SetTrigger("LeftWalk");
+					endPosition = new Vector2(transform.position.x - 1, transform.position.y);
+					break;
+				case FaceDirection.Right:
+					anim.SetTrigger("RightWalk");
+					endPosition = new Vector2(transform.position.x+1, transform.position.y);
+					break;
+			}
+			process = 0;
+			isMoving = true;
+		}
+		if(isMoving)
+		{
+			process += Time.deltaTime*speed;
+			if(process < 1)
+			{
+				transform.position = Vector2.Lerp(transform.position, endPosition, process);
+				if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1 ) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
+				{
+					FixCameraPosition();
+				}
+			}
+			else
+			{
+				isMoving = false;
+				FixPosition();
+			}
+		}
+	}
+	void FixedUpdate()
+	{	
+		PlayerControlMove();
+		MoveAccordingToNext();
+	}
+	*/
 }

@@ -36,6 +36,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 	private GameObject[] powerRedCrossToDelete;
 	private GameObject characterRedCross;
 
+	private float dragonHp = 18f;
+	private float knightHp = 12f;
+	private float magicHp = 12;
+	private float assassinHp = 8f;
+	private float bossHp = 20f;
+
 	void Awake() {
 		spriteRender = this.GetComponent<SpriteRenderer>();
 		animator = this.GetComponent<Animator>();
@@ -60,7 +66,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 
 	void BecomeInvisible()
 	{
-
+		spriteRender.sortingLayerName = "Background";
+	}
+	
+	void BecomeVisible()
+	{
+		spriteRender.sortingLayerName = "Player";
 	}
 
 	void RecoverEffect()
@@ -98,12 +109,16 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 
 	void CheckPlayer1Trigger(Collider2D collision)
 	{
+		bool visible = true;
+		bool attackBuffOnArea = false;
 		if (collision.gameObject.CompareTag("DragonPic"))
 		{
 			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Dragon 
 				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Dragon)
 			{	
 				Player1Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Dragon;
+				Player1Status_Level2._instance.playerPower = PlayerPower_Level2.Default;
+				Player1Status_Level2._instance.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -119,6 +134,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Knight)
 			{	
 				Player1Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Knight;
+				Player1Status_Level2._instance.playerPower = PlayerPower_Level2.Default;
+				Player1Status_Level2._instance.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -134,6 +151,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Magic)
 			{	
 				Player1Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Magic;
+				Player1Status_Level2._instance.playerPower = PlayerPower_Level2.Default;
+				Player1Status_Level2._instance.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -149,6 +168,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Assassin)
 			{	
 				Player1Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Assassin;
+				Player1Status_Level2._instance.playerPower = PlayerPower_Level2.Default;
+				Player1Status_Level2._instance.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -164,6 +185,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Boss)
 			{	
 				Player1Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Boss;
+				Player1Status_Level2._instance.playerPower = PlayerPower_Level2.Default;
+				Player1Status_Level2._instance.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -189,6 +212,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				if(powerIndex == dragonPowerCount)
 				{
 					Player1Status_Level2._instance.playerPower = PlayerPower_Level2.DragonPower;
+					Player1Status_Level2._instance.originAttack = 2;
+
+					float percent = Player1Status_Level2._instance.hp / Player1Status_Level2._instance.maxHp;
+					Player1Status_Level2._instance.hp = Mathf.RoundToInt(percent * dragonHp);
+					Player1Status_Level2._instance.maxHp = dragonHp;
+
 					Debug.Log("Player1 has Dragon Power");
 					TurnEffect();
 				}
@@ -210,6 +239,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				if(powerIndex == knightPowerCount)
 				{
 					Player1Status_Level2._instance.playerPower = PlayerPower_Level2.KnightPower;
+					Player1Status_Level2._instance.originAttack = 2;
+
+					float percent = Player1Status_Level2._instance.hp / Player1Status_Level2._instance.maxHp;
+					Player1Status_Level2._instance.hp = Mathf.RoundToInt(percent * knightHp);
+					Player1Status_Level2._instance.maxHp = knightHp;
+
 					Debug.Log("Player1 has Knight Power");
 					TurnEffect();
 				}
@@ -231,6 +266,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				if(powerIndex == magicPowerCount)
 				{
 					Player1Status_Level2._instance.playerPower = PlayerPower_Level2.MagicPower;
+					Player1Status_Level2._instance.originAttack = 2;
+
+					float percent = Player1Status_Level2._instance.hp / Player1Status_Level2._instance.maxHp;
+					Player1Status_Level2._instance.hp = Mathf.RoundToInt(percent * magicHp);
+					Player1Status_Level2._instance.maxHp = magicHp;
+
 					Debug.Log("Player1 has Magic Power");
 					TurnEffect();
 				}
@@ -252,6 +293,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				if(powerIndex == assassinPowerCount)
 				{
 					Player1Status_Level2._instance.playerPower = PlayerPower_Level2.AssassinPower;
+					Player1Status_Level2._instance.originAttack = 4;
+
+					float percent = Player1Status_Level2._instance.hp / Player1Status_Level2._instance.maxHp;
+					Player1Status_Level2._instance.hp = Mathf.RoundToInt(percent * assassinHp);
+					Player1Status_Level2._instance.maxHp = assassinHp;
+
 					Debug.Log("Player1 has Assassin Power");
 					TurnEffect();
 				}
@@ -273,6 +320,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				if(powerIndex == bossPowerCount)
 				{
 					Player1Status_Level2._instance.playerPower = PlayerPower_Level2.BossPower;
+					Player1Status_Level2._instance.originAttack = 2;
+
+					float percent = Player1Status_Level2._instance.hp / Player1Status_Level2._instance.maxHp;
+					Player1Status_Level2._instance.hp = Mathf.RoundToInt(percent * bossHp);
+					Player1Status_Level2._instance.maxHp = bossHp;
+
 					Debug.Log("Player1 has Boss Power");
 					TurnEffect();
 				}
@@ -285,17 +338,28 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.DragonPower:
 					break;
 				case PlayerPower_Level2.KnightPower:
-					Player1Status_Level2._instance.Damage(1);
+					if(!Player1Status_Level2._instance.overPoison)
+					{
+						Player1Status_Level2._instance.Damage(1);
+					}
 					break;
 				case PlayerPower_Level2.MagicPower:
 					ChangeToArea(collision);
 					break;
 				case PlayerPower_Level2.AssassinPower:
-					BecomeInvisible();
+					if(!PlayerStatusControl_Level2._instance.isPlayer1)
+					{
+						BecomeInvisible();
+						visible = false;
+					}
 					break;
 				case PlayerPower_Level2.BossPower:
 					break;
 				case PlayerPower_Level2.Default:
+					if(!Player1Status_Level2._instance.overPoison)
+					{
+						//Player1Status_Level2._instance.Damage(1);
+					}
 					break;
 			}
 		}
@@ -307,16 +371,24 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					ChangeToPoison(collision);
 					break;
 				case PlayerPower_Level2.KnightPower:
-					Player1Status_Level2._instance.attackAbility += 1;
+					Player1Status_Level2._instance.attackAbility = Player1Status_Level2._instance.originAttack + 2;
+					attackBuffOnArea = true;
 					break;
 				case PlayerPower_Level2.MagicPower:
 					break;
 				case PlayerPower_Level2.AssassinPower:
-					Player1Status_Level2._instance.Damage(1);
+					if(!Player1Status_Level2._instance.overArea)
+					{
+						Player1Status_Level2._instance.Damage(1);
+					}
 					break;
 				case PlayerPower_Level2.BossPower:
 					break;
 				case PlayerPower_Level2.Default:
+					if(!Player1Status_Level2._instance.overArea)
+					{
+						//Player1Status_Level2._instance.Damage(1);
+					}
 					break;
 			}
 		}
@@ -429,16 +501,28 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			RemovePowerRedCrossOnMap();
 			powerIndex = 0;
 		}
+		if(visible || Player2Status_Level2._instance.playerPower == PlayerPower_Level2.MagicPower)
+		{
+			BecomeVisible();
+		}
+		if(!attackBuffOnArea)
+		{
+			Player1Status_Level2._instance.attackAbility = Player1Status_Level2._instance.originAttack;
+		}
 	}
 
 	void CheckPlayer2Trigger(Collider2D collision)
-	{
+	{	
+		bool visible = true;
+		bool attackBuffOnArea = false;
 		if (collision.gameObject.CompareTag("DragonPic"))
 		{
 			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Dragon 
 				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Dragon)
 			{	
 				Player2Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Dragon;
+				Player2Status_Level2._instance.playerPower = PlayerPower_Level2.Default;
+				Player2Status_Level2._instance.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -454,6 +538,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Knight)
 			{	
 				Player2Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Knight;
+				Player2Status_Level2._instance.playerPower = PlayerPower_Level2.Default;
+				Player2Status_Level2._instance.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -469,6 +555,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Magic)
 			{	
 				Player2Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Magic;
+				Player2Status_Level2._instance.playerPower = PlayerPower_Level2.Default;
+				Player2Status_Level2._instance.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -484,6 +572,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Assassin)
 			{	
 				Player2Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Assassin;
+				Player2Status_Level2._instance.playerPower = PlayerPower_Level2.Default;
+				Player2Status_Level2._instance.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -499,6 +589,8 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				&& Player1Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Boss)
 			{	
 				Player2Status_Level2._instance.playerCharacter = PlayerCharacter_Level2.Boss;
+				Player2Status_Level2._instance.playerPower = PlayerPower_Level2.Default;
+				Player2Status_Level2._instance.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -524,6 +616,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				if(powerIndex == dragonPowerCount)
 				{
 					Player2Status_Level2._instance.playerPower = PlayerPower_Level2.DragonPower;
+					Player2Status_Level2._instance.originAttack = 2;
+
+					float percent = Player2Status_Level2._instance.hp / Player2Status_Level2._instance.maxHp;
+					Player2Status_Level2._instance.hp = Mathf.RoundToInt(percent * dragonHp);
+					Player2Status_Level2._instance.maxHp = dragonHp;
+
 					Debug.Log("Player2 has Dragon Power");
 					TurnEffect();
 				}
@@ -545,6 +643,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				if(powerIndex == knightPowerCount)
 				{
 					Player2Status_Level2._instance.playerPower = PlayerPower_Level2.KnightPower;
+					Player2Status_Level2._instance.originAttack = 2;
+
+					float percent = Player2Status_Level2._instance.hp / Player2Status_Level2._instance.maxHp;
+					Player2Status_Level2._instance.hp = Mathf.RoundToInt(percent * knightHp);
+					Player2Status_Level2._instance.maxHp = knightHp;
+
 					Debug.Log("Player2 has Knight Power");
 					TurnEffect();
 				}
@@ -566,6 +670,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				if(powerIndex == magicPowerCount)
 				{
 					Player2Status_Level2._instance.playerPower = PlayerPower_Level2.MagicPower;
+					Player2Status_Level2._instance.originAttack = 2;
+
+					float percent = Player2Status_Level2._instance.hp / Player2Status_Level2._instance.maxHp;
+					Player2Status_Level2._instance.hp = Mathf.RoundToInt(percent * magicHp);
+					Player2Status_Level2._instance.maxHp = magicHp;
+
 					Debug.Log("Player2 has Magic Power");
 					TurnEffect();
 				}
@@ -587,6 +697,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				if(powerIndex == assassinPowerCount)
 				{
 					Player2Status_Level2._instance.playerPower = PlayerPower_Level2.AssassinPower;
+					Player2Status_Level2._instance.originAttack = 4;
+
+					float percent = Player2Status_Level2._instance.hp / Player2Status_Level2._instance.maxHp;
+					Player2Status_Level2._instance.hp = Mathf.RoundToInt(percent * assassinHp);
+					Player2Status_Level2._instance.maxHp = assassinHp;
+
 					Debug.Log("Player2 has Assassin Power");
 					TurnEffect();
 				}
@@ -608,6 +724,12 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				if(powerIndex == bossPowerCount)
 				{
 					Player2Status_Level2._instance.playerPower = PlayerPower_Level2.BossPower;
+					Player2Status_Level2._instance.originAttack = 2;
+
+					float percent = Player2Status_Level2._instance.hp / Player2Status_Level2._instance.maxHp;
+					Player2Status_Level2._instance.hp = Mathf.RoundToInt(percent * bossHp);
+					Player2Status_Level2._instance.maxHp = bossHp;
+
 					Debug.Log("Player2 has Boss Power");
 					TurnEffect();
 				}
@@ -620,17 +742,28 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.DragonPower:
 					break;
 				case PlayerPower_Level2.KnightPower:
-					Player2Status_Level2._instance.Damage(1);
+					if(!Player2Status_Level2._instance.overPoison)
+					{
+						Player2Status_Level2._instance.Damage(1);
+					}
 					break;
 				case PlayerPower_Level2.MagicPower:
 					ChangeToArea(collision);
 					break;
 				case PlayerPower_Level2.AssassinPower:
-					BecomeInvisible();
+					if(PlayerStatusControl_Level2._instance.isPlayer1)
+					{
+						BecomeInvisible();
+						visible = false;
+					}
 					break;
 				case PlayerPower_Level2.BossPower:
 					break;
 				case PlayerPower_Level2.Default:
+					if(!Player2Status_Level2._instance.overPoison)
+					{
+						//Player2Status_Level2._instance.Damage(1);
+					}
 					break;
 			}
 		}
@@ -642,16 +775,24 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 					ChangeToPoison(collision);
 					break;
 				case PlayerPower_Level2.KnightPower:
-					Player2Status_Level2._instance.attackAbility += 1;
+					Player2Status_Level2._instance.attackAbility = Player2Status_Level2._instance.originAttack + 2;
+					attackBuffOnArea = true;
 					break;
 				case PlayerPower_Level2.MagicPower:
 					break;
 				case PlayerPower_Level2.AssassinPower:
-					Player2Status_Level2._instance.Damage(1);
+					if(!Player2Status_Level2._instance.overArea)
+					{
+						Player2Status_Level2._instance.Damage(1);
+					}
 					break;
 				case PlayerPower_Level2.BossPower:
 					break;
 				case PlayerPower_Level2.Default:
+					if(!Player2Status_Level2._instance.overArea)
+					{
+						//Player2Status_Level2._instance.Damage(1);
+					}
 					break;
 			}
 		}
@@ -764,6 +905,14 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 		{
 			RemovePowerRedCrossOnMap();
 			powerIndex = 0;
+		}
+		if(visible || Player1Status_Level2._instance.playerPower == PlayerPower_Level2.MagicPower)
+		{
+			BecomeVisible();
+		}
+		if(!attackBuffOnArea)
+		{
+			Player2Status_Level2._instance.attackAbility = Player2Status_Level2._instance.originAttack;
 		}
 	}
 

@@ -23,8 +23,11 @@ public class Player1Status_Level2 : MonoBehaviour {
 	public bool overArea = false;
 	public bool damageReflect = false;
 	public bool attackBuff = false;
-	public float hp = 3.0f;
-	public float attackAbility = 1.0f;
+	private bool attackBuffFirst = true;
+	public float maxHp = 5.0f;
+	public float hp = 5.0f;
+	public float originAttack = 0.0f;
+	public float attackAbility = 0.0f;
 	private bool isDead = false;
 	private PlayerAttack_Level2 attack;
 	private PlayerMove_Level2 move;
@@ -33,6 +36,16 @@ public class Player1Status_Level2 : MonoBehaviour {
 
 	public Text heartText;
 	public Text weaponText;
+	public Image weaponImage;
+
+	public Sprite defaultWeapon, dragonWeapon, knightWeapon, magicWeapon, assassinWeapon, bossWeapon;
+
+	private float attackBuffRemain = 10.0f;
+	private float damageReflectRemain = 10.0f;
+	private float overPoisonRemain = 10.0f;
+	private float overAreaRemain = 10.0f;
+
+	public Text damageReflectText, attackBuffText, overPoisonText, overAreaText;
 
 	
 	// Use this for initialization
@@ -42,6 +55,10 @@ public class Player1Status_Level2 : MonoBehaviour {
 		attack = GetComponent<PlayerAttack_Level2>();
 		move = GetComponent<PlayerMove_Level2>();
 		audio = GetComponent<AudioSource>();
+		damageReflectText.enabled = false;
+		attackBuffText.enabled = false;
+		overPoisonText.enabled = false;
+		overAreaText.enabled = false;
 	}
 
 	void CheckHpAndHearts()
@@ -54,10 +71,102 @@ public class Player1Status_Level2 : MonoBehaviour {
 		weaponText.text = "x " + Mathf.RoundToInt(attackAbility).ToString();
 	}
 
+	void CheckWeaponImage()
+	{
+		switch(playerPower)
+		{
+			case PlayerPower_Level2.DragonPower:
+				weaponImage.sprite = dragonWeapon;
+				break;
+			case PlayerPower_Level2.KnightPower:
+				weaponImage.sprite = knightWeapon;
+				break;
+			case PlayerPower_Level2.MagicPower:
+				weaponImage.sprite = magicWeapon;
+				break;
+			case PlayerPower_Level2.AssassinPower:
+				weaponImage.sprite = assassinWeapon;
+				break;
+			case PlayerPower_Level2.BossPower:
+				weaponImage.sprite = bossWeapon;
+				break;
+			case PlayerPower_Level2.Default:
+				weaponImage.sprite = defaultWeapon;
+				break;
+		}
+	}
+
+	void CheckAttackBuff()
+	{
+		if(attackBuff)
+		{
+			if(attackBuffFirst)
+			{
+				originAttack += 2;
+				attackBuffFirst = false;
+				attackBuffText.enabled = true;
+			}
+			attackBuffRemain -= Time.deltaTime;
+			if(attackBuffRemain < 0)
+			{
+				originAttack -= 2;
+				attackBuff = false;
+				attackBuffText.enabled = false;
+			}
+		}
+	}
+
+	void CheckDamageReflect()
+	{
+		if(damageReflect)
+		{
+			damageReflectText.enabled = true;
+			damageReflectRemain -= Time.deltaTime;
+			if(damageReflectRemain < 0)
+			{
+				damageReflect = false;
+				damageReflectText.enabled = false;
+			}
+		}
+	}
+
+	void CheckOverPoison()
+	{
+		if(overPoison)
+		{
+			overPoisonText.enabled = true;
+			overPoisonRemain -= Time.deltaTime;
+			if(overPoisonRemain < 0)
+			{
+				overPoison = false;
+				overPoisonText.enabled = false;
+			}
+		}
+	}
+
+	void CheckOverArea()
+	{
+		if(overArea)
+		{
+			overAreaText.enabled = true;
+			overAreaRemain -= Time.deltaTime;
+			if(overAreaRemain < 0)
+			{
+				overArea = false;
+				overAreaText.enabled = false;
+			}
+		}
+	}
+
 	void Update()
 	{
 		CheckHpAndHearts();
 		CheckAttackAbility();
+		CheckWeaponImage();
+		CheckAttackBuff();
+		CheckDamageReflect();
+		CheckOverPoison();
+		CheckOverArea();
 	}
 
 	
@@ -93,7 +202,8 @@ public class Player1Status_Level2 : MonoBehaviour {
 	{
 		if(!isDead)
 		{
-			_instance.hp += recorvery;
+			hp += recorvery;
+			hp = Mathf.Min(hp, maxHp);
 			Debug.Log("Player1 回复" + recorvery + "点血");
 		}
 	}

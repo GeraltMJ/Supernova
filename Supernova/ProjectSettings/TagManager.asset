@@ -38,6 +38,10 @@ TagManager:
   - OverAreaPic
   - DamageReflectPic
   - AttackBuffPic
+  - WallBufferUp
+  - WallBufferDown
+  - WallBufferLeft
+  - WallBufferRight
   layers:
   - Default
   - TransparentFX

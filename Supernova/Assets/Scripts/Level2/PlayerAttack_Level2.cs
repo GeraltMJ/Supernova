@@ -7,12 +7,14 @@ public class PlayerAttack_Level2 : MonoBehaviour {
 
 	public KeyCode shootKey;
 	private Animator anim;
-	public GameObject[] bullet;
 	private bool isShoot = false; //表示是否射击
 	private float shootTimer = 0.0f;// 射击的计时器
 	public float shootTime = 0.47f;// 表示射击的CD时间
 	private FaceDirection faceDir;
 	private string currentCommand;
+
+	public GameObject dragonBullet, knightBullet, magicBullet, assassinBullet, bossBullet;
+	private GameObject bullet;
 
 	public GameObject networkManager;
 	private TcpClient_Level2 tcpClient;
@@ -89,38 +91,172 @@ public class PlayerAttack_Level2 : MonoBehaviour {
 		}
 	}
 
+	void SetBulletTag(GameObject bullet)
+	{
+		if(gameObject.CompareTag("Player1"))
+		{
+			bullet.tag = "Player1Bullet";
+		}
+		else if(gameObject.CompareTag("Player2"))
+		{
+			bullet.tag = "Player2Bullet";
+		}
+	}
+
 
 	void Fire()
 	{
 		isShoot = true;
 		faceDir = gameObject.GetComponent<PlayerMove_Level2>().dir;
+
+		if(gameObject.CompareTag("Player1"))
+		{
+			switch(Player1Status_Level2._instance.playerPower)
+			{
+				case PlayerPower_Level2.DragonPower:
+					bullet = dragonBullet;
+					break;
+				case PlayerPower_Level2.KnightPower:
+					bullet = knightBullet;
+					break;
+				case PlayerPower_Level2.MagicPower:
+					bullet = magicBullet;
+					break;
+				case PlayerPower_Level2.AssassinPower:
+					bullet = assassinBullet;
+					break;
+				case PlayerPower_Level2.BossPower:
+					bullet = bossBullet;
+					break;
+				case PlayerPower_Level2.Default:
+					bullet = null;
+					break;
+			}
+		}
+		else if(gameObject.CompareTag("Player2"))
+		{
+			switch(Player1Status_Level2._instance.playerPower)
+			{
+				case PlayerPower_Level2.DragonPower:
+					bullet = dragonBullet;
+					break;
+				case PlayerPower_Level2.KnightPower:
+					bullet = knightBullet;
+					break;
+				case PlayerPower_Level2.MagicPower:
+					bullet = magicBullet;
+					break;
+				case PlayerPower_Level2.AssassinPower:
+					bullet = assassinBullet;
+					break;
+				case PlayerPower_Level2.BossPower:
+					bullet = bossBullet;
+					break;
+				case PlayerPower_Level2.Default:
+					bullet = null;
+					break;
+			}
+		}
+
 		switch (faceDir)
 		{
 			case FaceDirection.Up:
 				anim.SetTrigger("UpAttack");
-				GameObject go1 = GameManager.Instantiate(bullet[0], new Vector3(this.transform.position.x, this.transform.position.y + 0.5f, this.transform.position.z), Quaternion.identity);
-				go1.GetComponent<Bullet_Level2>().dir = FaceDirection.Up;
+				if(bullet)
+				{	
+					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
+					{
+						UpAttack();
+						LeftAttack();
+						RightAttack();
+					}
+					else
+					{
+						UpAttack();
+					}
+				}
 				break;
 
 			case FaceDirection.Down:
 				anim.SetTrigger("DownAttack");
-				GameObject go2 = GameManager.Instantiate(bullet[1], new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, this.transform.position.z), Quaternion.identity);
-				go2.GetComponent<Bullet_Level2>().dir = FaceDirection.Down;
+				if(bullet)
+				{	
+					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
+					{
+						DownAttack();
+						LeftAttack();
+						RightAttack();
+					}
+					else
+					{
+						DownAttack();
+					}
+				}
 				break;
 
 			case FaceDirection.Left:
 				anim.SetTrigger("LeftAttack");
-				GameObject go3 = GameManager.Instantiate(bullet[2], new Vector3(this.transform.position.x - 0.5f, this.transform.position.y, this.transform.position.z), Quaternion.identity);
-				go3.GetComponent<Bullet_Level2>().dir = FaceDirection.Left;
+				if(bullet)
+				{
+					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
+					{
+						LeftAttack();
+						UpAttack();
+						DownAttack();
+					}
+					else
+					{
+						LeftAttack();
+					}
+				}
 				break;
 
 			case FaceDirection.Right:
 				anim.SetTrigger("RightAttack");
-				GameObject go4 = GameManager.Instantiate(bullet[3], new Vector3(this.transform.position.x + 0.5f, this.transform.position.y, this.transform.position.z), Quaternion.identity);
-				go4.GetComponent<Bullet_Level2>().dir = FaceDirection.Right;
+				if(bullet)
+				{
+					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
+					{
+						RightAttack();
+						UpAttack();
+						DownAttack();
+					}
+					else
+					{
+						RightAttack();
+					}
+				}
 				break;
 		}
 		
+	}
+
+	void UpAttack()
+	{
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y + 0.5f, this.transform.position.z), Quaternion.Euler(0f,0f,90f));
+		SetBulletTag(go);
+	}
+
+	void DownAttack()
+	{
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y - 0.5f, this.transform.position.z), Quaternion.Euler(0f,0f,-90f));
+		SetBulletTag(go);
+	}
+
+	void LeftAttack()
+	{
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x - 0.5f, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-180f));
+		SetBulletTag(go);
+	}
+
+	void RightAttack()
+	{
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x + 0.5f, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+		SetBulletTag(go);
 	}
 }
 

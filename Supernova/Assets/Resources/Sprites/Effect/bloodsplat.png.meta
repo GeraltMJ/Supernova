@@ -1,0 +1,480 @@
+fileFormatVersion: 2
+guid: 128175446f4714079a76eb6d0e88caed
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: bloodsplat_0
+    21300002: bloodsplat_1
+    21300004: bloodsplat_2
+    21300006: bloodsplat_3
+    21300008: bloodsplat_4
+    21300010: bloodsplat_5
+    21300012: bloodsplat_6
+    21300014: bloodsplat_7
+    21300016: bloodsplat_8
+    21300018: bloodsplat_9
+    21300020: bloodsplat_10
+    21300022: bloodsplat_11
+    21300024: bloodsplat_12
+    21300026: bloodsplat_13
+    21300028: bloodsplat_14
+    21300030: bloodsplat_15
+    21300032: bloodsplat_16
+    21300034: bloodsplat_17
+    21300036: bloodsplat_18
+    21300038: bloodsplat_19
+    21300040: bloodsplat_20
+    21300042: bloodsplat_21
+    21300044: bloodsplat_22
+    21300046: bloodsplat_23
+    21300048: bloodsplat_24
+    21300050: bloodsplat_25
+    21300052: bloodsplat_26
+    21300054: bloodsplat_27
+    21300056: bloodsplat_28
+    21300058: bloodsplat_29
+    21300060: bloodsplat_30
+    21300062: bloodsplat_31
+    21300064: bloodsplat_32
+    21300066: bloodsplat_33
+    21300068: bloodsplat_34
+    21300070: bloodsplat_35
+    21300072: bloodsplat_36
+    21300074: bloodsplat_37
+    21300076: bloodsplat_38
+    21300078: bloodsplat_39
+    21300080: bloodsplat_40
+    21300082: bloodsplat_41
+    21300084: bloodsplat_42
+    21300086: bloodsplat_43
+    21300088: bloodsplat_44
+    21300090: bloodsplat_45
+    21300092: bloodsplat_46
+    21300094: bloodsplat_47
+    21300096: bloodsplat_48
+    21300098: bloodsplat_49
+    21300100: bloodsplat_50
+    21300102: bloodsplat_51
+    21300104: bloodsplat_52
+    21300106: bloodsplat_53
+    21300108: bloodsplat_54
+    21300110: bloodsplat_55
+    21300112: bloodsplat_56
+    21300114: bloodsplat_57
+    21300116: bloodsplat_58
+    21300118: bloodsplat_59
+    21300120: bloodsplat_60
+    21300122: bloodsplat_61
+    21300124: bloodsplat_62
+    21300126: bloodsplat_63
+    21300128: bloodsplat_64
+    21300130: bloodsplat_65
+    21300132: bloodsplat_66
+    21300134: bloodsplat_67
+    21300136: bloodsplat_68
+    21300138: bloodsplat_69
+    21300140: bloodsplat_70
+    21300142: bloodsplat_71
+    21300144: bloodsplat_72
+    21300146: bloodsplat_73
+    21300148: bloodsplat_74
+    21300150: bloodsplat_75
+    21300152: bloodsplat_76
+    21300154: bloodsplat_77
+    21300156: bloodsplat_78
+    21300158: bloodsplat_79
+    21300160: bloodsplat_80
+    21300162: bloodsplat_81
+    21300164: bloodsplat_82
+  externalObjects: {}
+  serializedVersion: 5
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bloodsplat_0
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0359d30a09344be4957adf786c5afcf
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_1
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 0
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb35e07c498b04b42bf2554ec9361072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_2
+      rect:
+        serializedVersion: 2
+        x: 1036
+        y: 5
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09426bbbceb46492793efd3321cf0302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_4
+      rect:
+        serializedVersion: 2
+        x: 1503
+        y: 19
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78df9dd90a5434ee7af789b69f63b922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_5
+      rect:
+        serializedVersion: 2
+        x: 2002
+        y: 27
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21219a65926b040a6a4346e463c2d920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_7
+      rect:
+        serializedVersion: 2
+        x: 2465
+        y: 30
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6aa987e896c844ff4b7d826b768664a3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_8
+      rect:
+        serializedVersion: 2
+        x: 2950
+        y: 30
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6155f1422e0414890a8047a0c846d2d5
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_10
+      rect:
+        serializedVersion: 2
+        x: 3448
+        y: 30
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3872a6e22c89945139026b07fd236d8d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_11
+      rect:
+        serializedVersion: 2
+        x: 3900
+        y: 30
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b8d84d62e5ab44658f08c8d0849e717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_12
+      rect:
+        serializedVersion: 2
+        x: 4393
+        y: 30
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3b2d9a07d2d449ba843a9813ffb5a55
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_14
+      rect:
+        serializedVersion: 2
+        x: 4781
+        y: 16
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a69eeff207e484e208f4293dba1f3be7
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_15
+      rect:
+        serializedVersion: 2
+        x: 5131
+        y: 14
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d1f55e9de3b64583aad79f134a892f3
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_16
+      rect:
+        serializedVersion: 2
+        x: 5478
+        y: 11
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc8594d851ecb4fabbcb5b632d54df73
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bloodsplat_17
+      rect:
+        serializedVersion: 2
+        x: 5510
+        y: 19
+        width: 325
+        height: 450
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3597df570c0aa4447a8a32b72d8cefa4
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 51529207adad94b8090499022a7041af
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

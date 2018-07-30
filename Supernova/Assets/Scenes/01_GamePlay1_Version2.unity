@@ -2355,6 +2355,7 @@ MonoBehaviour:
   - {fileID: 1887894732890580, guid: 1da7c6aa64f2bf24bad0651543195313, type: 2}
   - {fileID: 1955227141010562, guid: d4344f9fb05a86d47bc8bd86e2e62ecc, type: 2}
   shootTime: 0.47
+  networkManager: {fileID: 0}
   autoAttack: 0
 --- !u!114 &303461651
 MonoBehaviour:
@@ -12642,6 +12643,7 @@ MonoBehaviour:
   - {fileID: 1947666264124838, guid: 6a7d3ff5bb0314643879a20712660b64, type: 2}
   - {fileID: 1251148435895474, guid: 44716805c7fb3bc45b1c54e847f96501, type: 2}
   shootTime: 0.47
+  networkManager: {fileID: 0}
   autoAttack: 0
 --- !u!61 &1121903280
 BoxCollider2D:

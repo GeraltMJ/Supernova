@@ -33,8 +33,8 @@ public class TcpClient_Level2 : MonoBehaviour
 	{
 		str = str.Replace("(","").Replace(")","");
 		string[] number = str.Split(',');
-		Vector3 positionToSet = new Vector3(float.Parse(number[0]),float.Parse(number[1]),float.Parse(number[2]));
-		int dirCount = int.Parse(number[3]);
+		Vector2 positionToSet = new Vector2(float.Parse(number[0]),float.Parse(number[1]));
+		int dirCount = int.Parse(number[2]);
 		if(PlayerStatusControl_Level2._instance.isPlayer1)
 		{
 			em2.SetNextPosition(positionToSet);
@@ -44,6 +44,25 @@ public class TcpClient_Level2 : MonoBehaviour
 		{
 			em1.SetNextPosition(positionToSet);
 			em1.SetDirection(dirCount);
+		}
+	}
+
+	void PlayerStringToInfo(string str)
+	{
+		str = str.Replace("(","").Replace(")","");
+		string[] number = str.Split(',');
+		int player = int.Parse(number[0]);
+		Vector2 positionToSet = new Vector2(float.Parse(number[1]),float.Parse(number[2]));
+		int dirCount = int.Parse(number[3]);
+		if(player == 1)
+		{
+			em1.SetNextPosition(positionToSet);
+			em1.SetDirection(dirCount);
+		}
+		else if(player == 2)
+		{
+			em2.SetNextPosition(positionToSet);
+			em2.SetDirection(dirCount);
 		}
 	}
 
@@ -153,7 +172,7 @@ public class TcpClient_Level2 : MonoBehaviour
 		serverSocket.Send(commandSelf, 1, SocketFlags.None);
 	}
 
-	public void SendCurrentInfo(Vector3 pos, FaceDirection dir)
+	public void SendCurrentInfo(Vector2 pos, FaceDirection dir)
 	{
 		int count = 0;
 		switch(dir)
@@ -177,6 +196,29 @@ public class TcpClient_Level2 : MonoBehaviour
 		serverSocket.Send(byteToSend);
 	}
 
+	public void SendPlayerCurrentInfo(Vector2 pos, FaceDirection dir, int player)
+	{
+		int count = 0;
+		switch(dir)
+		{
+			case FaceDirection.Up:
+				count = 0;
+				break;
+			case FaceDirection.Down:
+				count = 1;
+				break;
+			case FaceDirection.Left:
+				count = 2;
+				break;
+			case FaceDirection.Right:
+				count = 3;
+				break;
+		}
+		byte[] byteToSend = new byte[msgLen];
+		string posStr = player.ToString() + "," + pos.ToString() + "," + count.ToString();
+		byteToSend = Encoding.ASCII.GetBytes(posStr);
+		serverSocket.Send(byteToSend);
+	}
 
 	void OnDisable()
 	{
