@@ -46,9 +46,31 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 	private AudioSource audioSource;
 	private AudioSource[] audioSources;
 
+	private PlayerMove_Level2 playerMove;
+
+	void UpdateFace(FaceDirection direction)
+	{
+		switch(direction)
+		{
+			case FaceDirection.Up:
+				animator.SetTrigger("UpWalk");
+				break;
+			case FaceDirection.Down:
+				animator.SetTrigger("DownWalk");
+				break;
+			case FaceDirection.Left:
+				animator.SetTrigger("LeftWalk");
+				break;
+			case FaceDirection.Right:
+				animator.SetTrigger("RightWalk");
+				break;
+		}
+	}
+
 	void Awake() {
 		spriteRender = this.GetComponent<SpriteRenderer>();
 		animator = this.GetComponent<Animator>();
+		playerMove = GetComponent<PlayerMove_Level2>();
 	}
 
 	void Start()
@@ -132,6 +154,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				animator.runtimeAnimatorController = dragonController;
 				audioSource.clip = dragonAttack;
 				audioSource.Play();
+				UpdateFace(playerMove.dir);
 				Debug.Log("Player1 turn into Dragon");
 			}
 			powerIndex = 0;
@@ -151,6 +174,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				animator.runtimeAnimatorController = knightController;
 				audioSource.clip = knightAttack;
 				audioSource.Play();
+				UpdateFace(playerMove.dir);
 				Debug.Log("Player1 turn into Knight");
 			}
 			powerIndex = 0;
@@ -170,6 +194,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				animator.runtimeAnimatorController = magicController;
 				audioSource.clip = magicAttack;
 				audioSource.Play();
+				UpdateFace(playerMove.dir);
 				Debug.Log("Player1 turn into Magic");
 			}
 			powerIndex = 0;
@@ -189,6 +214,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				animator.runtimeAnimatorController = assassinController;
 				audioSource.clip = assassinAttack;
 				audioSource.Play();
+				UpdateFace(playerMove.dir);
 				Debug.Log("Player1 turn into Assassin");
 			}
 			powerIndex = 0;
@@ -208,6 +234,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				animator.runtimeAnimatorController = bossController;
 				audioSource.clip = bossAttack;
 				audioSource.Play();
+				UpdateFace(playerMove.dir);
 				Debug.Log("Player1 turn into Boss");
 			}
 			powerIndex = 0;
@@ -573,6 +600,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				animator.runtimeAnimatorController = dragonController;
 				audioSource.clip = dragonAttack;
 				audioSource.Play();
+				UpdateFace(playerMove.dir);
 				Debug.Log("Player2 turn into Dragon");
 			}
 			powerIndex = 0;
@@ -592,6 +620,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				animator.runtimeAnimatorController = knightController;
 				audioSource.clip = knightAttack;
 				audioSource.Play();
+				UpdateFace(playerMove.dir);
 				Debug.Log("Player2 turn into Knight");
 			}
 			powerIndex = 0;
@@ -611,6 +640,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				animator.runtimeAnimatorController = magicController;
 				audioSource.clip = magicAttack;
 				audioSource.Play();
+				UpdateFace(playerMove.dir);
 				Debug.Log("Player2 turn into Magic");
 			}
 			powerIndex = 0;
@@ -630,6 +660,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				animator.runtimeAnimatorController = assassinController;
 				audioSource.clip = assassinAttack;
 				audioSource.Play();
+				UpdateFace(playerMove.dir);
 				Debug.Log("Player2 turn into Assassin");
 			}
 			powerIndex = 0;
@@ -649,6 +680,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				animator.runtimeAnimatorController = bossController;
 				audioSource.clip = bossAttack;
 				audioSource.Play();
+				UpdateFace(playerMove.dir);
 				Debug.Log("Player2 turn into Boss");
 			}
 			powerIndex = 0;

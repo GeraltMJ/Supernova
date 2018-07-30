@@ -159,7 +159,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 	}
 	
 	
-	/* 
+	
 	void EnemyMove()
 	{
 		transform.position = nextPosition;
@@ -180,10 +180,10 @@ public class PlayerMove_Level2 : MonoBehaviour
 				break;
 		}
 	}
-	*/
 	
 	
-	 
+	
+	 /* 
 	void EnemyMove()
 	{
 		dir = nextDir;
@@ -222,7 +222,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 			}
 		}
 	}
-	
+	*/
 
 	void NextMove()
 	{
@@ -245,7 +245,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 			}
 			process = 0;
 			isMoving = true;
-			tcpClient.SendCurrentInfo(endPosition, dir);
+			//tcpClient.SendCurrentInfo(endPosition, dir);
 		}
 		if(isMoving)
 		{
@@ -271,7 +271,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 		anim = GetComponent<Animator>();
 		//camAnimator = cam.GetComponent<Animator>();
 		tcpClient = networkManager.GetComponent<TcpClient_Level2>();
-		nextPosition = new Vector2(transform.position.x, transform.position.y - 1);
+		nextPosition = new Vector2(transform.position.x, transform.position.y);
 		nextDir = FaceDirection.Down;
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[1];
@@ -283,35 +283,18 @@ public class PlayerMove_Level2 : MonoBehaviour
 		cam.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
 	}
 
-	
-	private void FixedUpdate() 
-	{	
-		if(gameObject.name == "Player1")
+	void Update()
+	{
+		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
 		{
-			if(PlayerStatusControl_Level2._instance.isPlayer1)
-			{
-				ControlMove();
-				NextMove();
-			}
-			else
-			{
-				EnemyMove();
-			}
+			tcpClient.SendCurrentInfo(transform.position, dir);
+			ControlMove();
+			NextMove();
 		}
-		else if(gameObject.name == "Player2")
+		else
 		{
-			if(!PlayerStatusControl_Level2._instance.isPlayer1)
-			{
-				ControlMove();
-				NextMove();
-			}
-			else
-			{
-				EnemyMove();
-			}
-		}
-		
-		
+			EnemyMove();
+		} 
 	}
 	
 	void MoveAccordingToServer()

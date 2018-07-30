@@ -33,17 +33,32 @@ public class TcpClient_Level2 : MonoBehaviour
 	{
 		str = str.Replace("(","").Replace(")","");
 		string[] number = str.Split(',');
-		Vector2 positionToSet = new Vector2(float.Parse(number[0]),float.Parse(number[1]));
-		int dirCount = int.Parse(number[2]);
-		if(PlayerStatusControl_Level2._instance.isPlayer1)
+		int msgType = int.Parse(number[0]);
+		Vector2 positionToSet = new Vector2(float.Parse(number[1]),float.Parse(number[2]));
+		if(msgType == 0)
 		{
-			em2.SetNextPosition(positionToSet);
-			em2.SetDirection(dirCount);
+			int dirCount = int.Parse(number[3]);
+			if(PlayerStatusControl_Level2._instance.isPlayer1)
+			{
+				em2.SetNextPosition(positionToSet);
+				em2.SetDirection(dirCount);
+			}
+			else
+			{
+				em1.SetNextPosition(positionToSet);
+				em1.SetDirection(dirCount);
+			}
 		}
-		else
+		else if(msgType == 1)
 		{
-			em1.SetNextPosition(positionToSet);
-			em1.SetDirection(dirCount);
+			if(PlayerStatusControl_Level2._instance.isPlayer1)
+			{
+				pa2.SetFireCommand(positionToSet);
+			}else
+			{
+				pa1.SetFireCommand(positionToSet);
+			}
+			
 		}
 	}
 
@@ -66,14 +81,15 @@ public class TcpClient_Level2 : MonoBehaviour
 		}
 	}
 
-	void FireInfo(string str)
+	void SimpleCommandHandle(string str)
 	{
-		if(PlayerStatusControl_Level2._instance.isPlayer1)
+		if(str == "R")
 		{
-			pa2.SetCurrentCommand(str);
-		}else
+			PlayerStatusControl_Level2._instance.twoReady = true;
+		}
+		else if(str == "G")
 		{
-			pa1.SetCurrentCommand(str);
+			PlayerStatusControl_Level2._instance.enemyCheck = true;
 		}
 	}
 
@@ -98,32 +114,10 @@ public class TcpClient_Level2 : MonoBehaviour
 
 		if(recvStr == "1"){
 			PlayerStatusControl_Level2._instance.isPlayer1 = true;
-			recvData = new byte[1024];
-			recvLen = serverSocket.Receive(recvData);
-			recvStr = Encoding.ASCII.GetString(recvData,0,1);
-
-			if(recvStr == "R")
-			{
-				PlayerStatusControl_Level2._instance.twoReady = true;
-				Debug.Log("Two Players ready");
-			}
 		}else if(recvStr == "2")
 		{
 			PlayerStatusControl_Level2._instance.isPlayer1 = false;
 			PlayerStatusControl_Level2._instance.twoReady = true;
-			Debug.Log("Two Playes ready");
-		}
-		else
-		{
-			Debug.Log("unknown player");
-		}
-
-		recvData = new byte[1024];
-		recvLen = serverSocket.Receive(recvData);
-		recvStr = Encoding.ASCII.GetString(recvData,0,1);
-		if(recvStr == "G")
-		{
-			PlayerStatusControl_Level2._instance.enemyCheck = true;
 		}
 
 		while(true)
@@ -137,7 +131,7 @@ public class TcpClient_Level2 : MonoBehaviour
 			if(recvLen <= 2)
 			{
 				recvStr = Encoding.ASCII.GetString(recvData,0,1);
-				FireInfo(recvStr);
+				SimpleCommandHandle(recvStr);
 			}
 			else
 			{
@@ -199,7 +193,7 @@ public class TcpClient_Level2 : MonoBehaviour
 				break;
 		}
 		byte[] byteToSend = new byte[msgLen];
-		string posStr = pos.ToString() + "," + count.ToString();
+		string posStr = "0" + "," + pos.ToString() + "," + count.ToString();
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
@@ -224,6 +218,14 @@ public class TcpClient_Level2 : MonoBehaviour
 		}
 		byte[] byteToSend = new byte[msgLen];
 		string posStr = player.ToString() + "," + pos.ToString() + "," + count.ToString();
+		byteToSend = Encoding.ASCII.GetBytes(posStr);
+		serverSocket.Send(byteToSend);
+	}
+
+	public void SendFireCommand(Vector2 pos)
+	{
+		byte[] byteToSend = new byte[msgLen];
+		string posStr = "1" + "," + pos.ToString();
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
