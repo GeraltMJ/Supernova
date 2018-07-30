@@ -416,7 +416,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player1Status_Level2._instance.overPoison)
 					{
-						//Player1Status_Level2._instance.Damage(1);
+						Player1Status_Level2._instance.Damage(1);
 					}
 					break;
 			}
@@ -445,7 +445,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player1Status_Level2._instance.overArea)
 					{
-						//Player1Status_Level2._instance.Damage(1);
+						Player1Status_Level2._instance.Damage(1);
 					}
 					break;
 			}
@@ -862,7 +862,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player2Status_Level2._instance.overPoison)
 					{
-						//Player2Status_Level2._instance.Damage(1);
+						Player2Status_Level2._instance.Damage(1);
 					}
 					break;
 			}
@@ -891,7 +891,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player2Status_Level2._instance.overArea)
 					{
-						//Player2Status_Level2._instance.Damage(1);
+						Player2Status_Level2._instance.Damage(1);
 					}
 					break;
 			}
