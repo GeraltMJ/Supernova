@@ -264,8 +264,8 @@ public class PlayerMove_Level2 : MonoBehaviour
 			{
 				isMoving = false;
 				FixPosition();
-				audioSource.clip = stepSound;
-				audioSource.Play();
+				//audioSource.clip = stepSound;
+				//audioSource.Play();
 			}
 		}
 	}
