@@ -34,7 +34,11 @@ public class TcpClient_Level2 : MonoBehaviour
 		int msgType = int.Parse(number[startIndex++]);
 		if(msgType == 0)
 		{
-
+			startIndex += 3;
+			if(number.Length > startIndex)
+			{
+				HandleSynMessage(number,startIndex);
+			}
 		}
 		else if(msgType == 1)
 		{
@@ -46,6 +50,11 @@ public class TcpClient_Level2 : MonoBehaviour
 			{
 				pa1.SetFireCommand(positionToSet);
 			}
+			if(number.Length > startIndex)
+			{
+				HandleSynMessage(number,startIndex);
+			}
+			
 		}
 		else if(msgType == 2)
 		{
@@ -58,6 +67,10 @@ public class TcpClient_Level2 : MonoBehaviour
 			else if(player == 2)
 			{
 				Player2Status_Level2._instance.hpChange = hpChange;
+			}
+			if(number.Length > startIndex)
+			{
+				HandleSynMessage(number,startIndex);
 			}
 		}
 	}
