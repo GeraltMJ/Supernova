@@ -33,7 +33,6 @@ public class Player1Status_Level2 : MonoBehaviour {
 	private PlayerMove_Level2 move;
 	private AudioSource[] audioSources;
 	private AudioSource audioSource;
-	public AudioClip bloodSound;
 	private Camera cam;
 
 	public Text heartText;
@@ -48,6 +47,7 @@ public class Player1Status_Level2 : MonoBehaviour {
 	private float damageReflectRemain = 10.0f;
 	private float overPoisonRemain = 10.0f;
 	private float overAreaRemain = 10.0f;
+	public float hpChange;
 
 	public Text damageReflectText, attackBuffText, overPoisonText, overAreaText;
 
@@ -59,7 +59,7 @@ public class Player1Status_Level2 : MonoBehaviour {
 		attack = GetComponent<PlayerAttack_Level2>();
 		move = GetComponent<PlayerMove_Level2>();
 		audioSources = GetComponents<AudioSource>();
-		audioSource = audioSources[0];
+		audioSource = audioSources[2];
 		damageReflectText.enabled = false;
 		attackBuffText.enabled = false;
 		overPoisonText.enabled = false;
@@ -163,6 +163,19 @@ public class Player1Status_Level2 : MonoBehaviour {
 		}
 	}
 
+	void CheckHpChange()
+	{
+		if(hpChange < 0)
+		{
+			Damage(-hpChange);
+		}
+		else if(hpChange > 0)
+		{
+			Recover(hpChange);
+		}
+		hpChange = 0;
+	}
+
 	void Update()
 	{
 		CheckHpAndHearts();
@@ -172,6 +185,7 @@ public class Player1Status_Level2 : MonoBehaviour {
 		CheckDamageReflect();
 		CheckOverPoison();
 		CheckOverArea();
+		CheckHpChange();
 	}
 
 	
@@ -193,7 +207,6 @@ public class Player1Status_Level2 : MonoBehaviour {
 	{
 		if (!isDead)
 		{
-			audioSource.clip = bloodSound;
 			audioSource.Play();
 			_instance.hp -= damage;
 			GameObject blood = (GameObject)Instantiate(bloodEffect, transform.position, Quaternion.identity);

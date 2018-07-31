@@ -20,6 +20,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 	private int overAreaCount = 5;
 	private int attackBuffCount = 6;
 	private int damageReflectCount = 6;
+	private TcpClient_Level2 tcpClient;
 
 	public Sprite poisonReplace;
 	public Sprite areaReplace;
@@ -47,6 +48,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 	private AudioSource[] audioSources;
 
 	private PlayerMove_Level2 playerMove;
+	public GameObject networkManager;
 
 	void UpdateFace(FaceDirection direction)
 	{
@@ -78,6 +80,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 		powerRedCrossToDelete = new GameObject[50];
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[0];
+		tcpClient  = networkManager.GetComponent<TcpClient_Level2>();
 	}
 
 	void ChangeToArea(Collider2D collision)
@@ -398,7 +401,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.KnightPower:
 					if(!Player1Status_Level2._instance.overPoison)
 					{
-						Player1Status_Level2._instance.Damage(1);
+						if(PlayerStatusControl_Level2._instance.isPlayer1)
+						{
+							Player1Status_Level2._instance.Damage(1);
+							tcpClient.SendHpChange(1,-1);
+						}
 					}
 					break;
 				case PlayerPower_Level2.MagicPower:
@@ -416,7 +423,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player1Status_Level2._instance.overPoison)
 					{
-						//Player1Status_Level2._instance.Damage(1);
+						if(PlayerStatusControl_Level2._instance.isPlayer1)
+						{
+							Player1Status_Level2._instance.Damage(1);
+							tcpClient.SendHpChange(1,-1);
+						}
 					}
 					break;
 			}
@@ -437,7 +448,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.AssassinPower:
 					if(!Player1Status_Level2._instance.overArea)
 					{
-						Player1Status_Level2._instance.Damage(1);
+						if(PlayerStatusControl_Level2._instance.isPlayer1)
+						{
+							Player1Status_Level2._instance.Damage(1);
+							tcpClient.SendHpChange(1,-1);
+						}
 					}
 					break;
 				case PlayerPower_Level2.BossPower:
@@ -445,7 +460,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player1Status_Level2._instance.overArea)
 					{
-						//Player1Status_Level2._instance.Damage(1);
+						if(PlayerStatusControl_Level2._instance.isPlayer1)
+						{
+							Player1Status_Level2._instance.Damage(1);
+							tcpClient.SendHpChange(1,-1);
+						}
 					}
 					break;
 			}
@@ -463,7 +482,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			}
 			if(powerIndex == addOneCount)
 			{
-				Player1Status_Level2._instance.Recover(1f);
+				if(PlayerStatusControl_Level2._instance.isPlayer1)
+				{
+					Player1Status_Level2._instance.Recover(2);
+					tcpClient.SendHpChange(1,2);
+				}
 				audioSource.clip = recoverBuff;
 				audioSource.Play();
 				RecoverEffect();
@@ -483,7 +506,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			}
 			if(powerIndex == addTwoCount)
 			{
-				Player1Status_Level2._instance.Recover(2f);
+				if(PlayerStatusControl_Level2._instance.isPlayer1)
+				{
+					Player1Status_Level2._instance.Recover(4);
+					tcpClient.SendHpChange(1,4);
+				}
 				audioSource.clip = recoverBuff;
 				audioSource.Play();
 				RecoverEffect();
@@ -844,7 +871,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.KnightPower:
 					if(!Player2Status_Level2._instance.overPoison)
 					{
-						Player2Status_Level2._instance.Damage(1);
+						if(!PlayerStatusControl_Level2._instance.isPlayer1)
+						{
+							Player2Status_Level2._instance.Damage(1);
+							tcpClient.SendHpChange(2,-1);
+						}
 					}
 					break;
 				case PlayerPower_Level2.MagicPower:
@@ -862,7 +893,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player2Status_Level2._instance.overPoison)
 					{
-						//Player2Status_Level2._instance.Damage(1);
+						if(!PlayerStatusControl_Level2._instance.isPlayer1)
+						{
+							Player2Status_Level2._instance.Damage(1);
+							tcpClient.SendHpChange(2,-1);
+						}
 					}
 					break;
 			}
@@ -883,7 +918,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.AssassinPower:
 					if(!Player2Status_Level2._instance.overArea)
 					{
-						Player2Status_Level2._instance.Damage(1);
+						if(!PlayerStatusControl_Level2._instance.isPlayer1)
+						{
+							Player2Status_Level2._instance.Damage(1);
+							tcpClient.SendHpChange(2,-1);
+						}
 					}
 					break;
 				case PlayerPower_Level2.BossPower:
@@ -891,7 +930,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player2Status_Level2._instance.overArea)
 					{
-						//Player2Status_Level2._instance.Damage(1);
+						if(!PlayerStatusControl_Level2._instance.isPlayer1)
+						{
+							Player2Status_Level2._instance.Damage(1);
+							tcpClient.SendHpChange(2,-1);
+						}
 					}
 					break;
 			}
@@ -909,7 +952,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			}
 			if(powerIndex == addOneCount)
 			{
-				Player2Status_Level2._instance.Recover(1f);
+				if(!PlayerStatusControl_Level2._instance.isPlayer1)
+				{
+					Player2Status_Level2._instance.Recover(2);
+					tcpClient.SendHpChange(2,2);
+				}
 				audioSource.clip = recoverBuff;
 				audioSource.Play();
 				RecoverEffect();
@@ -929,7 +976,11 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			}
 			if(powerIndex == addTwoCount)
 			{
-				Player2Status_Level2._instance.Recover(2f);
+				if(!PlayerStatusControl_Level2._instance.isPlayer1)
+				{
+					Player2Status_Level2._instance.Recover(4);
+					tcpClient.SendHpChange(2,4);
+				}
 				audioSource.clip = recoverBuff;
 				audioSource.Play();
 				RecoverEffect();

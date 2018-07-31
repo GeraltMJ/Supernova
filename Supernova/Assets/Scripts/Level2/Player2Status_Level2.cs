@@ -29,7 +29,6 @@ public class Player2Status_Level2 : MonoBehaviour {
 	private PlayerMove_Level2 move;
 	private AudioSource audioSource;
 	private AudioSource[] audioSources;
-	public AudioClip bloodSound;
 	private Camera cam;
 	// Use this for initialization
 
@@ -41,13 +40,14 @@ public class Player2Status_Level2 : MonoBehaviour {
 
 	public GameObject bloodEffect;
 	public Text damageReflectText, attackBuffText, overPoisonText, overAreaText;
+	public float hpChange;
 	void Awake () {
 		_instance = this;
 		cam = Camera.main;
 		attack = GetComponent<PlayerAttack_Level2>();
 		move = GetComponent<PlayerMove_Level2>();
 		audioSources = GetComponents<AudioSource>();
-		audioSource = audioSources[0];
+		audioSource = audioSources[2];
 		damageReflectText.enabled = false;
 		attackBuffText.enabled = false;
 		overPoisonText.enabled = false;
@@ -165,6 +165,19 @@ public class Player2Status_Level2 : MonoBehaviour {
 		}
 	}
 
+	void CheckHpChange()
+	{
+		if(hpChange < 0)
+		{
+			Damage(-hpChange);
+		}
+		else if(hpChange > 0)
+		{
+			Recover(hpChange);
+		}
+		hpChange = 0;
+	}
+
 
 	void Update()
 	{
@@ -175,6 +188,7 @@ public class Player2Status_Level2 : MonoBehaviour {
 		CheckDamageReflect();
 		CheckOverPoison();
 		CheckOverArea();
+		CheckHpChange();
 	}
 
 
@@ -182,7 +196,6 @@ public class Player2Status_Level2 : MonoBehaviour {
 	{
 		if (!isDead)
 		{
-			audioSource.clip = bloodSound;
 			audioSource.Play();
 			GameObject blood = (GameObject)Instantiate(bloodEffect, transform.position, Quaternion.identity);
 			Destroy(blood.gameObject,1);

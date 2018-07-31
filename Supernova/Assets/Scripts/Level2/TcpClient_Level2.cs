@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class TcpClient_Level2 : MonoBehaviour 
 {	
+	public static TcpClient_Level2 _instance;
 	public string targetIP;
 	public int port;
 	Socket serverSocket;
@@ -28,16 +29,49 @@ public class TcpClient_Level2 : MonoBehaviour
 	private PlayerAttack_Level2 pa1;
 	private PlayerAttack_Level2 pa2;
 
+	void HandleSynMessage(string[] number, int startIndex)
+	{
+		int msgType = int.Parse(number[startIndex++]);
+		if(msgType == 0)
+		{
+
+		}
+		else if(msgType == 1)
+		{
+			Vector2 positionToSet = new Vector2(float.Parse(number[startIndex++]),float.Parse(number[startIndex++]));
+			if(PlayerStatusControl_Level2._instance.isPlayer1)
+			{
+				pa2.SetFireCommand(positionToSet);
+			}else
+			{
+				pa1.SetFireCommand(positionToSet);
+			}
+		}
+		else if(msgType == 2)
+		{
+			int player = int.Parse(number[startIndex++]);
+			float hpChange = float.Parse(number[startIndex++]);
+			if(player == 1)
+			{
+				Player1Status_Level2._instance.hpChange = hpChange;
+			}
+			else if(player == 2)
+			{
+				Player2Status_Level2._instance.hpChange = hpChange;
+			}
+		}
+	}
+
 
 	void StringToInfo(string str)
 	{
 		str = str.Replace("(","").Replace(")","");
 		string[] number = str.Split(',');
-		int msgType = int.Parse(number[0]);
-		Vector2 positionToSet = new Vector2(float.Parse(number[1]),float.Parse(number[2]));
+		int msgType = int.Parse(number[1]);
 		if(msgType == 0)
 		{
-			int dirCount = int.Parse(number[3]);
+			Vector2 positionToSet = new Vector2(float.Parse(number[2]),float.Parse(number[3]));
+			int dirCount = int.Parse(number[4]);
 			if(PlayerStatusControl_Level2._instance.isPlayer1)
 			{
 				em2.SetNextPosition(positionToSet);
@@ -48,9 +82,15 @@ public class TcpClient_Level2 : MonoBehaviour
 				em1.SetNextPosition(positionToSet);
 				em1.SetDirection(dirCount);
 			}
+			
+			if(number.Length > 5)
+			{
+				HandleSynMessage(number,5);
+			}
 		}
 		else if(msgType == 1)
 		{
+			Vector2 positionToSet = new Vector2(float.Parse(number[2]),float.Parse(number[3]));
 			if(PlayerStatusControl_Level2._instance.isPlayer1)
 			{
 				pa2.SetFireCommand(positionToSet);
@@ -58,7 +98,27 @@ public class TcpClient_Level2 : MonoBehaviour
 			{
 				pa1.SetFireCommand(positionToSet);
 			}
-			
+			if(number.Length > 4)
+			{
+				HandleSynMessage(number,4);
+			}
+		}
+		else if(msgType == 2)
+		{	
+			int player = int.Parse(number[2]);
+			float hpChange = float.Parse(number[3]);
+			if(player == 1)
+			{
+				Player1Status_Level2._instance.hpChange = hpChange;
+			}
+			else if(player == 2)
+			{
+				Player2Status_Level2._instance.hpChange = hpChange;
+			}
+			if(number.Length > 4)
+			{
+				HandleSynMessage(number,4);
+			}
 		}
 	}
 
@@ -66,18 +126,35 @@ public class TcpClient_Level2 : MonoBehaviour
 	{
 		str = str.Replace("(","").Replace(")","");
 		string[] number = str.Split(',');
-		int player = int.Parse(number[0]);
-		Vector2 positionToSet = new Vector2(float.Parse(number[1]),float.Parse(number[2]));
-		int dirCount = int.Parse(number[3]);
-		if(player == 1)
+		int msgType = int.Parse(number[0]);
+		int player = int.Parse(number[1]);
+		if(msgType == 0)
 		{
-			em1.SetNextPosition(positionToSet);
-			em1.SetDir(dirCount);
+			Vector2 positionToSet = new Vector2(float.Parse(number[2]),float.Parse(number[3]));
+			int dirCount = int.Parse(number[4]);
+			if(player == 1)
+			{
+				em1.SetNextPosition(positionToSet);
+				em1.SetDir(dirCount);
+			}
+			else if(player == 2)
+			{
+				em2.SetNextPosition(positionToSet);
+				em2.SetDir(dirCount);
+			}
 		}
-		else if(player == 2)
+		else if(msgType == 1)
 		{
-			em2.SetNextPosition(positionToSet);
-			em2.SetDir(dirCount);
+			Vector2 positionToSet = new Vector2(float.Parse(number[2]),float.Parse(number[3]));
+			if(player == 1)
+			{
+				pa1.SetFireCommand(positionToSet);
+			}
+			else if(player == 2)
+			{
+				pa2.SetFireCommand(positionToSet);
+			}
+			
 		}
 	}
 
@@ -89,6 +166,13 @@ public class TcpClient_Level2 : MonoBehaviour
 		}
 		else if(str == "G")
 		{
+			/* 
+			PlayerStatusControl_Level2._instance.checkCount += 1;
+			if(PlayerStatusControl_Level2._instance.checkCount == 2)
+			{
+				PlayerStatusControl_Level2._instance.enemyCheck = true;
+			}
+			*/
 			PlayerStatusControl_Level2._instance.enemyCheck = true;
 		}
 	}
@@ -159,6 +243,7 @@ public class TcpClient_Level2 : MonoBehaviour
 
 	void Start()
 	{
+		_instance = this;
 		em1 = player1.GetComponent<PlayerMove_Level2>();
 		em2 = player2.GetComponent<PlayerMove_Level2>();
 		pa1 = player1.GetComponent<PlayerAttack_Level2>();
@@ -193,7 +278,7 @@ public class TcpClient_Level2 : MonoBehaviour
 				break;
 		}
 		byte[] byteToSend = new byte[msgLen];
-		string posStr = "0" + "," + pos.ToString() + "," + count.ToString();
+		string posStr = ",0" + "," + pos.ToString() + "," + count.ToString();
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
@@ -217,7 +302,7 @@ public class TcpClient_Level2 : MonoBehaviour
 				break;
 		}
 		byte[] byteToSend = new byte[msgLen];
-		string posStr = player.ToString() + "," + pos.ToString() + "," + count.ToString();
+		string posStr = ",0" + "," + player.ToString() + "," + pos.ToString() + "," + count.ToString();
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
@@ -225,11 +310,18 @@ public class TcpClient_Level2 : MonoBehaviour
 	public void SendFireCommand(Vector2 pos)
 	{
 		byte[] byteToSend = new byte[msgLen];
-		string posStr = "1" + "," + pos.ToString();
+		string posStr = ",1" + "," + pos.ToString() + ",";
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
 
+	public void SendHpChange(int player, int value)
+	{
+		byte[] byteToSend = new byte[msgLen];
+		string posStr = ",2" + "," + player.ToString() + "," + value.ToString();
+		byteToSend = Encoding.ASCII.GetBytes(posStr);
+		serverSocket.Send(byteToSend);
+	}
 	void OnDisable()
 	{
 		SocketQuit();	

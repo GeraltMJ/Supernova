@@ -168,15 +168,19 @@ public class PlayerMove_Level2 : MonoBehaviour
 		{
 			case FaceDirection.Up:
 				anim.SetTrigger("UpWalk");
+				//transform.position = new Vector2(nextPosition.x, nextPosition.y + 0.1f);
 				break;
 			case FaceDirection.Down:
 				anim.SetTrigger("DownWalk");
+				//transform.position = new Vector2(nextPosition.x, nextPosition.y - 0.1f);
 				break;
 			case FaceDirection.Left:
 				anim.SetTrigger("LeftWalk");
+				//transform.position = new Vector2(nextPosition.x - 0.1f, nextPosition.y);
 				break;
 			case FaceDirection.Right:
 				anim.SetTrigger("RightWalk");
+				//transform.position = new Vector2(nextPosition.x + 0.1f, nextPosition.y);
 				break;
 		}
 	}
@@ -271,7 +275,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 		anim = GetComponent<Animator>();
 		//camAnimator = cam.GetComponent<Animator>();
 		tcpClient = networkManager.GetComponent<TcpClient_Level2>();
-		nextPosition = new Vector2(transform.position.x, transform.position.y);
+		nextPosition = new Vector2(transform.position.x, transform.position.y - 1);
 		nextDir = FaceDirection.Down;
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[1];
@@ -282,7 +286,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 	{
 		cam.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
 	}
-
+	
 	void FixedUpdate()
 	{
 		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
@@ -296,9 +300,26 @@ public class PlayerMove_Level2 : MonoBehaviour
 			EnemyMove();
 		} 
 	}
+
 	
 	void MoveAccordingToServer()
 	{
+
+		switch(dir)
+		{
+			case FaceDirection.Up:
+				anim.SetTrigger("UpWalk");
+				break;
+			case FaceDirection.Down:
+				anim.SetTrigger("DownWalk");
+				break;
+			case FaceDirection.Left:
+				anim.SetTrigger("LeftWalk");
+				break;
+			case FaceDirection.Right:
+				anim.SetTrigger("RightWalk");
+				break;
+		}
 		if(!isMoving)
 		{	
 			process = 0;
@@ -315,7 +336,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 				{
 					FixCameraPosition();
 				}
-				Debug.Log(process);
+				//Debug.Log(process);
 				//tcpClient.SendCurrentInfo(transform.position, dir);
 			}
 			else
@@ -351,13 +372,39 @@ public class PlayerMove_Level2 : MonoBehaviour
 		}
 	}
 
+	void ControlMoveSyn()
+	{	
+		if ((Input.GetKeyDown(KeyCode.W) || ETCInput.GetButton("UpButton")))
+		{
+			dir = FaceDirection.Up;
+			anim.SetTrigger("UpWalk");
+		}
+		else if(Input.GetKeyDown(KeyCode.S) || ETCInput.GetButton("DownButton"))
+		{
+			dir = FaceDirection.Down;
+			anim.SetTrigger("DownWalk");
+		}
+		else if(Input.GetKeyDown(KeyCode.A) || ETCInput.GetButton("LeftButton"))
+		{
+			dir = FaceDirection.Left;
+			anim.SetTrigger("LeftWalk");
+		}
+		else if(Input.GetKeyDown(KeyCode.D) || ETCInput.GetButton("RightButton"))
+		{
+			dir = FaceDirection.Right;
+			anim.SetTrigger("RightWalk");
+		}
+
+		
+	}
+
 	
-	/* 
-	private void FixedUpdate()
+	/*
+	private void Update()
 	{
 		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
 		{
-			ControlMove();
+			ControlMoveSyn();
 		}
 		MoveAccordingToServer();
 	}

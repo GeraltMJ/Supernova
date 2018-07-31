@@ -34,6 +34,7 @@ public class PlayerStatusControl_Level2 : MonoBehaviour {
 	private TcpClient_Level2 tcpClient;
 	public bool selfCheck = false;
 	public bool enemyCheck = false;
+	public int checkCount = 0;
 
 
 /*
@@ -143,6 +144,7 @@ public class PlayerStatusControl_Level2 : MonoBehaviour {
 				tcpClient.SendSelfCommand("G");
 				startButton.SetActive(false);
 				selfCheck = true;
+				Debug.Log("check");
 			}
 		}
 	}
