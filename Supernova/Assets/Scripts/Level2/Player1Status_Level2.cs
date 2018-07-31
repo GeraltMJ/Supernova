@@ -116,7 +116,9 @@ public class Player1Status_Level2 : MonoBehaviour {
 			{
 				originAttack -= 2;
 				attackBuff = false;
+				attackBuffFirst = true;
 				attackBuffText.enabled = false;
+				attackBuffRemain = 10.0f;
 			}
 		}
 	}
@@ -131,6 +133,7 @@ public class Player1Status_Level2 : MonoBehaviour {
 			{
 				damageReflect = false;
 				damageReflectText.enabled = false;
+				damageReflectRemain = 10.0f;
 			}
 		}
 	}
@@ -145,6 +148,7 @@ public class Player1Status_Level2 : MonoBehaviour {
 			{
 				overPoison = false;
 				overPoisonText.enabled = false;
+				overPoisonRemain = 10.0f;
 			}
 		}
 	}
@@ -159,6 +163,7 @@ public class Player1Status_Level2 : MonoBehaviour {
 			{
 				overArea = false;
 				overAreaText.enabled = false;
+				overAreaRemain = 10.0f;
 			}
 		}
 	}

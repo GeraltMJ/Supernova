@@ -342,13 +342,13 @@ public class PlayerAttack_Level2 : MonoBehaviour {
 					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
 						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
 					{
-						UpAttack();
-						LeftAttack();
-						RightAttack();
+						EnemyUpAttack();
+						EnemyLeftAttack();
+						EnemyRightAttack();
 					}
 					else
 					{
-						UpAttack();
+						EnemyUpAttack();
 					}
 				}
 				break;
@@ -360,13 +360,13 @@ public class PlayerAttack_Level2 : MonoBehaviour {
 					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
 						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
 					{
-						DownAttack();
-						LeftAttack();
-						RightAttack();
+						EnemyDownAttack();
+						EnemyLeftAttack();
+						EnemyRightAttack();
 					}
 					else
 					{
-						DownAttack();
+						EnemyDownAttack();
 					}
 				}
 				break;
@@ -378,13 +378,13 @@ public class PlayerAttack_Level2 : MonoBehaviour {
 					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
 						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
 					{
-						LeftAttack();
-						UpAttack();
-						DownAttack();
+						EnemyLeftAttack();
+						EnemyUpAttack();
+						EnemyDownAttack();
 					}
 					else
 					{
-						LeftAttack();
+						EnemyLeftAttack();
 					}
 				}
 				break;
@@ -396,13 +396,13 @@ public class PlayerAttack_Level2 : MonoBehaviour {
 					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
 						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
 					{
-						RightAttack();
-						UpAttack();
-						DownAttack();
+						EnemyRightAttack();
+						EnemyUpAttack();
+						EnemyDownAttack();
 					}
 					else
 					{
-						RightAttack();
+						EnemyRightAttack();
 					}
 				}
 				break;
