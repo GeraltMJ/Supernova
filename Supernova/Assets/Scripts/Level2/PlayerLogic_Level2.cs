@@ -42,7 +42,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 	private float assassinHp = 8f;
 	private float bossHp = 20f;
 
-	public AudioClip buffSound, dragonAttack, knightAttack, magicAttack, assassinAttack, bossAttack;
+	public AudioClip recoverBuff, dragonAttack, knightAttack, magicAttack, assassinAttack, bossAttack, enhanceBuff, overBuff;
 	private AudioSource audioSource;
 	private AudioSource[] audioSources;
 
@@ -416,7 +416,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player1Status_Level2._instance.overPoison)
 					{
-						Player1Status_Level2._instance.Damage(1);
+						//Player1Status_Level2._instance.Damage(1);
 					}
 					break;
 			}
@@ -445,7 +445,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player1Status_Level2._instance.overArea)
 					{
-						Player1Status_Level2._instance.Damage(1);
+						//Player1Status_Level2._instance.Damage(1);
 					}
 					break;
 			}
@@ -464,7 +464,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == addOneCount)
 			{
 				Player1Status_Level2._instance.Recover(1f);
-				audioSource.clip = buffSound;
+				audioSource.clip = recoverBuff;
 				audioSource.Play();
 				RecoverEffect();
 				Debug.Log("Player1 recorve 1 hp");
@@ -484,7 +484,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == addTwoCount)
 			{
 				Player1Status_Level2._instance.Recover(2f);
-				audioSource.clip = buffSound;
+				audioSource.clip = recoverBuff;
 				audioSource.Play();
 				RecoverEffect();
 				Debug.Log("Player1 recorve 2 hp");
@@ -504,7 +504,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == overPoisonCount)
 			{
 				Player1Status_Level2._instance.overPoison = true;
-				audioSource.clip = buffSound;
+				audioSource.clip = overBuff;
 				audioSource.Play();
 				Debug.Log("Player1 is poison no effect");
 			}
@@ -523,7 +523,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == overAreaCount)
 			{
 				Player1Status_Level2._instance.overArea = true;
-				audioSource.clip = buffSound;
+				audioSource.clip = overBuff;
 				audioSource.Play();
 				Debug.Log("Player1 is area no effect");
 			}
@@ -542,7 +542,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == damageReflectCount)
 			{
 				Player1Status_Level2._instance.damageReflect = true;
-				audioSource.clip = buffSound;
+				audioSource.clip = enhanceBuff;
 				audioSource.Play();
 				Debug.Log("Player1 is damage Reflect");
 			}
@@ -561,7 +561,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == attackBuffCount)
 			{
 				Player1Status_Level2._instance.attackBuff = true;
-				audioSource.clip = buffSound;
+				audioSource.clip = enhanceBuff;
 				audioSource.Play();
 				Debug.Log("Player1 is attack buff");
 			}
@@ -862,7 +862,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player2Status_Level2._instance.overPoison)
 					{
-						Player2Status_Level2._instance.Damage(1);
+						//Player2Status_Level2._instance.Damage(1);
 					}
 					break;
 			}
@@ -891,7 +891,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				case PlayerPower_Level2.Default:
 					if(!Player2Status_Level2._instance.overArea)
 					{
-						Player2Status_Level2._instance.Damage(1);
+						//Player2Status_Level2._instance.Damage(1);
 					}
 					break;
 			}
@@ -910,7 +910,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == addOneCount)
 			{
 				Player2Status_Level2._instance.Recover(1f);
-				audioSource.clip = buffSound;
+				audioSource.clip = recoverBuff;
 				audioSource.Play();
 				RecoverEffect();
 				Debug.Log("Player2 recorve 1 hp");
@@ -930,7 +930,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == addTwoCount)
 			{
 				Player2Status_Level2._instance.Recover(2f);
-				audioSource.clip = buffSound;
+				audioSource.clip = recoverBuff;
 				audioSource.Play();
 				RecoverEffect();
 				Debug.Log("Player2 recorve 2 hp");
@@ -950,7 +950,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == overPoisonCount)
 			{
 				Player2Status_Level2._instance.overPoison = true;
-				audioSource.clip = buffSound;
+				audioSource.clip = overBuff;
 				audioSource.Play();
 				Debug.Log("Player2 is poison no effect");
 			}
@@ -969,7 +969,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == overAreaCount)
 			{
 				Player2Status_Level2._instance.overArea = true;
-				audioSource.clip = buffSound;
+				audioSource.clip = overBuff;
 				audioSource.Play();
 				Debug.Log("Player2 is area no effect");
 			}
@@ -988,7 +988,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == damageReflectCount)
 			{
 				Player2Status_Level2._instance.damageReflect = true;
-				audioSource.clip = buffSound;
+				audioSource.clip = enhanceBuff;
 				audioSource.Play();
 				Debug.Log("Player2 is damage Reflect");
 			}
@@ -1007,7 +1007,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 			if(powerIndex == attackBuffCount)
 			{
 				Player2Status_Level2._instance.attackBuff = true;
-				audioSource.clip = buffSound;
+				audioSource.clip = enhanceBuff;
 				audioSource.Play();
 				Debug.Log("Player2 is attack buff");
 			}

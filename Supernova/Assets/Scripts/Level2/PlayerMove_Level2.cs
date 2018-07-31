@@ -135,22 +135,22 @@ public class PlayerMove_Level2 : MonoBehaviour
 	
 	void ControlMove()
 	{	
-		if ((Input.GetKeyDown(KeyCode.W) || ETCInput.GetAxisPressedUp("Vertical")))
+		if ((Input.GetKeyDown(KeyCode.W) || ETCInput.GetButton("UpButton")))
 		{
 			dir = FaceDirection.Up;
 			anim.SetTrigger("UpWalk");
 		}
-		else if(Input.GetKeyDown(KeyCode.S) || ETCInput.GetAxisPressedDown("Vertical"))
+		else if(Input.GetKeyDown(KeyCode.S) || ETCInput.GetButton("DownButton"))
 		{
 			dir = FaceDirection.Down;
 			anim.SetTrigger("DownWalk");
 		}
-		else if(Input.GetKeyDown(KeyCode.A) || ETCInput.GetAxisPressedLeft("Horizontal"))
+		else if(Input.GetKeyDown(KeyCode.A) || ETCInput.GetButton("LeftButton"))
 		{
 			dir = FaceDirection.Left;
 			anim.SetTrigger("LeftWalk");
 		}
-		else if(Input.GetKeyDown(KeyCode.D) || ETCInput.GetAxisPressedRight("Horizontal"))
+		else if(Input.GetKeyDown(KeyCode.D) || ETCInput.GetButton("RightButton"))
 		{
 			dir = FaceDirection.Right;
 			anim.SetTrigger("RightWalk");
@@ -283,7 +283,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 		cam.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
 	}
 
-	void Update()
+	void FixedUpdate()
 	{
 		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
 		{
