@@ -22,7 +22,7 @@ public class PlayerStatusControl_Level2 : MonoBehaviour {
 	private bool first = true;
 	private AudioSource audioSource;
 	public Image win_lose_Image;
-	public Sprite winPic, losePic;
+	public Sprite p1winPic, p2winPic;
 	public Image win_lose_black;
 
 	public bool player1Win = false;
@@ -96,13 +96,7 @@ public class PlayerStatusControl_Level2 : MonoBehaviour {
 		{
 			if(player1Win)
 			{
-				if(isPlayer1)
-				{
-					win_lose_Image.sprite = winPic;
-				}else
-				{
-					win_lose_Image.sprite = losePic;
-				}
+				win_lose_Image.sprite = p1winPic;
 				win_lose_Image.enabled = true;
 				win_lose_black.enabled = true;
 				player1Move.enabled = false;
@@ -112,13 +106,7 @@ public class PlayerStatusControl_Level2 : MonoBehaviour {
 			}
 			else if(player2Win)
 			{
-				if(!isPlayer1)
-				{
-					win_lose_Image.sprite = winPic;
-				}else
-				{
-					win_lose_Image.sprite = losePic;
-				}
+				win_lose_Image.sprite = p2winPic;
 				win_lose_Image.enabled = true;
 				win_lose_black.enabled = true;
 				player1Move.enabled = false;
