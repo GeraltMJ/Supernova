@@ -12768,7 +12768,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: af15f609f04664ab197bf564b2063e57, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6d752370ca7b549e9a19401e4eb7b1f0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.42
   m_Pitch: 1
@@ -13584,6 +13584,7 @@ MonoBehaviour:
   attackBuffText: {fileID: 1302943182}
   overPoisonText: {fileID: 2074482610}
   overAreaText: {fileID: 1412737442}
+  hpChange: 0
 --- !u!114 &650104510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22873,7 +22874,6 @@ MonoBehaviour:
   hp: 5
   originAttack: 0
   attackAbility: 0
-  bloodSound: {fileID: 8300000, guid: d194bbc5d59f24267a65765bec72ab65, type: 3}
   heartText: {fileID: 2102120712}
   weaponText: {fileID: 1741667548}
   weaponImage: {fileID: 708216335}
@@ -22885,6 +22885,7 @@ MonoBehaviour:
   bossWeapon: {fileID: 21300000, guid: 15e2d3643d23f47feb4239ec7bab52cb, type: 3}
   bloodEffect: {fileID: 1203018944915058, guid: ef7cbaae4f1c04007bac8ec8e1a92dd0,
     type: 2}
+  hpChange: 0
   damageReflectText: {fileID: 1676815338}
   attackBuffText: {fileID: 353145970}
   overPoisonText: {fileID: 683783897}

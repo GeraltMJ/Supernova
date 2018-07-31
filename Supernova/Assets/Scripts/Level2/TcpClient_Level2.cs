@@ -323,7 +323,7 @@ public class TcpClient_Level2 : MonoBehaviour
 	public void SendFireCommand(Vector2 pos)
 	{
 		byte[] byteToSend = new byte[msgLen];
-		string posStr = ",1" + "," + pos.ToString() + ",";
+		string posStr = ",1" + "," + pos.ToString();
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
