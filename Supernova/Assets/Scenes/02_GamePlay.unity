@@ -12832,7 +12832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9994306f7e144130b987dbebf88b4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetIP: 10.66.196.196
+  targetIP: 10.66.196.169
   port: 6666
   player1: {fileID: 1042894379}
   player2: {fileID: 650104507}
@@ -18461,7 +18461,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 1.7, y: 1.7}
   m_EdgeRadius: 0
 --- !u!1 &874779095
 GameObject:
@@ -23968,7 +23968,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9716981, g: 0.8981038, b: 0.8204432, a: 1}
+  m_Color: {r: 0.028301895, g: 0.027456397, b: 0.026566401, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -40374,7 +40374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.972549, g: 0.9019608, b: 0.8235294, a: 1}
+  m_Color: {r: 0.01886791, g: 0.018572805, b: 0.018244913, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -48635,7 +48635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.65882355, g: 0.9254902, b: 0.8627451, a: 1}
+  m_Color: {r: 0.03542183, g: 0.03773582, b: 0.03719135, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -54983,7 +54983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.65850836, g: 0.9245283, b: 0.8598266, a: 1}
+  m_Color: {r: 0.03577783, g: 0.03773582, b: 0.03724632, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
