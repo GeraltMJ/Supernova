@@ -593,7 +593,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				Debug.Log("Player1 is attack buff");
 			}
 		}
-		else if(collision.gameObject.CompareTag("Player1Bullet"))
+		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet"))
 		{
 
 		}
@@ -1067,7 +1067,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				Debug.Log("Player2 is attack buff");
 			}
 		}
-		else if(collision.gameObject.CompareTag("Player2Bullet"))
+		else if(collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player1Bullet"))
 		{
 
 		}
