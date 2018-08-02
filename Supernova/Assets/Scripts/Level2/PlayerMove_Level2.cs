@@ -109,6 +109,33 @@ public class PlayerMove_Level2 : MonoBehaviour
 				break;
 		}
 	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if(other.gameObject.CompareTag("Wall") || (gameObject.CompareTag("Player1") && other.gameObject.CompareTag("Player2")) ||
+													(gameObject.CompareTag("Player2") && other.gameObject.CompareTag("Player1")))
+		{
+			switch(dir)
+			{
+				case FaceDirection.Down:
+					dir = FaceDirection.Up;
+					anim.SetTrigger("UpWalk");
+					break;
+				case FaceDirection.Up:
+					dir = FaceDirection.Down;
+					anim.SetTrigger("DownWalk");
+					break;
+				case FaceDirection.Left:
+					dir = FaceDirection.Right;
+					anim.SetTrigger("RightWalk");
+					break;
+				case FaceDirection.Right:
+					dir = FaceDirection.Left;
+					anim.SetTrigger("LeftWalk");
+					break;
+			}
+		}
+	}
 	void SmokeEffect()
 	{
 		GameObject sm = (GameObject)Instantiate(smokeEffect, transform.position, Quaternion.identity);

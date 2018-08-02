@@ -42,6 +42,7 @@ TagManager:
   - WallBufferDown
   - WallBufferLeft
   - WallBufferRight
+  - PlayerCube
   layers:
   - Default
   - TransparentFX
