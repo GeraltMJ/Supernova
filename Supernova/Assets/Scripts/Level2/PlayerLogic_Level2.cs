@@ -593,6 +593,10 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				Debug.Log("Player1 is attack buff");
 			}
 		}
+		else if(collision.gameObject.CompareTag("Player1Bullet"))
+		{
+
+		}
 		else
 		{
 			RemovePowerRedCrossOnMap();
@@ -1063,7 +1067,10 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				Debug.Log("Player2 is attack buff");
 			}
 		}
-		
+		else if(collision.gameObject.CompareTag("Player2Bullet"))
+		{
+
+		}
 		else
 		{
 			RemovePowerRedCrossOnMap();
