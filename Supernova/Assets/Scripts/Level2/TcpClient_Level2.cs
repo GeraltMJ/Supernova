@@ -340,5 +340,4 @@ public class TcpClient_Level2 : MonoBehaviour
 		SocketQuit();	
 	}
 
-
 }
