@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class PlayerMove_Level2 : MonoBehaviour 
 {
 	private Animator anim;
-	public float speed = 2;
+	public float speed = 2.1f;
+	public float speedUp = 1f;
 	public float timer = 0.2f;
 	public float nowTime = 0.0f;
 	public FaceDirection dir = FaceDirection.Down;
@@ -280,7 +281,7 @@ public class PlayerMove_Level2 : MonoBehaviour
 		}
 		if(isMoving)
 		{
-			process += Time.deltaTime*speed;
+			process += Time.deltaTime*speed*speedUp;
 			if(process < 1)
 			{
 				transform.position = Vector2.Lerp(transform.position, endPosition, process);

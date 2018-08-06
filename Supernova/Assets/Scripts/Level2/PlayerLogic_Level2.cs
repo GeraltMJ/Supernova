@@ -142,6 +142,7 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 	{
 		bool visible = true;
 		bool attackBuffOnArea = false;
+		bool speedUpOnRain = false;
 		if (collision.gameObject.CompareTag("DragonPic"))
 		{
 			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Dragon 
@@ -593,7 +594,13 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				Debug.Log("Player1 is attack buff");
 			}
 		}
-		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet"))
+		else if(collision.gameObject.CompareTag("Rain"))
+		{
+			speedUpOnRain = true;
+			playerMove.speedUp = 2f;
+			powerIndex = 0;
+		}
+		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("PlayerCube"))
 		{
 
 		}
@@ -610,12 +617,17 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 		{
 			Player1Status_Level2._instance.attackAbility = Player1Status_Level2._instance.originAttack;
 		}
+		if(!speedUpOnRain)
+		{
+			playerMove.speedUp = 1f;
+		}
 	}
 
 	void CheckPlayer2Trigger(Collider2D collision)
 	{	
 		bool visible = true;
 		bool attackBuffOnArea = false;
+		bool speedUpOnRain = false;
 		if (collision.gameObject.CompareTag("DragonPic"))
 		{
 			if(Player2Status_Level2._instance.playerCharacter != PlayerCharacter_Level2.Dragon 
@@ -1067,7 +1079,13 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 				Debug.Log("Player2 is attack buff");
 			}
 		}
-		else if(collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player1Bullet"))
+		else if(collision.gameObject.CompareTag("Rain"))
+		{
+			speedUpOnRain = true;
+			playerMove.speedUp = 2f;
+			powerIndex = 0;
+		}
+		else if(collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("PlayerCube"))
 		{
 
 		}
@@ -1083,6 +1101,10 @@ public class PlayerLogic_Level2 : MonoBehaviour {
 		if(!attackBuffOnArea)
 		{
 			Player2Status_Level2._instance.attackAbility = Player2Status_Level2._instance.originAttack;
+		}
+		if(!speedUpOnRain)
+		{
+			playerMove.speedUp = 1f;
 		}
 	}
 
