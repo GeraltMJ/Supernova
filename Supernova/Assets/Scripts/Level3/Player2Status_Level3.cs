@@ -7,8 +7,9 @@ public class Player2Status_Level3 : MonoBehaviour {
 
 	public static Player2Status_Level3 _instance;
 
-	public PlayerCharacter_Level2 playerCharacter = PlayerCharacter_Level2.Default;
-	public PlayerPower_Level2 playerPower = PlayerPower_Level2.Default;
+	public PlayerCharacter_Level3 playerCharacter = PlayerCharacter_Level3.Default;
+	public PlayerPower_Level3 playerPower = PlayerPower_Level3.Default;
+	public PlayerSkill_Level3 playerSkill = PlayerSkill_Level3.Default;
 
 	public bool overPoison = false;
 	public bool overArea = false;
@@ -25,8 +26,8 @@ public class Player2Status_Level3 : MonoBehaviour {
 	private float damageReflectRemain = 10.0f;
 	private float overPoisonRemain = 10.0f;
 	private float overAreaRemain = 10.0f;
-	private PlayerAttack_Level2 attack;
-	private PlayerMove_Level2 move;
+	private PlayerAttack_Level3 attack;
+	private PlayerMove_Level3 move;
 	private AudioSource audioSource;
 	private AudioSource[] audioSources;
 	private Camera cam;
@@ -44,8 +45,8 @@ public class Player2Status_Level3 : MonoBehaviour {
 	void Awake () {
 		_instance = this;
 		cam = Camera.main;
-		attack = GetComponent<PlayerAttack_Level2>();
-		move = GetComponent<PlayerMove_Level2>();
+		attack = GetComponent<PlayerAttack_Level3>();
+		move = GetComponent<PlayerMove_Level3>();
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[2];
 		damageReflectText.enabled = false;
@@ -81,22 +82,40 @@ public class Player2Status_Level3 : MonoBehaviour {
 	{
 		switch(playerPower)
 		{
-			case PlayerPower_Level2.DragonPower:
+			case PlayerPower_Level3.DragonPower1:
 				weaponImage.sprite = dragonWeapon;
 				break;
-			case PlayerPower_Level2.KnightPower:
+			case PlayerPower_Level3.DragonPower2:
+				weaponImage.sprite = dragonWeapon;
+				break;
+			case PlayerPower_Level3.DragonPower3:
+				weaponImage.sprite = dragonWeapon;
+				break;
+			case PlayerPower_Level3.KnightPower1:
 				weaponImage.sprite = knightWeapon;
 				break;
-			case PlayerPower_Level2.MagicPower:
+			case PlayerPower_Level3.KnightPower2:
+				weaponImage.sprite = knightWeapon;
+				break;
+			case PlayerPower_Level3.MagicPower1:
 				weaponImage.sprite = magicWeapon;
 				break;
-			case PlayerPower_Level2.AssassinPower:
+			case PlayerPower_Level3.MagicPower2:
+				weaponImage.sprite = magicWeapon;
+				break;
+			case PlayerPower_Level3.MagicPower3:
+				weaponImage.sprite = magicWeapon;
+				break;
+			case PlayerPower_Level3.AssassinPower1:
 				weaponImage.sprite = assassinWeapon;
 				break;
-			case PlayerPower_Level2.BossPower:
+			case PlayerPower_Level3.AssassinPower2:
+				weaponImage.sprite = assassinWeapon;
+				break;
+			case PlayerPower_Level3.BossPower:
 				weaponImage.sprite = bossWeapon;
 				break;
-			case PlayerPower_Level2.Default:
+			case PlayerPower_Level3.Default:
 				weaponImage.sprite = defaultWeapon;
 				break;
 		}
@@ -226,6 +245,6 @@ public class Player2Status_Level3 : MonoBehaviour {
 	public void Dead()
 	{
 		isDead = true;
-		PlayerStatusControl_Level2._instance.player1Win = true;
+		PlayerStatusControl_Level3._instance.player1Win = true;
 	}
 }

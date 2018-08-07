@@ -17,14 +17,12 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	private GameObject bullet;
 
 	public GameObject networkManager;
-	private TcpClient_Level2 tcpClient;
+	private TcpClient_Level3 tcpClient;
 
 	public AudioClip dragonAttack, knightAttack, magicAttack, assassinAttack, bossAttack;
 	private AudioSource audioSource;
 	private AudioSource[] audioSources;
 	private Vector2 firePosition;
-
-	public bool autoAttack;
 
 	public void SetFireCommand(Vector2 pos)
 	{
@@ -35,7 +33,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	void Start()
 	{
 		anim = GetComponent<Animator>();
-		tcpClient = networkManager.GetComponent<TcpClient_Level2>();
+		tcpClient = networkManager.GetComponent<TcpClient_Level3>();
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[0];
 		firePosition = transform.position;
@@ -60,25 +58,15 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	void Shoot()
 	{
-		if(gameObject.CompareTag("Player1"))
+		if ( (gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.playerIdentity == 1)
+			|| (gameObject.CompareTag("Player2") && PlayerStatusControl_Level3._instance.playerIdentity == 2)
+			|| (gameObject.CompareTag("Player3") && PlayerStatusControl_Level3._instance.playerIdentity == 3) )
 		{
-			if(PlayerStatusControl_Level2._instance.isPlayer1 == true)
-			{
-				ControlShoot();
-			}else
-			{
-				EnemyShoot();
-			}
+			ControlShoot();
 		}
-		else if(gameObject.CompareTag("Player2"))
+		else
 		{
-			if(PlayerStatusControl_Level2._instance.isPlayer1 == false)
-			{
-				ControlShoot();
-			}else
-			{
-				EnemyShoot();
-			}
+			EnemyShoot();
 		}
 	}
 
@@ -123,72 +111,117 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		}
 	}
 
-
-	void Fire()
+	void SelectAccordingToPower(PlayerPower_Level3 power)
 	{
-		isShoot = true;
-		faceDir = gameObject.GetComponent<PlayerMove_Level2>().dir;
+		switch(power)
+		{
+			case PlayerPower_Level3.DragonPower1:
+				bullet = dragonBullet;
+				audioSource.clip = dragonAttack;
+				break;
+			case PlayerPower_Level3.DragonPower2:
+				bullet = dragonBullet;
+				audioSource.clip = dragonAttack;
+				break;
+			case PlayerPower_Level3.DragonPower3:
+				bullet = dragonBullet;
+				audioSource.clip = dragonAttack;
+				break;
+			case PlayerPower_Level3.KnightPower1:
+				bullet = knightBullet;
+				audioSource.clip = knightAttack;
+				break;
+			case PlayerPower_Level3.KnightPower2:
+				bullet = knightBullet;
+				audioSource.clip = knightAttack;
+				break;
+			case PlayerPower_Level3.MagicPower1:
+				bullet = magicBullet;
+				audioSource.clip = magicAttack;
+				break;
+			case PlayerPower_Level3.MagicPower2:
+				bullet = magicBullet;
+				audioSource.clip = magicAttack;
+				break;
+			case PlayerPower_Level3.MagicPower3:
+				bullet = magicBullet;
+				audioSource.clip = magicAttack;
+				break;
+			case PlayerPower_Level3.AssassinPower1:
+				bullet = assassinBullet;
+				audioSource.clip = assassinAttack;
+				break;
+			case PlayerPower_Level3.AssassinPower2:
+				bullet = assassinBullet;
+				audioSource.clip = assassinAttack;
+				break;
+			case PlayerPower_Level3.BossPower:
+				bullet = bossBullet;
+				audioSource.clip = bossAttack;
+				break;
+			case PlayerPower_Level3.Default:
+				bullet = null;
+				audioSource.clip = null;
+				break;
+		}
+	}
 
+	void SelectBullet()
+	{
 		if(gameObject.CompareTag("Player1"))
 		{
-			switch(Player1Status_Level2._instance.playerPower)
+			switch(Player1Status_Level3._instance.playerSkill)
 			{
-				case PlayerPower_Level2.DragonPower:
-					bullet = dragonBullet;
-					audioSource.clip = dragonAttack;
+				case PlayerSkill_Level3.ShieldSkill:
 					break;
-				case PlayerPower_Level2.KnightPower:
-					bullet = knightBullet;
-					audioSource.clip = knightAttack;
+				case PlayerSkill_Level3.GunSkill:
 					break;
-				case PlayerPower_Level2.MagicPower:
-					bullet = magicBullet;
-					audioSource.clip = magicAttack;
+				case PlayerSkill_Level3.IceSkill:
 					break;
-				case PlayerPower_Level2.AssassinPower:
-					bullet = assassinBullet;
-					audioSource.clip = assassinAttack;
-					break;
-				case PlayerPower_Level2.BossPower:
-					bullet = bossBullet;
-					audioSource.clip = bossAttack;
-					break;
-				case PlayerPower_Level2.Default:
-					bullet = null;
-					audioSource.clip = null;
+				case PlayerSkill_Level3.Default:
+					SelectAccordingToPower(Player1Status_Level3._instance.playerPower);
 					break;
 			}
 		}
 		else if(gameObject.CompareTag("Player2"))
 		{
-			switch(Player2Status_Level2._instance.playerPower)
+			switch(Player2Status_Level3._instance.playerSkill)
 			{
-				case PlayerPower_Level2.DragonPower:
-					bullet = dragonBullet;
-					audioSource.clip = dragonAttack;
+				case PlayerSkill_Level3.ShieldSkill:
 					break;
-				case PlayerPower_Level2.KnightPower:
-					bullet = knightBullet;
-					audioSource.clip = knightAttack;
+				case PlayerSkill_Level3.GunSkill:
 					break;
-				case PlayerPower_Level2.MagicPower:
-					bullet = magicBullet;
-					audioSource.clip = magicAttack;
+				case PlayerSkill_Level3.IceSkill:
 					break;
-				case PlayerPower_Level2.AssassinPower:
-					bullet = assassinBullet;
-					audioSource.clip = assassinAttack;
-					break;
-				case PlayerPower_Level2.BossPower:
-					bullet = bossBullet;
-					audioSource.clip = bossAttack;
-					break;
-				case PlayerPower_Level2.Default:
-					bullet = null;
-					audioSource.clip = null;
+				case PlayerSkill_Level3.Default:
+					SelectAccordingToPower(Player2Status_Level3._instance.playerPower);
 					break;
 			}
 		}
+		else if(gameObject.CompareTag("Player3"))
+		{
+			switch(Player3Status_Level3._instance.playerSkill)
+			{
+				case PlayerSkill_Level3.ShieldSkill:
+					break;
+				case PlayerSkill_Level3.GunSkill:
+					break;
+				case PlayerSkill_Level3.IceSkill:
+					break;
+				case PlayerSkill_Level3.Default:
+					SelectAccordingToPower(Player3Status_Level3._instance.playerPower);
+					break;
+			}
+		}
+	}
+
+
+	void Fire()
+	{
+		isShoot = true;
+		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
+
+		SelectBullet();
 		audioSource.Play();
 		switch (faceDir)
 		{
@@ -196,8 +229,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("UpAttack");
 				if(bullet)
 				{	
-					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
-						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
+					if((gameObject.CompareTag("Player1") && Player1Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player3") && Player3Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower))
 					{
 						UpAttack();
 						LeftAttack();
@@ -214,8 +248,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("DownAttack");
 				if(bullet)
 				{	
-					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
-						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
+					if((gameObject.CompareTag("Player1") && Player1Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player3") && Player3Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower))
 					{
 						DownAttack();
 						LeftAttack();
@@ -232,8 +267,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("LeftAttack");
 				if(bullet)
 				{
-					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
-						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
+					if((gameObject.CompareTag("Player1") && Player1Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player3") && Player3Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower))
 					{
 						LeftAttack();
 						UpAttack();
@@ -250,8 +286,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("RightAttack");
 				if(bullet)
 				{
-					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
-						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
+					if((gameObject.CompareTag("Player1") && Player1Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player3") && Player3Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower))
 					{
 						RightAttack();
 						UpAttack();
@@ -270,68 +307,8 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	void EnemyFire()
 	{
 		isShoot = true;
-		faceDir = gameObject.GetComponent<PlayerMove_Level2>().dir;
-
-		if(gameObject.CompareTag("Player1"))
-		{
-			switch(Player1Status_Level2._instance.playerPower)
-			{
-				case PlayerPower_Level2.DragonPower:
-					bullet = dragonBullet;
-					audioSource.clip = dragonAttack;
-					break;
-				case PlayerPower_Level2.KnightPower:
-					bullet = knightBullet;
-					audioSource.clip = knightAttack;
-					break;
-				case PlayerPower_Level2.MagicPower:
-					bullet = magicBullet;
-					audioSource.clip = magicAttack;
-					break;
-				case PlayerPower_Level2.AssassinPower:
-					bullet = assassinBullet;
-					audioSource.clip = assassinAttack;
-					break;
-				case PlayerPower_Level2.BossPower:
-					bullet = bossBullet;
-					audioSource.clip = bossAttack;
-					break;
-				case PlayerPower_Level2.Default:
-					bullet = null;
-					audioSource.clip = null;
-					break;
-			}
-		}
-		else if(gameObject.CompareTag("Player2"))
-		{
-			switch(Player2Status_Level2._instance.playerPower)
-			{
-				case PlayerPower_Level2.DragonPower:
-					bullet = dragonBullet;
-					audioSource.clip = dragonAttack;
-					break;
-				case PlayerPower_Level2.KnightPower:
-					bullet = knightBullet;
-					audioSource.clip = knightAttack;
-					break;
-				case PlayerPower_Level2.MagicPower:
-					bullet = magicBullet;
-					audioSource.clip = magicAttack;
-					break;
-				case PlayerPower_Level2.AssassinPower:
-					bullet = assassinBullet;
-					audioSource.clip = assassinAttack;
-					break;
-				case PlayerPower_Level2.BossPower:
-					bullet = bossBullet;
-					audioSource.clip = bossAttack;
-					break;
-				case PlayerPower_Level2.Default:
-					bullet = null;
-					audioSource.clip = null;
-					break;
-			}
-		}
+		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
+		SelectBullet();
 		audioSource.Play();
 		switch (faceDir)
 		{

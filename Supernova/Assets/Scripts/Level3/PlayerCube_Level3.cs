@@ -5,11 +5,11 @@ using UnityEngine;
 public class PlayerCube_Level3 : MonoBehaviour {
 
 	public GameObject player;
-	private PlayerMove_Level2 pm;
+	private PlayerMove_Level3 pm;
 	private	Animator anim;
 	// Use this for initialization
 	void Start () {
-		pm = player.GetComponent<PlayerMove_Level2>();
+		pm = player.GetComponent<PlayerMove_Level3>();
 		anim = player.GetComponent<Animator>();
 	}
 	
@@ -40,7 +40,6 @@ public class PlayerCube_Level3 : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log("child check");
 		if(other.gameObject.CompareTag("Wall"))
 		{
 			Opposite();

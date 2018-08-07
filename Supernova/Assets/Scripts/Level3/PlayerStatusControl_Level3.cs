@@ -8,11 +8,14 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 
 
 	public static PlayerStatusControl_Level3 _instance;
+	public int playerIdentity;
 	public bool isPlayer1 = false;
 	public GameObject player1;
 	public GameObject player2;
-	private PlayerMove_Level2 player1Move;
-	private PlayerMove_Level2 player2Move;
+	public GameObject player3;
+	private PlayerMove_Level3 player1Move;
+	private PlayerMove_Level3 player2Move;
+	private PlayerMove_Level3 player3Move;
 
 	public Text text;
 	private float remainSeconds;
@@ -22,19 +25,19 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	private bool first = true;
 	private AudioSource audioSource;
 	public Image win_lose_Image;
-	public Sprite p1winPic, p2winPic;
+	public Sprite p1winPic, p2winPic, p3winPic;
 	public Image win_lose_black;
 
 	public bool player1Win = false;
 	public bool player2Win = false;
+	public bool player3Win = false;
 
 	public GameObject restartButton, startButton;
 	private bool gameOver = false;
 	public bool twoReady = false;
-	private TcpClient_Level2 tcpClient;
+	private TcpClient_Level3 tcpClient;
 	public bool selfCheck = false;
 	public bool enemyCheck = false;
-	public int checkCount = 0;
 
 
 /*
@@ -75,17 +78,19 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	void Awake()
 	{
 		_instance = this;
-		player1Move = player1.GetComponent<PlayerMove_Level2>();
-		player2Move = player2.GetComponent<PlayerMove_Level2>();
+		player1Move = player1.GetComponent<PlayerMove_Level3>();
+		player2Move = player2.GetComponent<PlayerMove_Level3>();
+		player3Move = player3.GetComponent<PlayerMove_Level3>();
 		player1Move.enabled = false;
 		player2Move.enabled = false;
+		player3Move.enabled = false;
 		remainSeconds = 3f;
 		durationSeconds = 0;
 		text.text = "Wait for another player";
 		audioSource = GetComponent<AudioSource>();
 		win_lose_Image.enabled = false;
 		win_lose_black.enabled = false;
-		tcpClient = GetComponent<TcpClient_Level2>();
+		tcpClient = GetComponent<TcpClient_Level3>();
 		
 
 	}
@@ -107,6 +112,16 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 			else if(player2Win)
 			{
 				win_lose_Image.sprite = p2winPic;
+				win_lose_Image.enabled = true;
+				win_lose_black.enabled = true;
+				player1Move.enabled = false;
+				player2Move.enabled = false;
+				restartButton.SetActive(true);
+				gameOver = true;
+			}
+			else if(player3Win)
+			{
+				win_lose_Image.sprite = p3winPic;
 				win_lose_Image.enabled = true;
 				win_lose_black.enabled = true;
 				player1Move.enabled = false;
