@@ -30,11 +30,14 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 	private int gunSkillCount = 6;
 	private int changeHpSkillCount = 8;
 	private int iceSkillCount = 12;
+	private int teleportCount = 3;
 	private TcpClient_Level3 tcpClient;
 
 	public Sprite poisonReplace;
 	public Sprite areaReplace;
 	public Sprite windReplace;
+
+	public GameObject[] teleportPosition;
 	
 
 	public GameObject smokeEffect;
@@ -875,7 +878,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemovePowerRedCrossOnMap();
 				powerIndex = 0;
 			}
-			if(powerIndex == attackBuffCount)
+			if(powerIndex == gunSkillCount)
 			{
 				Player1Status_Level3._instance.playerSkill = PlayerSkill_Level3.GunSkill;
 				audioSource.clip = enhanceBuffClip;
@@ -894,7 +897,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemovePowerRedCrossOnMap();
 				powerIndex = 0;
 			}
-			if(powerIndex == attackBuffCount)
+			if(powerIndex == iceSkillCount)
 			{
 				Player1Status_Level3._instance.playerSkill = PlayerSkill_Level3.IceSkill;
 				audioSource.clip = enhanceBuffClip;
@@ -902,6 +905,92 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				Debug.Log("Player1 has ice skill");
 			}
 		}
+		else if(collision.gameObject.CompareTag("ChangeHpPic"))
+		{
+			if(collision.gameObject.name == "ChangeHpPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == changeHpSkillCount)
+			{
+				if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+				{
+					if(Player2Status_Level3._instance.hp >= Player3Status_Level3._instance.hp)
+					{
+						if(Player2Status_Level3._instance.hp > Player1Status_Level3._instance.hp)
+						{
+							int diff = Mathf.RoundToInt(Player2Status_Level3._instance.hp - Player1Status_Level3._instance.hp);
+							Player1Status_Level3._instance.Recover(diff);
+							Player2Status_Level3._instance.Damage(diff);
+							tcpClient.SendHpChange(1,diff);
+							tcpClient.SendHpChange(2,-diff);
+							Debug.Log("Player1 and Player2 exchange hp");
+						}
+					}
+					else
+					{
+						if(Player3Status_Level3._instance.hp > Player1Status_Level3._instance.hp)
+						{
+							int diff = Mathf.RoundToInt(Player3Status_Level3._instance.hp - Player1Status_Level3._instance.hp);
+							Player1Status_Level3._instance.Recover(diff);
+							Player3Status_Level3._instance.Damage(diff);
+							tcpClient.SendHpChange(1,diff);
+							tcpClient.SendHpChange(3,-diff);
+							Debug.Log("Player1 and Player3 exchange hp");
+						}
+					}
+				}
+				audioSource.clip = enhanceBuffClip;
+				audioSource.Play();
+			}
+		}
+		else if(collision.gameObject.CompareTag("TeleportPic"))
+		{
+			if(collision.gameObject.name == "TeleportPic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport1Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport2Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport3Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport4Pic" + powerIndex.ToString() )
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == teleportCount)
+			{
+				if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+				{
+					if(collision.gameObject.name == "Teleport1Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[0].transform.position;
+					}
+					else if(collision.gameObject.name == "Teleport2Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[1].transform.position;
+					}
+					else if(collision.gameObject.name == "Teleport3Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[2].transform.position;
+					}
+					else if(collision.gameObject.name == "Teleport4Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[3].transform.position;
+					}
+				}
+				audioSource.clip = enhanceBuffClip;
+				audioSource.Play();
+				Debug.Log("Player1 has use teleport");
+			}
+		}
+		
 		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player3Bullet")
 				|| collision.gameObject.CompareTag("PlayerCube"))
 		{
@@ -1645,7 +1734,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemovePowerRedCrossOnMap();
 				powerIndex = 0;
 			}
-			if(powerIndex == attackBuffCount)
+			if(powerIndex == gunSkillCount)
 			{
 				Player2Status_Level3._instance.playerSkill = PlayerSkill_Level3.GunSkill;
 				audioSource.clip = enhanceBuffClip;
@@ -1664,12 +1753,97 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemovePowerRedCrossOnMap();
 				powerIndex = 0;
 			}
-			if(powerIndex == attackBuffCount)
+			if(powerIndex == iceSkillCount)
 			{
 				Player2Status_Level3._instance.playerSkill = PlayerSkill_Level3.IceSkill;
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player2 has ice skill");
+			}
+		}
+		else if(collision.gameObject.CompareTag("ChangeHpPic"))
+		{
+			if(collision.gameObject.name == "ChangeHpPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == changeHpSkillCount)
+			{
+				if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
+				{
+					if(Player1Status_Level3._instance.hp >= Player3Status_Level3._instance.hp)
+					{
+						if(Player1Status_Level3._instance.hp > Player2Status_Level3._instance.hp)
+						{
+							int diff = Mathf.RoundToInt(Player1Status_Level3._instance.hp - Player2Status_Level3._instance.hp);
+							Player2Status_Level3._instance.Recover(diff);
+							Player1Status_Level3._instance.Damage(diff);
+							tcpClient.SendHpChange(2,diff);
+							tcpClient.SendHpChange(1,-diff);
+							Debug.Log("Player2 and Player1 exchange hp");
+						}
+					}
+					else
+					{
+						if(Player3Status_Level3._instance.hp > Player2Status_Level3._instance.hp)
+						{
+							int diff = Mathf.RoundToInt(Player3Status_Level3._instance.hp - Player2Status_Level3._instance.hp);
+							Player2Status_Level3._instance.Recover(diff);
+							Player3Status_Level3._instance.Damage(diff);
+							tcpClient.SendHpChange(2,diff);
+							tcpClient.SendHpChange(3,-diff);
+							Debug.Log("Player2 and Player3 exchange hp");
+						}
+					}
+				}
+				audioSource.clip = enhanceBuffClip;
+				audioSource.Play();
+			}
+		}
+		else if(collision.gameObject.CompareTag("TeleportPic"))
+		{
+			if(collision.gameObject.name == "TeleportPic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport1Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport2Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport3Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport4Pic" + powerIndex.ToString() )
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == teleportCount)
+			{
+				if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
+				{
+					if(collision.gameObject.name == "Teleport1Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[0].transform.position;
+					}
+					else if(collision.gameObject.name == "Teleport2Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[1].transform.position;
+					}
+					else if(collision.gameObject.name == "Teleport3Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[2].transform.position;
+					}
+					else if(collision.gameObject.name == "Teleport4Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[3].transform.position;
+					}
+				}
+				audioSource.clip = enhanceBuffClip;
+				audioSource.Play();
+				Debug.Log("Player2 has use teleport");
 			}
 		}
 		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player3Bullet")
@@ -2416,7 +2590,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemovePowerRedCrossOnMap();
 				powerIndex = 0;
 			}
-			if(powerIndex == attackBuffCount)
+			if(powerIndex == gunSkillCount)
 			{
 				Player3Status_Level3._instance.playerSkill = PlayerSkill_Level3.GunSkill;
 				audioSource.clip = enhanceBuffClip;
@@ -2435,12 +2609,97 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemovePowerRedCrossOnMap();
 				powerIndex = 0;
 			}
-			if(powerIndex == attackBuffCount)
+			if(powerIndex == iceSkillCount)
 			{
 				Player3Status_Level3._instance.playerSkill = PlayerSkill_Level3.IceSkill;
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player3 has ice skill");
+			}
+		}
+		else if(collision.gameObject.CompareTag("ChangeHpPic"))
+		{
+			if(collision.gameObject.name == "ChangeHpPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == changeHpSkillCount)
+			{
+				if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
+				{
+					if(Player1Status_Level3._instance.hp >= Player2Status_Level3._instance.hp)
+					{
+						if(Player1Status_Level3._instance.hp > Player3Status_Level3._instance.hp)
+						{
+							int diff = Mathf.RoundToInt(Player1Status_Level3._instance.hp - Player3Status_Level3._instance.hp);
+							Player3Status_Level3._instance.Recover(diff);
+							Player1Status_Level3._instance.Damage(diff);
+							tcpClient.SendHpChange(3,diff);
+							tcpClient.SendHpChange(1,-diff);
+							Debug.Log("Player3 and Player1 exchange hp");
+						}
+					}
+					else
+					{
+						if(Player2Status_Level3._instance.hp > Player3Status_Level3._instance.hp)
+						{
+							int diff = Mathf.RoundToInt(Player2Status_Level3._instance.hp - Player3Status_Level3._instance.hp);
+							Player3Status_Level3._instance.Recover(diff);
+							Player2Status_Level3._instance.Damage(diff);
+							tcpClient.SendHpChange(3,diff);
+							tcpClient.SendHpChange(2,-diff);
+							Debug.Log("Player3 and Player2 exchange hp");
+						}
+					}
+				}
+				audioSource.clip = enhanceBuffClip;
+				audioSource.Play();
+			}
+		}
+		else if(collision.gameObject.CompareTag("TeleportPic"))
+		{
+			if(collision.gameObject.name == "TeleportPic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport1Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport2Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport3Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport4Pic" + powerIndex.ToString() )
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == teleportCount)
+			{
+				if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
+				{
+					if(collision.gameObject.name == "Teleport1Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[0].transform.position;
+					}
+					else if(collision.gameObject.name == "Teleport2Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[1].transform.position;
+					}
+					else if(collision.gameObject.name == "Teleport3Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[2].transform.position;
+					}
+					else if(collision.gameObject.name == "Teleport4Pic" + (powerIndex-1).ToString())
+					{
+						gameObject.transform.position = teleportPosition[3].transform.position;
+					}
+				}
+				audioSource.clip = enhanceBuffClip;
+				audioSource.Play();
+				Debug.Log("Player3 has use teleport");
 			}
 		}
 		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player3Bullet")

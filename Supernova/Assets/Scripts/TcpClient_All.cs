@@ -226,14 +226,6 @@ public class TcpClient_All : MonoBehaviour
 		serverSocket.Send(byteToSend);
 	}
 
-	public void SendTeamCommand(int player, int team)
-	{
-		byte[] byteToSend = new byte[msgLen];
-		string posStr = ",5" + "," + player.ToString() + "," + team.ToString();;
-		byteToSend = Encoding.ASCII.GetBytes(posStr);
-		serverSocket.Send(byteToSend);
-	}
-
 	public void SendStartCommand(){
 		byte[] byteToSend = new byte[msgLen];
 		string posStr = ",999";
@@ -269,12 +261,6 @@ public class TcpClient_All : MonoBehaviour
 		{
 			int player = int.Parse(number[startIndex++]);
 			RoomMenuLogic._instance.SetPlayerQuit(player);
-		}
-		else if(msgType == 5)
-		{
-			int player = int.Parse(number[startIndex++]);
-			int team = int.Parse(number[startIndex++]);
-			RoomMenuLogic._instance.SetPlayerTeam(player,team);
 		}
 		else if(msgType == 999)
 		{
@@ -331,7 +317,6 @@ public class TcpClient_All : MonoBehaviour
 			RoomMenuLogic._instance.playerIndex = 3;
 		}
 		RoomMenuLogic._instance.SetPlayerCharacter(PlayerStatusControl_All._instance.playerIndex, 0);
-		RoomMenuLogic._instance.SetPlayerTeam(PlayerStatusControl_All._instance.playerIndex,0);
 		SendEnterRoomInfo(PlayerStatusControl_All._instance.playerIndex);
 
 		while(true)

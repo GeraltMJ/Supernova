@@ -9,10 +9,10 @@ public class RoomMenuLogic : MonoBehaviour {
 	public static RoomMenuLogic _instance;
 	public GameObject gameRoom; //游戏大厅的 Sprite
 
-	public GameObject[] playerCharacter; //表示房间里显示的 4 个角色立绘
+	public GameObject[] playerCharacter; //表示房间里显示的 3 个角色立绘
 	private Image[] playerCharacterImage;
-	public GameObject[] readyPic;//表示4个角色的Ready图片
-	public Sprite[] characterSprites; //4 个角色的立绘图像
+	public GameObject[] readyPic;//表示3个角色的Ready图片
+	public Sprite[] characterSprites; //3 个角色的立绘图像
 	public Sprite[] mapSprites;
 	
 	public Sprite defaultCharacter;
@@ -22,9 +22,6 @@ public class RoomMenuLogic : MonoBehaviour {
 	public int picIndex = 0; // 表示玩家选的是第几个立绘，默认是第一个立绘
 
 	private int readyCount = 0;
-
-	public bool isTeam1 = true;
-	private int team1Number = 0;
 
 	public GameObject characterSelect;
 	private Image characterSelectImage;
@@ -44,17 +41,12 @@ public class RoomMenuLogic : MonoBehaviour {
 	public GameObject loadingPicture;//Lodading界面图片
 	private int sceneIndex = 0;//表示需要载入的游戏场景的Index
 	private int sceneTotal;//表示总共可以载入的游戏场景关卡
-	public Text[] teamText;
+
 	public int[] playerCharacterIndexArray;
 	public int[] playerReadyStatus;
-	public int[] playerTeamStatus;
 
 	// Use this for initialization
 
-	public void SetPlayerTeam(int player, int team)
-	{
-		playerTeamStatus[player] = team;
-	}
 
 	public void SetPlayerReady(int player)
 	{
@@ -73,7 +65,6 @@ public class RoomMenuLogic : MonoBehaviour {
 	{
 		playerCharacterIndexArray[player] = -1;
 		playerReadyStatus[player] = 0;
-		playerTeamStatus[player] = 0;
 		playerTotal--;
 	}
 	public void StartGame(){}
@@ -83,7 +74,6 @@ public class RoomMenuLogic : MonoBehaviour {
 		playerCharacterIndexArray[player] = 0;
 		playerTotal++;
 		TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
-		TcpClient_All._instance.SendTeamCommand(playerIndex, playerTeamStatus[playerIndex]);
 		if(isReady)
 		{
 			TcpClient_All._instance.SendReadyCommand(playerIndex);
@@ -97,7 +87,7 @@ public class RoomMenuLogic : MonoBehaviour {
 
 	void CheckPlayerStatus()
 	{
-		for(int i = 0; i < 4; i++){
+		for(int i = 0; i < 3; i++){
 			if(playerCharacterIndexArray[i] == -1)
 			{
 				playerCharacterImage[i].sprite = defaultCharacter;
@@ -121,46 +111,25 @@ public class RoomMenuLogic : MonoBehaviour {
 		mapSelectImage.sprite = mapSprites[mapIndex];
 	}
 
-	void CheckTeamStatus()
-	{
-		int count = 0;
-		for(int i = 0; i < 4; i++)
-		{
-			if(playerTeamStatus[i] == 1){
-				count++;
-				teamText[i].text = "Team1";
-			}
-			else if(playerTeamStatus[i] == 2)
-			{
-				teamText[i].text = "Team2";
-			}
-			else
-			{
-				teamText[i].text = "";
-			}
-		}
-		team1Number = count;
-	}
 
 	void Awake()
 	{
 		_instance = this;
-		playerCharacterImage = new Image[4];
-		for(int i = 0; i < 4; i++){
+		playerCharacterImage = new Image[3];
+		for(int i = 0; i < 3; i++){
 			playerCharacterImage[i] = playerCharacter[i].GetComponent<Image>();
 		}
 		characterSelectImage = characterSelect.GetComponent<Image>();
 		mapSelectImage = mapSelect.GetComponent<Image>();
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < 3; i++)
 		{
 			playerCharacterImage[i].sprite = defaultCharacter;
 		}
 		characterSelectImage.sprite = characterSprites[0];
 		mapIndex = 0;
-		playerCharacterIndexArray = new int[4];
-		playerReadyStatus = new int[4];
-		playerTeamStatus = new int[4];
-		for(int i = 0; i < 4; i++){
+		playerCharacterIndexArray = new int[3];
+		playerReadyStatus = new int[3];
+		for(int i = 0; i < 3; i++){
 			playerCharacterIndexArray[i] = -1;
 		}
 	}
@@ -193,7 +162,6 @@ public class RoomMenuLogic : MonoBehaviour {
 		
 		CheckPlayerStatus();
 		CheckMapSelect();
-		CheckTeamStatus();
 
 		if(async == null)
 		{
@@ -223,7 +191,7 @@ public class RoomMenuLogic : MonoBehaviour {
 	//右选人按钮的点击事件
 	public void OnCharRightBtnDown()
 	{
-		picIndex = (picIndex + 1) % 4;
+		picIndex = (picIndex + 1) % 3;
 		characterSelectImage.sprite = characterSprites[picIndex];
 		SetPlayerCharacter(playerIndex, picIndex);
 		TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
@@ -233,7 +201,7 @@ public class RoomMenuLogic : MonoBehaviour {
 	//左选人按钮的点击事件
 	public void OnCharLeftBtnDown()
 	{
-		picIndex = (picIndex + 3) % 4;
+		picIndex = (picIndex + 2) % 3;
 		characterSelectImage.sprite = characterSprites[picIndex];
 		SetPlayerCharacter(playerIndex, picIndex);
 		TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
@@ -256,27 +224,6 @@ public class RoomMenuLogic : MonoBehaviour {
 		TcpClient_All._instance.SendMapSelectCommand(mapIndex);
 	}
 
-	public void OnTeamOneButton()
-	{
-		if(!isTeam1)
-		{
-			isTeam1 = true;
-			team1Number++;
-		}
-		SetPlayerTeam(playerIndex, 1);
-		TcpClient_All._instance.SendTeamCommand(playerIndex, 1);
-	}
-
-	public void OnTeamTwoButton()
-	{
-		if(isTeam1)
-		{
-			isTeam1 = false;
-			team1Number--;
-		}
-		SetPlayerTeam(playerIndex,2);
-		TcpClient_All._instance.SendTeamCommand(playerIndex,2);
-	}
 	
 
 	//当除房主外另外3个玩家准备完毕后，开始按钮点击事件
