@@ -16,11 +16,11 @@ public class PlayerMove_Level3 : MonoBehaviour
 
 	public GameObject smokeEffect;
 	public GameObject networkManager;
-	private TcpClient_Level2 tcpClient;
+	private TcpClient_Level3 tcpClient;
 	public Camera cam;
 	private Animator camAnimator;
 
-	private Vector2 endPosition;
+	public Vector2 endPosition;
 	private float process;
 
 	private Vector2 nextPosition;
@@ -302,7 +302,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 	{	
 		anim = GetComponent<Animator>();
 		//camAnimator = cam.GetComponent<Animator>();
-		tcpClient = networkManager.GetComponent<TcpClient_Level2>();
+		tcpClient = networkManager.GetComponent<TcpClient_Level3>();
 		nextPosition = new Vector2(transform.position.x, transform.position.y - 1);
 		nextDir = FaceDirection.Down;
 		audioSources = GetComponents<AudioSource>();
@@ -317,7 +317,9 @@ public class PlayerMove_Level3 : MonoBehaviour
 	
 	void FixedUpdate()
 	{
-		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
+		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.playerIdentity == 1) 
+			|| (gameObject.CompareTag("Player2") && PlayerStatusControl_Level3._instance.playerIdentity == 2)
+			|| (gameObject.CompareTag("Player3") && PlayerStatusControl_Level3._instance.playerIdentity == 3))
 		{
 			tcpClient.SendCurrentInfo(transform.position, dir);
 			ControlMove();
@@ -329,7 +331,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 		} 
 	}
 
-	
+	/* 
 	void MoveAccordingToServer()
 	{
 
@@ -360,7 +362,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 			if(process < 1)
 			{
 				transform.position = Vector2.Lerp(transform.position, endPosition, process);
-				if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
+				if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level3._instance.isPlayer1))
 				{
 					FixCameraPosition();
 				}
@@ -425,6 +427,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 
 		
 	}
+	*/
 
 	
 	/*

@@ -24,10 +24,10 @@ public class TcpClient_Level3 : MonoBehaviour
 	Thread connectThread;
 	public GameObject player1;
 	public GameObject player2;
-	private PlayerMove_Level2 em1;
-	private PlayerMove_Level2 em2;
-	private PlayerAttack_Level2 pa1;
-	private PlayerAttack_Level2 pa2;
+	private PlayerMove_Level3 em1;
+	private PlayerMove_Level3 em2;
+	private PlayerAttack_Level3 pa1;
+	private PlayerAttack_Level3 pa2;
 
 	void HandleSynMessage(string[] number, int startIndex)
 	{
@@ -43,7 +43,7 @@ public class TcpClient_Level3 : MonoBehaviour
 		else if(msgType == 1)
 		{
 			Vector2 positionToSet = new Vector2(float.Parse(number[startIndex++]),float.Parse(number[startIndex++]));
-			if(PlayerStatusControl_Level2._instance.isPlayer1)
+			if(PlayerStatusControl_Level3._instance.isPlayer1)
 			{
 				pa2.SetFireCommand(positionToSet);
 			}else
@@ -62,11 +62,11 @@ public class TcpClient_Level3 : MonoBehaviour
 			float hpChange = float.Parse(number[startIndex++]);
 			if(player == 1)
 			{
-				Player1Status_Level2._instance.hpChange = hpChange;
+				Player1Status_Level3._instance.hpChange = hpChange;
 			}
 			else if(player == 2)
 			{
-				Player2Status_Level2._instance.hpChange = hpChange;
+				Player2Status_Level3._instance.hpChange = hpChange;
 			}
 			if(number.Length > startIndex)
 			{
@@ -85,7 +85,7 @@ public class TcpClient_Level3 : MonoBehaviour
 		{
 			Vector2 positionToSet = new Vector2(float.Parse(number[2]),float.Parse(number[3]));
 			int dirCount = int.Parse(number[4]);
-			if(PlayerStatusControl_Level2._instance.isPlayer1)
+			if(PlayerStatusControl_Level3._instance.isPlayer1)
 			{
 				em2.SetNextPosition(positionToSet);
 				em2.SetDirection(dirCount);
@@ -104,7 +104,7 @@ public class TcpClient_Level3 : MonoBehaviour
 		else if(msgType == 1)
 		{
 			Vector2 positionToSet = new Vector2(float.Parse(number[2]),float.Parse(number[3]));
-			if(PlayerStatusControl_Level2._instance.isPlayer1)
+			if(PlayerStatusControl_Level3._instance.isPlayer1)
 			{
 				pa2.SetFireCommand(positionToSet);
 			}else
@@ -122,11 +122,11 @@ public class TcpClient_Level3 : MonoBehaviour
 			float hpChange = float.Parse(number[3]);
 			if(player == 1)
 			{
-				Player1Status_Level2._instance.hpChange = hpChange;
+				Player1Status_Level3._instance.hpChange = hpChange;
 			}
 			else if(player == 2)
 			{
-				Player2Status_Level2._instance.hpChange = hpChange;
+				Player2Status_Level3._instance.hpChange = hpChange;
 			}
 			if(number.Length > 4)
 			{
@@ -175,7 +175,7 @@ public class TcpClient_Level3 : MonoBehaviour
 	{
 		if(str == "R")
 		{
-			PlayerStatusControl_Level2._instance.twoReady = true;
+			PlayerStatusControl_Level3._instance.twoReady = true;
 		}
 		else if(str == "G")
 		{
@@ -186,7 +186,7 @@ public class TcpClient_Level3 : MonoBehaviour
 				PlayerStatusControl_Level2._instance.enemyCheck = true;
 			}
 			*/
-			PlayerStatusControl_Level2._instance.enemyCheck = true;
+			PlayerStatusControl_Level3._instance.enemyCheck = true;
 		}
 	}
 
@@ -209,12 +209,16 @@ public class TcpClient_Level3 : MonoBehaviour
 		recvStr = Encoding.ASCII.GetString(recvData,0,1);
 		Debug.Log("I will be player " + recvStr);
 
-		if(recvStr == "1"){
-			PlayerStatusControl_Level2._instance.isPlayer1 = true;
-		}else if(recvStr == "2")
+		if(recvStr == "0"){
+			PlayerStatusControl_Level3._instance.playerIdentity = 1;
+		}
+		else if(recvStr == "1")
 		{
-			PlayerStatusControl_Level2._instance.isPlayer1 = false;
-			PlayerStatusControl_Level2._instance.twoReady = true;
+			PlayerStatusControl_Level3._instance.playerIdentity = 2;
+		}
+		else if(recvStr == "2")
+		{
+			PlayerStatusControl_Level3._instance.playerIdentity = 3;
 		}
 
 		while(true)
@@ -257,10 +261,10 @@ public class TcpClient_Level3 : MonoBehaviour
 	void Start()
 	{
 		_instance = this;
-		em1 = player1.GetComponent<PlayerMove_Level2>();
-		em2 = player2.GetComponent<PlayerMove_Level2>();
-		pa1 = player1.GetComponent<PlayerAttack_Level2>();
-		pa2 = player2.GetComponent<PlayerAttack_Level2>();
+		em1 = player1.GetComponent<PlayerMove_Level3>();
+		em2 = player2.GetComponent<PlayerMove_Level3>();
+		pa1 = player1.GetComponent<PlayerAttack_Level3>();
+		pa2 = player2.GetComponent<PlayerAttack_Level3>();
 		InitSocket();
 		
 	}

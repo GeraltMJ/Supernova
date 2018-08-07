@@ -970,18 +970,22 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				{
 					if(collision.gameObject.name == "Teleport1Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[0].transform.position;
 						gameObject.transform.position = teleportPosition[0].transform.position;
 					}
 					else if(collision.gameObject.name == "Teleport2Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[1].transform.position;
 						gameObject.transform.position = teleportPosition[1].transform.position;
 					}
 					else if(collision.gameObject.name == "Teleport3Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[2].transform.position;
 						gameObject.transform.position = teleportPosition[2].transform.position;
 					}
 					else if(collision.gameObject.name == "Teleport4Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[3].transform.position;
 						gameObject.transform.position = teleportPosition[3].transform.position;
 					}
 				}
@@ -1826,18 +1830,22 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				{
 					if(collision.gameObject.name == "Teleport1Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[0].transform.position;
 						gameObject.transform.position = teleportPosition[0].transform.position;
 					}
 					else if(collision.gameObject.name == "Teleport2Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[1].transform.position;
 						gameObject.transform.position = teleportPosition[1].transform.position;
 					}
 					else if(collision.gameObject.name == "Teleport3Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[2].transform.position;
 						gameObject.transform.position = teleportPosition[2].transform.position;
 					}
 					else if(collision.gameObject.name == "Teleport4Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[3].transform.position;
 						gameObject.transform.position = teleportPosition[3].transform.position;
 					}
 				}
@@ -2682,18 +2690,22 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				{
 					if(collision.gameObject.name == "Teleport1Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[0].transform.position;
 						gameObject.transform.position = teleportPosition[0].transform.position;
 					}
 					else if(collision.gameObject.name == "Teleport2Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[1].transform.position;
 						gameObject.transform.position = teleportPosition[1].transform.position;
 					}
 					else if(collision.gameObject.name == "Teleport3Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[2].transform.position;
 						gameObject.transform.position = teleportPosition[2].transform.position;
 					}
 					else if(collision.gameObject.name == "Teleport4Pic" + (powerIndex-1).ToString())
 					{
+						playerMove.endPosition = teleportPosition[3].transform.position;
 						gameObject.transform.position = teleportPosition[3].transform.position;
 					}
 				}

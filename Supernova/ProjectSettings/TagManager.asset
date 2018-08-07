@@ -38,12 +38,17 @@ TagManager:
   - OverAreaPic
   - DamageReflectPic
   - AttackBuffPic
-  - WallBufferUp
-  - WallBufferDown
-  - WallBufferLeft
-  - WallBufferRight
   - PlayerCube
+  - WindPic
+  - GunSkillPic
+  - ShieldSkillPic
+  - IceSkillPic
+  - ChangeHpPic
+  - TeleportPic
+  - StarSkillPic
   - Rain
+  - Player3
+  - Player3Bullet
   layers:
   - Default
   - TransparentFX
