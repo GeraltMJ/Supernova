@@ -667,12 +667,59 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					break;
 			}
 		}
-		else if(collision.gameObject.CompareTag("Wind"))
+		else if(collision.gameObject.CompareTag("WindPic"))
 		{
 			powerIndex = 0;
-			
-			speedUpOnWind = true;
-			playerMove.speedUp = 2f;
+			switch(Player1Status_Level3._instance.playerPower)
+			{
+				case PlayerPower_Level3.DragonPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.DragonPower2:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.DragonPower3:
+					ChangeToPoison(collision);
+					break;
+				case PlayerPower_Level3.KnightPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.KnightPower2:
+					break;
+				case PlayerPower_Level3.MagicPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.MagicPower2:
+					ChangeToArea(collision);
+					break;
+				case PlayerPower_Level3.MagicPower3:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.AssassinPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.AssassinPower2:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+					{
+						Player1Status_Level3._instance.Damage(1);
+						tcpClient.SendHpChange(1,-1);
+					}
+					break;
+				case PlayerPower_Level3.BossPower:
+					break;
+				case PlayerPower_Level3.Default:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+			}
 		}
 		else if(collision.gameObject.CompareTag("AddOnePic"))
 		{
@@ -1250,6 +1297,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if(collision.gameObject.CompareTag("PoisonPic"))
 		{
+			powerIndex = 0;
 			switch(Player2Status_Level3._instance.playerPower)
 			{
 				case PlayerPower_Level3.DragonPower1:
@@ -1331,6 +1379,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if(collision.gameObject.CompareTag("AreaPic"))
 		{
+			powerIndex = 0;
 			switch(Player2Status_Level3._instance.playerPower)
 			{
 				case PlayerPower_Level3.DragonPower1:
@@ -1385,6 +1434,60 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 							tcpClient.SendHpChange(2,-1);
 						}
 					}
+					break;
+			}
+		}
+		else if(collision.gameObject.CompareTag("WindPic"))
+		{
+			powerIndex = 0;
+			switch(Player2Status_Level3._instance.playerPower)
+			{
+				case PlayerPower_Level3.DragonPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.DragonPower2:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.DragonPower3:
+					ChangeToPoison(collision);
+					break;
+				case PlayerPower_Level3.KnightPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.KnightPower2:
+					break;
+				case PlayerPower_Level3.MagicPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.MagicPower2:
+					ChangeToArea(collision);
+					break;
+				case PlayerPower_Level3.MagicPower3:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.AssassinPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.AssassinPower2:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
+					{
+						Player2Status_Level3._instance.Damage(1);
+						tcpClient.SendHpChange(1,-1);
+					}
+					break;
+				case PlayerPower_Level3.BossPower:
+					break;
+				case PlayerPower_Level3.Default:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
 					break;
 			}
 		}
@@ -1568,12 +1671,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				audioSource.Play();
 				Debug.Log("Player2 has ice skill");
 			}
-		}
-		else if(collision.gameObject.CompareTag("Wind"))
-		{
-			speedUpOnWind = true;
-			playerMove.speedUp = 2f;
-			powerIndex = 0;
 		}
 		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player3Bullet")
 				|| collision.gameObject.CompareTag("PlayerCube"))
@@ -1971,6 +2068,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if(collision.gameObject.CompareTag("PoisonPic"))
 		{
+			powerIndex = 0;
 			switch(Player3Status_Level3._instance.playerPower)
 			{
 				case PlayerPower_Level3.DragonPower1:
@@ -2052,6 +2150,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if(collision.gameObject.CompareTag("AreaPic"))
 		{
+			powerIndex = 0;
 			switch(Player3Status_Level3._instance.playerPower)
 			{
 				case PlayerPower_Level3.DragonPower1:
@@ -2106,6 +2205,60 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 							tcpClient.SendHpChange(3,-1);
 						}
 					}
+					break;
+			}
+		}
+		else if(collision.gameObject.CompareTag("WindPic"))
+		{
+			powerIndex = 0;
+			switch(Player3Status_Level3._instance.playerPower)
+			{
+				case PlayerPower_Level3.DragonPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.DragonPower2:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.DragonPower3:
+					ChangeToPoison(collision);
+					break;
+				case PlayerPower_Level3.KnightPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.KnightPower2:
+					break;
+				case PlayerPower_Level3.MagicPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.MagicPower2:
+					ChangeToArea(collision);
+					break;
+				case PlayerPower_Level3.MagicPower3:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.AssassinPower1:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					break;
+				case PlayerPower_Level3.AssassinPower2:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
+					{
+						Player3Status_Level3._instance.Damage(1);
+						tcpClient.SendHpChange(3,-1);
+					}
+					break;
+				case PlayerPower_Level3.BossPower:
+					break;
+				case PlayerPower_Level3.Default:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
 					break;
 			}
 		}
@@ -2289,12 +2442,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				audioSource.Play();
 				Debug.Log("Player3 has ice skill");
 			}
-		}
-		else if(collision.gameObject.CompareTag("Wind"))
-		{
-			speedUpOnWind = true;
-			playerMove.speedUp = 2f;
-			powerIndex = 0;
 		}
 		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player3Bullet")
 				|| collision.gameObject.CompareTag("PlayerCube"))
