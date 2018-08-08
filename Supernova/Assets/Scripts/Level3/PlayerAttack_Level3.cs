@@ -101,14 +101,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	void SetBulletTag(GameObject bullet)
 	{
-		if(gameObject.CompareTag("Player1"))
-		{
-			bullet.tag = "Player1Bullet";
-		}
-		else if(gameObject.CompareTag("Player2"))
-		{
-			bullet.tag = "Player2Bullet";
-		}
+		Bullet_Level3 bullet_1 = bullet.GetComponent<Bullet_Level3>();
+		bullet_1.role =
+		bullet_1.parentTag =
 	}
 
 	void SelectAccordingToPower(PlayerPower_Level3 power)
@@ -389,27 +384,29 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	void UpAttack()
 	{
-		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,90f));
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,90f), this.transform);
 		SetBulletTag(go);
 	}
 
 	void DownAttack()
 	{
-		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-90f));
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-90f), this.transform);
 		SetBulletTag(go);
 	}
 
 	void LeftAttack()
 	{
-		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-180f));
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-180f), this.transform);
 		SetBulletTag(go);
 	}
 
 	void RightAttack()
 	{
-		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity, this.transform);
 		SetBulletTag(go);
 	}
+
+
 	void EnemyUpAttack()
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.Euler(0f,0f,90f));
