@@ -10,12 +10,9 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	public static PlayerStatusControl_Level3 _instance;
 	public int playerIdentity;
 	public bool isPlayer1 = false;
-	public GameObject player1;
-	public GameObject player2;
-	public GameObject player3;
-	private PlayerMove_Level3 player1Move;
-	private PlayerMove_Level3 player2Move;
-	private PlayerMove_Level3 player3Move;
+	public GameObject player1, player2, player3;
+	private PlayerMove_Level3 player1Move, player2Move, player3Move;
+	private PlayerStatus_Level3 player1Status, player2Status, player3Status;
 
 	public Text text;
 	private float remainSeconds;
@@ -38,6 +35,11 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	private TcpClient_Level3 tcpClient;
 	public bool selfCheck = false;
 	public bool enemyCheck = false;
+
+	public Text playerHpText, enemy1HpText, enemy2HpText;
+	public Text weaponText;
+	public Image weaponImage;
+	public Sprite defaultWeapon, dragonWeapon, knightWeapon, magicWeapon, assassinWeapon, bossWeapon;
 
 
 /*
@@ -81,6 +83,10 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		player1Move = player1.GetComponent<PlayerMove_Level3>();
 		player2Move = player2.GetComponent<PlayerMove_Level3>();
 		player3Move = player3.GetComponent<PlayerMove_Level3>();
+		player1Status = player1.GetComponent<PlayerStatus_Level3>();
+		player2Status = player2.GetComponent<PlayerStatus_Level3>();
+		player3Status = player3.GetComponent<PlayerStatus_Level3>();
+
 		//player1Move.enabled = false;
 		//player2Move.enabled = false;
 		//player3Move.enabled = false;
@@ -95,7 +101,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 
 	}
 
-	void Update()
+	void CheckGameOver()
 	{
 		if(!gameOver)
 		{
@@ -134,9 +140,101 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		{
 			if(ETCInput.GetButton("RestartButton"))
 			{
-				SceneManager.LoadScene("02_GamePlay",LoadSceneMode.Single);
+				SceneManager.LoadScene("03_GamePlay",LoadSceneMode.Single);
 			}
 		}
+	}
+
+	void CheckPlayerHp()
+	{
+		switch(playerIdentity)
+		{
+			case 1:
+				playerHpText.text = player1Status.hp.ToString() + "/" + player1Status.maxHp.ToString();
+				enemy1HpText.text = player2Status.hp.ToString() + "/" + player2Status.maxHp.ToString();
+				enemy2HpText.text = player3Status.hp.ToString() + "/" + player3Status.maxHp.ToString();
+				break;
+			case 2:
+				playerHpText.text = player2Status.hp.ToString() + "/" + player2Status.maxHp.ToString();
+				enemy1HpText.text = player1Status.hp.ToString() + "/" + player1Status.maxHp.ToString();
+				enemy2HpText.text = player3Status.hp.ToString() + "/" + player3Status.maxHp.ToString();
+				break;
+			case 3:
+				playerHpText.text = player3Status.hp.ToString() + "/" + player3Status.maxHp.ToString();
+				enemy1HpText.text = player1Status.hp.ToString() + "/" + player1Status.maxHp.ToString();
+				enemy2HpText.text = player2Status.hp.ToString() + "/" + player2Status.maxHp.ToString();
+				break;
+		}
+	}
+
+	void WeaponImageSelect(PlayerPower_Level3 playerPower)
+	{
+		switch(playerPower)
+		{
+			case PlayerPower_Level3.DragonPower1:
+				weaponImage.sprite = dragonWeapon;
+				break;
+			case PlayerPower_Level3.DragonPower2:
+				weaponImage.sprite = dragonWeapon;
+				break;
+			case PlayerPower_Level3.DragonPower3:
+				weaponImage.sprite = dragonWeapon;
+				break;
+			case PlayerPower_Level3.KnightPower1:
+				weaponImage.sprite = knightWeapon;
+				break;
+			case PlayerPower_Level3.KnightPower2:
+				weaponImage.sprite = knightWeapon;
+				break;
+			case PlayerPower_Level3.MagicPower1:
+				weaponImage.sprite = magicWeapon;
+				break;
+			case PlayerPower_Level3.MagicPower2:
+				weaponImage.sprite = magicWeapon;
+				break;
+			case PlayerPower_Level3.MagicPower3:
+				weaponImage.sprite = magicWeapon;
+				break;
+			case PlayerPower_Level3.AssassinPower1:
+				weaponImage.sprite = assassinWeapon;
+				break;
+			case PlayerPower_Level3.AssassinPower2:
+				weaponImage.sprite = assassinWeapon;
+				break;
+			case PlayerPower_Level3.BossPower:
+				weaponImage.sprite = bossWeapon;
+				break;
+			case PlayerPower_Level3.Default:
+				weaponImage.sprite = defaultWeapon;
+				break;
+		}
+	}
+
+	void CheckPlayerWeaponImage()
+	{
+		switch(playerIdentity)
+		{
+			case 1:
+			
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+		}
+	}
+
+	void CheckPlayerWeaponText()
+	{
+
+	}
+
+	void Update()
+	{
+		CheckGameOver();
+		CheckPlayerHp();
+		CheckPlayerWeaponImage();
+		CheckPlayerWeaponText();
 	}
 	void WaitForStart()
 	{

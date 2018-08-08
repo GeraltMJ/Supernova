@@ -72,6 +72,9 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 	private PlayerMove_Level3 playerMove;
 	public GameObject networkManager;
 
+	public GameObject enemy1, enemy2;
+	private PlayerStatus_Level3 playerStatus, enemy1Status, enemy2Status;
+
 	void UpdateFace(FaceDirection direction)
 	{
 		switch(direction)
@@ -95,6 +98,9 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		spriteRender = this.GetComponent<SpriteRenderer>();
 		animator = this.GetComponent<Animator>();
 		playerMove = GetComponent<PlayerMove_Level3>();
+		playerStatus = GetComponent<PlayerStatus_Level3>();
+		enemy1Status = enemy1.GetComponent<PlayerStatus_Level3>();
+		enemy2Status = enemy2.GetComponent<PlayerStatus_Level3>();
 	}
 
 	void Start()
@@ -166,20 +172,20 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 
 	
 
-	void CheckPlayer1Trigger(Collider2D collision)
+	void CheckPlayerTrigger(Collider2D collision)
 	{
 		bool visible = true;
 		bool attackBuffOnArea = false;
 		bool speedUpOnWind = false;
 		if (collision.gameObject.CompareTag("DragonPic"))
 		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Dragon 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Dragon
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Dragon)
+			if(playerStatus.playerCharacter != PlayerCharacter_Level3.Dragon 
+				&& enemy1Status.playerCharacter != PlayerCharacter_Level3.Dragon
+				&& enemy2Status.playerCharacter != PlayerCharacter_Level3.Dragon)
 			{	
-				Player1Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Dragon;
-				Player1Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player1Status_Level3._instance.originAttack = 0.0f;
+				playerStatus.playerCharacter = PlayerCharacter_Level3.Dragon;
+				playerStatus.playerPower = PlayerPower_Level3.Default;
+				playerStatus.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -194,13 +200,13 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if (collision.gameObject.CompareTag("KnightPic"))
 		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Knight 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Knight
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Knight)
+			if(playerStatus.playerCharacter != PlayerCharacter_Level3.Knight 
+				&& enemy1Status.playerCharacter != PlayerCharacter_Level3.Knight
+				&& enemy2Status.playerCharacter != PlayerCharacter_Level3.Knight)
 			{	
-				Player1Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Knight;
-				Player1Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player1Status_Level3._instance.originAttack = 0.0f;
+				playerStatus.playerCharacter = PlayerCharacter_Level3.Knight;
+				playerStatus.playerPower = PlayerPower_Level3.Default;
+				playerStatus.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -215,13 +221,13 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if (collision.gameObject.CompareTag("MagicPic"))
 		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Magic 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Magic
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Magic)
+			if(playerStatus.playerCharacter != PlayerCharacter_Level3.Magic 
+				&& enemy1Status.playerCharacter != PlayerCharacter_Level3.Magic
+				&& enemy2Status.playerCharacter != PlayerCharacter_Level3.Magic)
 			{	
-				Player1Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Magic;
-				Player1Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player1Status_Level3._instance.originAttack = 0.0f;
+				playerStatus.playerCharacter = PlayerCharacter_Level3.Magic;
+				playerStatus.playerPower = PlayerPower_Level3.Default;
+				playerStatus.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -236,13 +242,13 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if (collision.gameObject.CompareTag("AssassinPic"))
 		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Assassin 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Assassin
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Assassin)
+			if(playerStatus.playerCharacter != PlayerCharacter_Level3.Assassin 
+				&& enemy1Status.playerCharacter != PlayerCharacter_Level3.Assassin
+				&& enemy2Status.playerCharacter != PlayerCharacter_Level3.Assassin)
 			{	
-				Player1Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Assassin;
-				Player1Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player1Status_Level3._instance.originAttack = 0.0f;
+				playerStatus.playerCharacter = PlayerCharacter_Level3.Assassin;
+				playerStatus.playerPower = PlayerPower_Level3.Default;
+				playerStatus.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -257,13 +263,13 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if (collision.gameObject.CompareTag("BossPic"))
 		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Boss 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Boss
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Boss)
+			if(playerStatus.playerCharacter != PlayerCharacter_Level3.Boss 
+				&& enemy1Status.playerCharacter != PlayerCharacter_Level3.Boss
+				&& enemy2Status.playerCharacter != PlayerCharacter_Level3.Boss)
 			{	
-				Player1Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Boss;
-				Player1Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player1Status_Level3._instance.originAttack = 0.0f;
+				playerStatus.playerCharacter = PlayerCharacter_Level3.Boss;
+				playerStatus.playerPower = PlayerPower_Level3.Default;
+				playerStatus.originAttack = 0.0f;
 				RemoveCharacterRedCross();
 				TurnEffect();
 				CharacterRedCrossEffect(collision);
@@ -278,7 +284,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if(collision.gameObject.CompareTag("DragonPowerPic"))
 		{
-			if(Player1Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Dragon)
+			if(playerStatus.playerCharacter == PlayerCharacter_Level3.Dragon)
 			{
 				if(collision.gameObject.name == "DragonPowerPic" + powerIndex.ToString()
 					|| collision.gameObject.name == "DragonPower1Pic" + powerIndex.ToString()
@@ -294,12 +300,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				if(powerIndex == dragonPower1Count && collision.gameObject.name == "DragonPower1Pic" + (powerIndex-1).ToString())
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.DragonPower1;
-					Player1Status_Level3._instance.originAttack = dragonAttackAbility;
+					playerStatus.playerPower = PlayerPower_Level3.DragonPower1;
+					playerStatus.originAttack = dragonAttackAbility;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * dragonHp1);
-					Player1Status_Level3._instance.maxHp = dragonHp1;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * dragonHp1);
+					playerStatus.maxHp = dragonHp1;
 
 					audioSource.clip = dragonAttackClip;
 					audioSource.Play();
@@ -309,12 +315,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				else if(powerIndex == dragonPower2Count && collision.gameObject.name == "DragonPower2Pic" + (powerIndex-1).ToString())
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.DragonPower2;
-					Player1Status_Level3._instance.originAttack = dragonAttackAbility;
+					playerStatus.playerPower = PlayerPower_Level3.DragonPower2;
+					playerStatus.originAttack = dragonAttackAbility;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * dragonHp1);
-					Player1Status_Level3._instance.maxHp = dragonHp1;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * dragonHp1);
+					playerStatus.maxHp = dragonHp1;
 
 					audioSource.clip = dragonAttackClip;
 					audioSource.Play();
@@ -324,12 +330,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				else if(powerIndex == dragonPower3Count && collision.gameObject.name == "DragonPower3Pic" + (powerIndex-1).ToString())
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.DragonPower3;
-					Player1Status_Level3._instance.originAttack = dragonAttackAbility;
+					playerStatus.playerPower = PlayerPower_Level3.DragonPower3;
+					playerStatus.originAttack = dragonAttackAbility;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * dragonHp2);
-					Player1Status_Level3._instance.maxHp = dragonHp2;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * dragonHp2);
+					playerStatus.maxHp = dragonHp2;
 
 					audioSource.clip = dragonAttackClip;
 					audioSource.Play();
@@ -342,7 +348,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if(collision.gameObject.CompareTag("KnightPowerPic"))
 		{
-			if(Player1Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Knight)
+			if(playerStatus.playerCharacter == PlayerCharacter_Level3.Knight)
 			{
 				if(collision.gameObject.name == "KnightPowerPic" + powerIndex.ToString()
 					|| collision.gameObject.name == "KnightPower1Pic" + powerIndex.ToString()
@@ -357,12 +363,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				if(powerIndex == knightPower1Count && collision.gameObject.name == "KnightPower1Pic" + (powerIndex-1).ToString())
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.KnightPower1;
-					Player1Status_Level3._instance.originAttack = knightAttackAbility;
+					playerStatus.playerPower = PlayerPower_Level3.KnightPower1;
+					playerStatus.originAttack = knightAttackAbility;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * knightHp);
-					Player1Status_Level3._instance.maxHp = knightHp;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * knightHp);
+					playerStatus.maxHp = knightHp;
 
 					audioSource.clip = knightAttackClip;
 					audioSource.Play();
@@ -372,12 +378,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				else if(powerIndex == knightPower2Count && collision.gameObject.name == "KnightPower2Pic" + (powerIndex-1).ToString())
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.KnightPower2;
-					Player1Status_Level3._instance.originAttack = knightAttackAbility;
+					playerStatus.playerPower = PlayerPower_Level3.KnightPower2;
+					playerStatus.originAttack = knightAttackAbility;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * knightHp);
-					Player1Status_Level3._instance.maxHp = knightHp;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * knightHp);
+					playerStatus.maxHp = knightHp;
 
 					audioSource.clip = knightAttackClip;
 					audioSource.Play();
@@ -389,7 +395,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if(collision.gameObject.CompareTag("MagicPowerPic"))
 		{
-			if(Player1Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Magic)
+			if(playerStatus.playerCharacter == PlayerCharacter_Level3.Magic)
 			{
 				if(collision.gameObject.name == "MagicPowerPic" + powerIndex.ToString()
 					|| collision.gameObject.name == "MagicPower1Pic" + powerIndex.ToString()
@@ -405,12 +411,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				if(powerIndex == magicPower1Count && collision.gameObject.name == "MagicPower1Pic" + (powerIndex-1).ToString())
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.MagicPower1;
-					Player1Status_Level3._instance.originAttack = magicAttackAbility1;
+					playerStatus.playerPower = PlayerPower_Level3.MagicPower1;
+					playerStatus.originAttack = magicAttackAbility1;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * magicHp);
-					Player1Status_Level3._instance.maxHp = magicHp;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * magicHp);
+					playerStatus.maxHp = magicHp;
 
 					audioSource.clip = magicAttackClip;
 					audioSource.Play();
@@ -420,12 +426,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				else if(powerIndex == magicPower2Count && collision.gameObject.name == "MagicPower2Pic" + (powerIndex-1).ToString())
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.MagicPower2;
-					Player1Status_Level3._instance.originAttack = magicAttackAbility1;
+					playerStatus.playerPower = PlayerPower_Level3.MagicPower2;
+					playerStatus.originAttack = magicAttackAbility1;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * magicHp);
-					Player1Status_Level3._instance.maxHp = magicHp;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * magicHp);
+					playerStatus.maxHp = magicHp;
 
 					audioSource.clip = magicAttackClip;
 					audioSource.Play();
@@ -435,12 +441,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				else if(powerIndex == magicPower3Count && collision.gameObject.name == "MagicPower3Pic" + (powerIndex-1).ToString())
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.MagicPower3;
-					Player1Status_Level3._instance.originAttack = magicAttackAbility2;
+					playerStatus.playerPower = PlayerPower_Level3.MagicPower3;
+					playerStatus.originAttack = magicAttackAbility2;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * magicHp);
-					Player1Status_Level3._instance.maxHp = magicHp;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * magicHp);
+					playerStatus.maxHp = magicHp;
 
 					audioSource.clip = magicAttackClip;
 					audioSource.Play();
@@ -453,7 +459,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if(collision.gameObject.CompareTag("AssassinPowerPic"))
 		{
-			if(Player1Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Assassin)
+			if(playerStatus.playerCharacter == PlayerCharacter_Level3.Assassin)
 			{
 				if(collision.gameObject.name == "AssassinPowerPic" + powerIndex.ToString()
 					|| collision.gameObject.name == "AssassinPower1Pic" + powerIndex.ToString()
@@ -468,12 +474,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				if(powerIndex == assassinPower1Count && collision.gameObject.name == "AssassinPower1Pic" + (powerIndex-1).ToString())
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.AssassinPower1;
-					Player1Status_Level3._instance.originAttack = assassinAttackAbility;
+					playerStatus.playerPower = PlayerPower_Level3.AssassinPower1;
+					playerStatus.originAttack = assassinAttackAbility;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * assassinHp1);
-					Player1Status_Level3._instance.maxHp = assassinHp1;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * assassinHp1);
+					playerStatus.maxHp = assassinHp1;
 
 					audioSource.clip = assassinAttackClip;
 					audioSource.Play();
@@ -483,12 +489,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				else if(powerIndex == assassinPower2Count && collision.gameObject.name == "AssassinPower2Pic" + (powerIndex-1).ToString())
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.AssassinPower2;
-					Player1Status_Level3._instance.originAttack = assassinAttackAbility;
+					playerStatus.playerPower = PlayerPower_Level3.AssassinPower2;
+					playerStatus.originAttack = assassinAttackAbility;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * assassinHp2);
-					Player1Status_Level3._instance.maxHp = assassinHp2;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * assassinHp2);
+					playerStatus.maxHp = assassinHp2;
 
 					audioSource.clip = assassinAttackClip;
 					audioSource.Play();
@@ -500,7 +506,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else if(collision.gameObject.CompareTag("BossPowerPic"))
 		{
-			if(Player1Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Boss)
+			if(playerStatus.playerCharacter == PlayerCharacter_Level3.Boss)
 			{
 				if(collision.gameObject.name == "BossPowerPic" + powerIndex.ToString())
 				{
@@ -513,12 +519,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				}
 				if(powerIndex == bossPowerCount)
 				{
-					Player1Status_Level3._instance.playerPower = PlayerPower_Level3.BossPower;
-					Player1Status_Level3._instance.originAttack = bossAttackAbility;
+					playerStatus.playerPower = PlayerPower_Level3.BossPower;
+					playerStatus.originAttack = bossAttackAbility;
 
-					float percent = Player1Status_Level3._instance.hp / Player1Status_Level3._instance.maxHp;
-					Player1Status_Level3._instance.hp = Mathf.RoundToInt(percent * bossHp);
-					Player1Status_Level3._instance.maxHp = bossHp;
+					float percent = playerStatus.hp / playerStatus.maxHp;
+					playerStatus.hp = Mathf.RoundToInt(percent * bossHp);
+					playerStatus.maxHp = bossHp;
 
 					audioSource.clip = bossAttackClip;
 					audioSource.Play();
@@ -531,7 +537,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		else if(collision.gameObject.CompareTag("PoisonPic"))
 		{
 			powerIndex = 0;
-			switch(Player1Status_Level3._instance.playerPower)
+			switch(playerStatus.playerPower)
 			{
 				case PlayerPower_Level3.DragonPower1:
 					break;
@@ -540,22 +546,22 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				case PlayerPower_Level3.DragonPower3:
 					break;
 				case PlayerPower_Level3.KnightPower1:
-					if(!Player1Status_Level3._instance.overPoison)
+					if(!playerStatus.overPoison)
 					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
-							Player1Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(1,-1);
+							playerStatus.Damage(1);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 					}
 					break;
 				case PlayerPower_Level3.KnightPower2:
-					if(!Player1Status_Level3._instance.overPoison)
+					if(!playerStatus.overPoison)
 					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
-							Player1Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(1,-1);
+							playerStatus.Damage(1);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 					}
 					break;
@@ -563,34 +569,34 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					ChangeToArea(collision);
 					break;
 				case PlayerPower_Level3.MagicPower2:
-					if(!Player1Status_Level3._instance.overPoison)
+					if(!playerStatus.overPoison)
 					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
-							Player1Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(1,-1);
+							playerStatus.Damage(1);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 					}
 					break;
 				case PlayerPower_Level3.MagicPower3:
-					if(!Player1Status_Level3._instance.overPoison)
+					if(!playerStatus.overPoison)
 					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
-							Player1Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(1,-1);
+							playerStatus.Damage(1);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 					}
 					break;
 				case PlayerPower_Level3.AssassinPower1:
-					if(PlayerStatusControl_Level3._instance.playerIdentity == 2 || PlayerStatusControl_Level3._instance.playerIdentity == 3)
+					if(playerStatus.playerIdentity != PlayerStatusControl_Level3._instance.playerIdentity)
 					{
 						BecomeInvisible();
 						visible = false;
 					}
 					break;
 				case PlayerPower_Level3.AssassinPower2:
-					if(PlayerStatusControl_Level3._instance.playerIdentity == 2 || PlayerStatusControl_Level3._instance.playerIdentity == 3)
+					if(playerStatus.playerIdentity != PlayerStatusControl_Level3._instance.playerIdentity )
 					{
 						BecomeInvisible();
 						visible = false;
@@ -599,12 +605,12 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				case PlayerPower_Level3.BossPower:
 					break;
 				case PlayerPower_Level3.Default:
-					if(!Player1Status_Level3._instance.overPoison)
+					if(!playerStatus.overPoison)
 					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
-							Player1Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(1,-1);
+							playerStatus.Damage(1);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 					}
 					break;
@@ -613,7 +619,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		else if(collision.gameObject.CompareTag("AreaPic"))
 		{
 			powerIndex = 0;
-			switch(Player1Status_Level3._instance.playerPower)
+			switch(playerStatus.playerPower)
 			{
 				case PlayerPower_Level3.DragonPower1:
 					ChangeToWind(collision);
@@ -625,7 +631,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					ChangeToPoison(collision);
 					break;
 				case PlayerPower_Level3.KnightPower1:
-					Player1Status_Level3._instance.attackAbility = Player1Status_Level3._instance.originAttack + 2;
+					playerStatus.attackAbility = playerStatus.originAttack + 2;
 					attackBuffOnArea = true;
 					break;
 				case PlayerPower_Level3.KnightPower2:
@@ -637,34 +643,34 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				case PlayerPower_Level3.MagicPower3:
 					break;
 				case PlayerPower_Level3.AssassinPower1:
-					if(!Player1Status_Level3._instance.overArea)
+					if(!playerStatus.overArea)
 					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
-							Player1Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(1,-1);
+							playerStatus.Damage(1);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 					}
 					break;
 				case PlayerPower_Level3.AssassinPower2:
-					if(!Player1Status_Level3._instance.overArea)
+					if(!playerStatus.overArea)
 					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
-							Player1Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(1,-1);
+							playerStatus.Damage(1);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 					}
 					break;
 				case PlayerPower_Level3.BossPower:
 					break;
 				case PlayerPower_Level3.Default:
-					if(!Player1Status_Level3._instance.overArea)
+					if(!playerStatus.overArea)
 					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
-							Player1Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(1,-1);
+							playerStatus.Damage(1);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 					}
 					break;
@@ -673,7 +679,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		else if(collision.gameObject.CompareTag("WindPic"))
 		{
 			powerIndex = 0;
-			switch(Player1Status_Level3._instance.playerPower)
+			switch(playerStatus.playerPower)
 			{
 				case PlayerPower_Level3.DragonPower1:
 					speedUpOnWind = true;
@@ -710,11 +716,11 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				case PlayerPower_Level3.AssassinPower2:
 					speedUpOnWind = true;
 					playerMove.speedUp = 2f;
-					if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
-					{
-						Player1Status_Level3._instance.Damage(1);
-						tcpClient.SendHpChange(1,-1);
-					}
+					if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
+						{
+							playerStatus.Damage(1);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
+						}
 					break;
 				case PlayerPower_Level3.BossPower:
 					break;
@@ -737,10 +743,10 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == addOneCount)
 			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+				if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 				{
-					Player1Status_Level3._instance.Recover(2);
-					tcpClient.SendHpChange(1,2);
+					playerStatus.Recover(2);
+					tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,2);
 				}
 				audioSource.clip = recoverBuffClip;
 				audioSource.Play();
@@ -761,10 +767,10 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == addTwoCount)
 			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+				if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 				{
-					Player1Status_Level3._instance.Recover(4);
-					tcpClient.SendHpChange(1,4);
+					playerStatus.Recover(4);
+					tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,4);
 				}
 				audioSource.clip = recoverBuffClip;
 				audioSource.Play();
@@ -785,7 +791,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == overPoisonCount)
 			{
-				Player1Status_Level3._instance.overPoison = true;
+				playerStatus.overPoison = true;
 				audioSource.clip = overBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 is poison no effect");
@@ -804,7 +810,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == overAreaCount)
 			{
-				Player1Status_Level3._instance.overArea = true;
+				playerStatus.overArea = true;
 				audioSource.clip = overBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 is area no effect");
@@ -823,7 +829,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == damageReflectCount)
 			{
-				Player1Status_Level3._instance.damageReflect = true;
+				playerStatus.damageReflect = true;
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 is damage Reflect");
@@ -842,7 +848,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == attackBuffCount)
 			{
-				Player1Status_Level3._instance.attackBuff = true;
+				playerStatus.attackBuff = true;
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 is attack buff");
@@ -861,7 +867,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == shieldSkillCount)
 			{
-				Player1Status_Level3._instance.playerSkill = PlayerSkill_Level3.ShieldSkill;
+				playerStatus.playerSkill = PlayerSkill_Level3.ShieldSkill;
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 has shield skill");
@@ -880,7 +886,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == gunSkillCount)
 			{
-				Player1Status_Level3._instance.playerSkill = PlayerSkill_Level3.GunSkill;
+				playerStatus.playerSkill = PlayerSkill_Level3.GunSkill;
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 has gun skill");
@@ -899,7 +905,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == iceSkillCount)
 			{
-				Player1Status_Level3._instance.playerSkill = PlayerSkill_Level3.IceSkill;
+				playerStatus.playerSkill = PlayerSkill_Level3.IceSkill;
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 has ice skill");
@@ -918,29 +924,29 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == changeHpSkillCount)
 			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+				if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 				{
-					if(Player2Status_Level3._instance.hp >= Player3Status_Level3._instance.hp)
+					if(enemy1Status.hp >= enemy2Status.hp)
 					{
-						if(Player2Status_Level3._instance.hp > Player1Status_Level3._instance.hp)
+						if(enemy1Status.hp > playerStatus.hp)
 						{
-							int diff = Mathf.RoundToInt(Player2Status_Level3._instance.hp - Player1Status_Level3._instance.hp);
-							Player1Status_Level3._instance.Recover(diff);
-							Player2Status_Level3._instance.Damage(diff);
-							tcpClient.SendHpChange(1,diff);
-							tcpClient.SendHpChange(2,-diff);
+							int diff = Mathf.RoundToInt(enemy1Status.hp - playerStatus.hp);
+							playerStatus.Recover(diff);
+							enemy1Status.Damage(diff);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,diff);
+							tcpClient.SendHpChange(enemy1Status.playerIdentity,-diff);
 							Debug.Log("Player1 and Player2 exchange hp");
 						}
 					}
 					else
 					{
-						if(Player3Status_Level3._instance.hp > Player1Status_Level3._instance.hp)
+						if(enemy2Status.hp > playerStatus.hp)
 						{
-							int diff = Mathf.RoundToInt(Player3Status_Level3._instance.hp - Player1Status_Level3._instance.hp);
-							Player1Status_Level3._instance.Recover(diff);
-							Player3Status_Level3._instance.Damage(diff);
-							tcpClient.SendHpChange(1,diff);
-							tcpClient.SendHpChange(3,-diff);
+							int diff = Mathf.RoundToInt(enemy2Status.hp - playerStatus.hp);
+							playerStatus.Recover(diff);
+							enemy2Status.Damage(diff);
+							tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,diff);
+							tcpClient.SendHpChange(enemy2Status.playerIdentity,-diff);
 							Debug.Log("Player1 and Player3 exchange hp");
 						}
 					}
@@ -966,7 +972,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == teleportCount)
 			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 1)
+				if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 				{
 					if(collision.gameObject.name == "Teleport1Pic" + (powerIndex-1).ToString())
 					{
@@ -1005,20 +1011,20 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			RemovePowerRedCrossOnMap();
 			powerIndex = 0;
 		}
-		if(visible || ( PlayerStatusControl_Level3._instance.playerIdentity == 2 && 
-													(Player2Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower1 ||
-													Player2Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower2 ||
-													Player2Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower3))
-				   || ( PlayerStatusControl_Level3._instance.playerIdentity == 3 && 
-													(Player3Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower1 ||
-													Player3Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower2 ||
-													Player3Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower3)) )
+		if(visible || ( PlayerStatusControl_Level3._instance.playerIdentity == enemy1Status.playerIdentity && 
+													(enemy1Status.playerPower == PlayerPower_Level3.MagicPower1 ||
+													enemy1Status.playerPower == PlayerPower_Level3.MagicPower2 ||
+													enemy1Status.playerPower == PlayerPower_Level3.MagicPower3))
+				   || ( PlayerStatusControl_Level3._instance.playerIdentity == enemy2Status.playerIdentity && 
+													(enemy2Status.playerPower == PlayerPower_Level3.MagicPower1 ||
+													enemy2Status.playerPower == PlayerPower_Level3.MagicPower2 ||
+													enemy2Status.playerPower == PlayerPower_Level3.MagicPower3)) )
 		{
 			BecomeVisible();
 		}
 		if(!attackBuffOnArea)
 		{
-			Player1Status_Level3._instance.attackAbility = Player1Status_Level3._instance.originAttack;
+			playerStatus.attackAbility = playerStatus.originAttack;
 		}
 		if(!speedUpOnWind)
 		{
@@ -1026,1725 +1032,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 	}
 
-	void CheckPlayer2Trigger(Collider2D collision)
-	{
-		bool visible = true;
-		bool attackBuffOnArea = false;
-		bool speedUpOnWind = false;
-		if (collision.gameObject.CompareTag("DragonPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Dragon 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Dragon
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Dragon)
-			{	
-				Player2Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Dragon;
-				Player2Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player2Status_Level3._instance.originAttack = 0.0f;
-				RemoveCharacterRedCross();
-				TurnEffect();
-				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[0];
-				animator.runtimeAnimatorController = dragonController;
-				audioSource.clip = dragonAttackClip;
-				audioSource.Play();
-				UpdateFace(playerMove.dir);
-				Debug.Log("Player2 turn into Dragon");
-			}
-			powerIndex = 0;
-		}
-		else if (collision.gameObject.CompareTag("KnightPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Knight 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Knight
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Knight)
-			{	
-				Player2Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Knight;
-				Player2Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player2Status_Level3._instance.originAttack = 0.0f;
-				RemoveCharacterRedCross();
-				TurnEffect();
-				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[1];
-				animator.runtimeAnimatorController = knightController;
-				audioSource.clip = knightAttackClip;
-				audioSource.Play();
-				UpdateFace(playerMove.dir);
-				Debug.Log("Player2 turn into Knight");
-			}
-			powerIndex = 0;
-		}
-		else if (collision.gameObject.CompareTag("MagicPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Magic 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Magic
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Magic)
-			{	
-				Player2Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Magic;
-				Player2Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player2Status_Level3._instance.originAttack = 0.0f;
-				RemoveCharacterRedCross();
-				TurnEffect();
-				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[2];
-				animator.runtimeAnimatorController = magicController;
-				audioSource.clip = magicAttackClip;
-				audioSource.Play();
-				UpdateFace(playerMove.dir);
-				Debug.Log("Player2 turn into Magic");
-			}
-			powerIndex = 0;
-		}
-		else if (collision.gameObject.CompareTag("AssassinPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Assassin 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Assassin
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Assassin)
-			{	
-				Player2Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Assassin;
-				Player2Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player2Status_Level3._instance.originAttack = 0.0f;
-				RemoveCharacterRedCross();
-				TurnEffect();
-				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[3];
-				animator.runtimeAnimatorController = assassinController;
-				audioSource.clip = assassinAttackClip;
-				audioSource.Play();
-				UpdateFace(playerMove.dir);
-				Debug.Log("Player2 turn into Assassin");
-			}
-			powerIndex = 0;
-		}
-		else if (collision.gameObject.CompareTag("BossPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Boss 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Boss
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Boss)
-			{	
-				Player2Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Boss;
-				Player2Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player2Status_Level3._instance.originAttack = 0.0f;
-				RemoveCharacterRedCross();
-				TurnEffect();
-				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[4];
-				animator.runtimeAnimatorController = bossController;
-				audioSource.clip = bossAttackClip;
-				audioSource.Play();
-				UpdateFace(playerMove.dir);
-				Debug.Log("Player2 turn into Boss");
-			}
-			powerIndex = 0;
-		}
-		else if(collision.gameObject.CompareTag("DragonPowerPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Dragon)
-			{
-				if(collision.gameObject.name == "DragonPowerPic" + powerIndex.ToString()
-					|| collision.gameObject.name == "DragonPower1Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "DragonPower2Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "DragonPower3Pic" + powerIndex.ToString())
-				{
-					RedCrossEffect(collision);
-					powerIndex++;
-				}else
-				{
-					RemovePowerRedCrossOnMap();
-					powerIndex = 0;
-				}
-				if(powerIndex == dragonPower1Count && collision.gameObject.name == "DragonPower1Pic" + (powerIndex-1).ToString())
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.DragonPower1;
-					Player2Status_Level3._instance.originAttack = dragonAttackAbility;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * dragonHp1);
-					Player2Status_Level3._instance.maxHp = dragonHp1;
-
-					audioSource.clip = dragonAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Dragon Power1");
-					TurnEffect();
-				}
-				else if(powerIndex == dragonPower2Count && collision.gameObject.name == "DragonPower2Pic" + (powerIndex-1).ToString())
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.DragonPower2;
-					Player2Status_Level3._instance.originAttack = dragonAttackAbility;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * dragonHp1);
-					Player2Status_Level3._instance.maxHp = dragonHp1;
-
-					audioSource.clip = dragonAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Dragon Power2");
-					TurnEffect();
-				}
-				else if(powerIndex == dragonPower3Count && collision.gameObject.name == "DragonPower3Pic" + (powerIndex-1).ToString())
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.DragonPower3;
-					Player2Status_Level3._instance.originAttack = dragonAttackAbility;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * dragonHp2);
-					Player2Status_Level3._instance.maxHp = dragonHp2;
-
-					audioSource.clip = dragonAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Dragon Power3");
-					TurnEffect();
-				}
-				
-			}
-		}
-		else if(collision.gameObject.CompareTag("KnightPowerPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Knight)
-			{
-				if(collision.gameObject.name == "KnightPowerPic" + powerIndex.ToString()
-					|| collision.gameObject.name == "KnightPower1Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "KnightPower2Pic" + powerIndex.ToString())
-				{
-					RedCrossEffect(collision);
-					powerIndex++;
-				}else
-				{
-					RemovePowerRedCrossOnMap();
-					powerIndex = 0;
-				}
-				if(powerIndex == knightPower1Count && collision.gameObject.name == "KnightPower1Pic" + (powerIndex-1).ToString())
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.KnightPower1;
-					Player2Status_Level3._instance.originAttack = knightAttackAbility;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * knightHp);
-					Player2Status_Level3._instance.maxHp = knightHp;
-
-					audioSource.clip = knightAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Knight Power1");
-					TurnEffect();
-				}
-				else if(powerIndex == knightPower2Count && collision.gameObject.name == "KnightPower2Pic" + (powerIndex-1).ToString())
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.KnightPower2;
-					Player2Status_Level3._instance.originAttack = knightAttackAbility;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * knightHp);
-					Player2Status_Level3._instance.maxHp = knightHp;
-
-					audioSource.clip = knightAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Knight Power2");
-					TurnEffect();
-				}
-			}
-		}
-		else if(collision.gameObject.CompareTag("MagicPowerPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Magic)
-			{
-				if(collision.gameObject.name == "MagicPowerPic" + powerIndex.ToString()
-					|| collision.gameObject.name == "MagicPower1Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "MagicPower2Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "MagicPower3Pic" + powerIndex.ToString())
-				{
-					RedCrossEffect(collision);
-					powerIndex++;
-				}else
-				{
-					RemovePowerRedCrossOnMap();
-					powerIndex = 0;
-				}
-				if(powerIndex == magicPower1Count && collision.gameObject.name == "MagicPower1Pic" + (powerIndex-1).ToString())
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.MagicPower1;
-					Player2Status_Level3._instance.originAttack = magicAttackAbility1;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * magicHp);
-					Player2Status_Level3._instance.maxHp = magicHp;
-
-					audioSource.clip = magicAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Magic Power1");
-					TurnEffect();
-				}
-				else if(powerIndex == magicPower2Count && collision.gameObject.name == "MagicPower2Pic" + (powerIndex-1).ToString())
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.MagicPower2;
-					Player2Status_Level3._instance.originAttack = magicAttackAbility1;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * magicHp);
-					Player2Status_Level3._instance.maxHp = magicHp;
-
-					audioSource.clip = magicAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Magic Power2");
-					TurnEffect();
-				}
-				else if(powerIndex == magicPower3Count && collision.gameObject.name == "MagicPower3Pic" + (powerIndex-1).ToString())
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.MagicPower3;
-					Player2Status_Level3._instance.originAttack = magicAttackAbility2;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * magicHp);
-					Player2Status_Level3._instance.maxHp = magicHp;
-
-					audioSource.clip = magicAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Magic Power3");
-					TurnEffect();
-				}
-				
-			}
-		}
-		else if(collision.gameObject.CompareTag("AssassinPowerPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Assassin)
-			{
-				if(collision.gameObject.name == "AssassinPowerPic" + powerIndex.ToString()
-					|| collision.gameObject.name == "AssassinPower1Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "AssassinPower2Pic" + powerIndex.ToString())
-				{
-					RedCrossEffect(collision);
-					powerIndex++;
-				}else
-				{
-					RemovePowerRedCrossOnMap();
-					powerIndex = 0;
-				}
-				if(powerIndex == assassinPower1Count && collision.gameObject.name == "AssassinPower1Pic" + (powerIndex-1).ToString())
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.AssassinPower1;
-					Player2Status_Level3._instance.originAttack = assassinAttackAbility;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * assassinHp1);
-					Player2Status_Level3._instance.maxHp = assassinHp1;
-
-					audioSource.clip = assassinAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Assassin Power1");
-					TurnEffect();
-				}
-				else if(powerIndex == assassinPower2Count && collision.gameObject.name == "AssassinPower2Pic" + (powerIndex-1).ToString())
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.AssassinPower2;
-					Player2Status_Level3._instance.originAttack = assassinAttackAbility;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * assassinHp2);
-					Player2Status_Level3._instance.maxHp = assassinHp2;
-
-					audioSource.clip = assassinAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Knight Power2");
-					TurnEffect();
-				}
-			}
-		}
-		else if(collision.gameObject.CompareTag("BossPowerPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Boss)
-			{
-				if(collision.gameObject.name == "BossPowerPic" + powerIndex.ToString())
-				{
-					RedCrossEffect(collision);
-					powerIndex++;
-				}else
-				{
-					RemovePowerRedCrossOnMap();
-					powerIndex = 0;
-				}
-				if(powerIndex == bossPowerCount)
-				{
-					Player2Status_Level3._instance.playerPower = PlayerPower_Level3.BossPower;
-					Player2Status_Level3._instance.originAttack = bossAttackAbility;
-
-					float percent = Player2Status_Level3._instance.hp / Player2Status_Level3._instance.maxHp;
-					Player2Status_Level3._instance.hp = Mathf.RoundToInt(percent * bossHp);
-					Player2Status_Level3._instance.maxHp = bossHp;
-
-					audioSource.clip = bossAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player2 has Boss Power");
-					TurnEffect();
-				}
-			}
-		}
-		else if(collision.gameObject.CompareTag("PoisonPic"))
-		{
-			powerIndex = 0;
-			switch(Player2Status_Level3._instance.playerPower)
-			{
-				case PlayerPower_Level3.DragonPower1:
-					break;
-				case PlayerPower_Level3.DragonPower2:
-					break;
-				case PlayerPower_Level3.DragonPower3:
-					break;
-				case PlayerPower_Level3.KnightPower1:
-					if(!Player2Status_Level3._instance.overPoison)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-						{
-							Player2Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(2,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.KnightPower2:
-					if(!Player2Status_Level3._instance.overPoison)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-						{
-							Player2Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(2,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.MagicPower1:
-					ChangeToArea(collision);
-					break;
-				case PlayerPower_Level3.MagicPower2:
-					if(!Player2Status_Level3._instance.overPoison)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-						{
-							Player2Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(2,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.MagicPower3:
-					if(!Player2Status_Level3._instance.overPoison)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-						{
-							Player2Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(2,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.AssassinPower1:
-					if(PlayerStatusControl_Level3._instance.playerIdentity == 1 || PlayerStatusControl_Level3._instance.playerIdentity == 3)
-					{
-						BecomeInvisible();
-						visible = false;
-					}
-					break;
-				case PlayerPower_Level3.AssassinPower2:
-					if(PlayerStatusControl_Level3._instance.playerIdentity == 1 || PlayerStatusControl_Level3._instance.playerIdentity == 3)
-					{
-						BecomeInvisible();
-						visible = false;
-					}
-					break;
-				case PlayerPower_Level3.BossPower:
-					break;
-				case PlayerPower_Level3.Default:
-					if(!Player2Status_Level3._instance.overPoison)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-						{
-							Player2Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(2,-1);
-						}
-					}
-					break;
-			}
-		}
-		else if(collision.gameObject.CompareTag("AreaPic"))
-		{
-			powerIndex = 0;
-			switch(Player2Status_Level3._instance.playerPower)
-			{
-				case PlayerPower_Level3.DragonPower1:
-					ChangeToWind(collision);
-					break;
-				case PlayerPower_Level3.DragonPower2:
-					ChangeToPoison(collision);
-					break;
-				case PlayerPower_Level3.DragonPower3:
-					ChangeToPoison(collision);
-					break;
-				case PlayerPower_Level3.KnightPower1:
-					Player2Status_Level3._instance.attackAbility = Player2Status_Level3._instance.originAttack + 2;
-					attackBuffOnArea = true;
-					break;
-				case PlayerPower_Level3.KnightPower2:
-					break;
-				case PlayerPower_Level3.MagicPower1:
-					break;
-				case PlayerPower_Level3.MagicPower2:
-					break;
-				case PlayerPower_Level3.MagicPower3:
-					break;
-				case PlayerPower_Level3.AssassinPower1:
-					if(!Player2Status_Level3._instance.overArea)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-						{
-							Player2Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(1,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.AssassinPower2:
-					if(!Player2Status_Level3._instance.overArea)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-						{
-							Player2Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(2,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.BossPower:
-					break;
-				case PlayerPower_Level3.Default:
-					if(!Player2Status_Level3._instance.overArea)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-						{
-							Player2Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(2,-1);
-						}
-					}
-					break;
-			}
-		}
-		else if(collision.gameObject.CompareTag("WindPic"))
-		{
-			powerIndex = 0;
-			switch(Player2Status_Level3._instance.playerPower)
-			{
-				case PlayerPower_Level3.DragonPower1:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.DragonPower2:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.DragonPower3:
-					ChangeToPoison(collision);
-					break;
-				case PlayerPower_Level3.KnightPower1:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.KnightPower2:
-					break;
-				case PlayerPower_Level3.MagicPower1:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.MagicPower2:
-					ChangeToArea(collision);
-					break;
-				case PlayerPower_Level3.MagicPower3:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.AssassinPower1:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.AssassinPower2:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-					{
-						Player2Status_Level3._instance.Damage(1);
-						tcpClient.SendHpChange(1,-1);
-					}
-					break;
-				case PlayerPower_Level3.BossPower:
-					break;
-				case PlayerPower_Level3.Default:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-			}
-		}
-		else if(collision.gameObject.CompareTag("AddOnePic"))
-		{
-			if(collision.gameObject.name == "AddOnePic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == addOneCount)
-			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-				{
-					Player2Status_Level3._instance.Recover(2);
-					tcpClient.SendHpChange(2,2);
-				}
-				audioSource.clip = recoverBuffClip;
-				audioSource.Play();
-				RecoverEffect();
-				Debug.Log("Player2 recorve 2 hp");
-			}
-		}
-		else if(collision.gameObject.CompareTag("AddTwoPic"))
-		{
-			if(collision.gameObject.name == "AddTwoPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == addTwoCount)
-			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-				{
-					Player2Status_Level3._instance.Recover(4);
-					tcpClient.SendHpChange(2,4);
-				}
-				audioSource.clip = recoverBuffClip;
-				audioSource.Play();
-				RecoverEffect();
-				Debug.Log("Player2 recorve 4 hp");
-			}
-		}
-		else if(collision.gameObject.CompareTag("OverPoisonPic"))
-		{
-			if(collision.gameObject.name == "OverPoisonPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == overPoisonCount)
-			{
-				Player2Status_Level3._instance.overPoison = true;
-				audioSource.clip = overBuffClip;
-				audioSource.Play();
-				Debug.Log("Player2 is poison no effect");
-			}
-		}
-		else if(collision.gameObject.CompareTag("OverAreaPic"))
-		{
-			if(collision.gameObject.name == "OverAreaPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == overAreaCount)
-			{
-				Player2Status_Level3._instance.overArea = true;
-				audioSource.clip = overBuffClip;
-				audioSource.Play();
-				Debug.Log("Player2 is area no effect");
-			}
-		}
-		else if(collision.gameObject.CompareTag("DamageReflectPic"))
-		{
-			if(collision.gameObject.name == "DamageReflectPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == damageReflectCount)
-			{
-				Player2Status_Level3._instance.damageReflect = true;
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player2 is damage Reflect");
-			}
-		}
-		else if(collision.gameObject.CompareTag("AttackBuffPic"))
-		{
-			if(collision.gameObject.name == "AttackBuffPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == attackBuffCount)
-			{
-				Player2Status_Level3._instance.attackBuff = true;
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player2 is attack buff");
-			}
-		}
-		else if(collision.gameObject.CompareTag("ShieldSkillPic"))
-		{
-			if(collision.gameObject.name == "ShieldSkillPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == shieldSkillCount)
-			{
-				Player2Status_Level3._instance.playerSkill = PlayerSkill_Level3.ShieldSkill;
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player2 has shield skill");
-			}
-		}
-		else if(collision.gameObject.CompareTag("GunSkillPic"))
-		{
-			if(collision.gameObject.name == "GunSkillPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == gunSkillCount)
-			{
-				Player2Status_Level3._instance.playerSkill = PlayerSkill_Level3.GunSkill;
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player2 has gun skill");
-			}
-		}
-		else if(collision.gameObject.CompareTag("IceSkillPic"))
-		{
-			if(collision.gameObject.name == "IceSkillPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == iceSkillCount)
-			{
-				Player2Status_Level3._instance.playerSkill = PlayerSkill_Level3.IceSkill;
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player2 has ice skill");
-			}
-		}
-		else if(collision.gameObject.CompareTag("ChangeHpPic"))
-		{
-			if(collision.gameObject.name == "ChangeHpPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == changeHpSkillCount)
-			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-				{
-					if(Player1Status_Level3._instance.hp >= Player3Status_Level3._instance.hp)
-					{
-						if(Player1Status_Level3._instance.hp > Player2Status_Level3._instance.hp)
-						{
-							int diff = Mathf.RoundToInt(Player1Status_Level3._instance.hp - Player2Status_Level3._instance.hp);
-							Player2Status_Level3._instance.Recover(diff);
-							Player1Status_Level3._instance.Damage(diff);
-							tcpClient.SendHpChange(2,diff);
-							tcpClient.SendHpChange(1,-diff);
-							Debug.Log("Player2 and Player1 exchange hp");
-						}
-					}
-					else
-					{
-						if(Player3Status_Level3._instance.hp > Player2Status_Level3._instance.hp)
-						{
-							int diff = Mathf.RoundToInt(Player3Status_Level3._instance.hp - Player2Status_Level3._instance.hp);
-							Player2Status_Level3._instance.Recover(diff);
-							Player3Status_Level3._instance.Damage(diff);
-							tcpClient.SendHpChange(2,diff);
-							tcpClient.SendHpChange(3,-diff);
-							Debug.Log("Player2 and Player3 exchange hp");
-						}
-					}
-				}
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-			}
-		}
-		else if(collision.gameObject.CompareTag("TeleportPic"))
-		{
-			if(collision.gameObject.name == "TeleportPic" + powerIndex.ToString() ||
-			   collision.gameObject.name == "Teleport1Pic" + powerIndex.ToString() ||
-			   collision.gameObject.name == "Teleport2Pic" + powerIndex.ToString() ||
-			   collision.gameObject.name == "Teleport3Pic" + powerIndex.ToString() ||
-			   collision.gameObject.name == "Teleport4Pic" + powerIndex.ToString() )
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == teleportCount)
-			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 2)
-				{
-					if(collision.gameObject.name == "Teleport1Pic" + (powerIndex-1).ToString())
-					{
-						playerMove.endPosition = teleportPosition[0].transform.position;
-						gameObject.transform.position = teleportPosition[0].transform.position;
-					}
-					else if(collision.gameObject.name == "Teleport2Pic" + (powerIndex-1).ToString())
-					{
-						playerMove.endPosition = teleportPosition[1].transform.position;
-						gameObject.transform.position = teleportPosition[1].transform.position;
-					}
-					else if(collision.gameObject.name == "Teleport3Pic" + (powerIndex-1).ToString())
-					{
-						playerMove.endPosition = teleportPosition[2].transform.position;
-						gameObject.transform.position = teleportPosition[2].transform.position;
-					}
-					else if(collision.gameObject.name == "Teleport4Pic" + (powerIndex-1).ToString())
-					{
-						playerMove.endPosition = teleportPosition[3].transform.position;
-						gameObject.transform.position = teleportPosition[3].transform.position;
-					}
-				}
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player2 has use teleport");
-			}
-		}
-		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player3Bullet")
-				|| collision.gameObject.CompareTag("PlayerCube"))
-		{
-
-		}
-		else
-		{
-			RemovePowerRedCrossOnMap();
-			powerIndex = 0;
-		}
-		if(visible || ( PlayerStatusControl_Level3._instance.playerIdentity == 1 && 
-													(Player1Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower1 ||
-													Player1Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower2 ||
-													Player1Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower3))
-				   || ( PlayerStatusControl_Level3._instance.playerIdentity == 3 && 
-													(Player3Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower1 ||
-													Player3Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower2 ||
-													Player3Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower3)) )
-		{
-			BecomeVisible();
-		}
-		if(!attackBuffOnArea)
-		{
-			Player2Status_Level3._instance.attackAbility = Player2Status_Level3._instance.originAttack;
-		}
-		if(!speedUpOnWind)
-		{
-			playerMove.speedUp = 1f;
-		}
-	}
-
-
-	void CheckPlayer3Trigger(Collider2D collision)
-	{
-		bool visible = true;
-		bool attackBuffOnArea = false;
-		bool speedUpOnWind = false;
-		if (collision.gameObject.CompareTag("DragonPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Dragon 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Dragon
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Dragon)
-			{	
-				Player3Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Dragon;
-				Player3Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player3Status_Level3._instance.originAttack = 0.0f;
-				RemoveCharacterRedCross();
-				TurnEffect();
-				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[0];
-				animator.runtimeAnimatorController = dragonController;
-				audioSource.clip = dragonAttackClip;
-				audioSource.Play();
-				UpdateFace(playerMove.dir);
-				Debug.Log("Player3 turn into Dragon");
-			}
-			powerIndex = 0;
-		}
-		else if (collision.gameObject.CompareTag("KnightPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Knight 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Knight
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Knight)
-			{	
-				Player3Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Knight;
-				Player3Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player3Status_Level3._instance.originAttack = 0.0f;
-				RemoveCharacterRedCross();
-				TurnEffect();
-				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[1];
-				animator.runtimeAnimatorController = knightController;
-				audioSource.clip = knightAttackClip;
-				audioSource.Play();
-				UpdateFace(playerMove.dir);
-				Debug.Log("Player3 turn into Knight");
-			}
-			powerIndex = 0;
-		}
-		else if (collision.gameObject.CompareTag("MagicPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Magic 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Magic
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Magic)
-			{	
-				Player3Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Magic;
-				Player3Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player3Status_Level3._instance.originAttack = 0.0f;
-				RemoveCharacterRedCross();
-				TurnEffect();
-				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[2];
-				animator.runtimeAnimatorController = magicController;
-				audioSource.clip = magicAttackClip;
-				audioSource.Play();
-				UpdateFace(playerMove.dir);
-				Debug.Log("Player3 turn into Magic");
-			}
-			powerIndex = 0;
-		}
-		else if (collision.gameObject.CompareTag("AssassinPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Assassin 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Assassin
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Assassin)
-			{	
-				Player3Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Assassin;
-				Player3Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player3Status_Level3._instance.originAttack = 0.0f;
-				RemoveCharacterRedCross();
-				TurnEffect();
-				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[3];
-				animator.runtimeAnimatorController = assassinController;
-				audioSource.clip = assassinAttackClip;
-				audioSource.Play();
-				UpdateFace(playerMove.dir);
-				Debug.Log("Player3 turn into Assassin");
-			}
-			powerIndex = 0;
-		}
-		else if (collision.gameObject.CompareTag("BossPic"))
-		{
-			if(Player2Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Boss 
-				&& Player1Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Boss
-				&& Player3Status_Level3._instance.playerCharacter != PlayerCharacter_Level3.Boss)
-			{	
-				Player3Status_Level3._instance.playerCharacter = PlayerCharacter_Level3.Boss;
-				Player3Status_Level3._instance.playerPower = PlayerPower_Level3.Default;
-				Player3Status_Level3._instance.originAttack = 0.0f;
-				RemoveCharacterRedCross();
-				TurnEffect();
-				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[4];
-				animator.runtimeAnimatorController = bossController;
-				audioSource.clip = bossAttackClip;
-				audioSource.Play();
-				UpdateFace(playerMove.dir);
-				Debug.Log("Player3 turn into Boss");
-			}
-			powerIndex = 0;
-		}
-		else if(collision.gameObject.CompareTag("DragonPowerPic"))
-		{
-			if(Player3Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Dragon)
-			{
-				if(collision.gameObject.name == "DragonPowerPic" + powerIndex.ToString()
-					|| collision.gameObject.name == "DragonPower1Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "DragonPower2Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "DragonPower3Pic" + powerIndex.ToString())
-				{
-					RedCrossEffect(collision);
-					powerIndex++;
-				}else
-				{
-					RemovePowerRedCrossOnMap();
-					powerIndex = 0;
-				}
-				if(powerIndex == dragonPower1Count && collision.gameObject.name == "DragonPower1Pic" + (powerIndex-1).ToString())
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.DragonPower1;
-					Player3Status_Level3._instance.originAttack = dragonAttackAbility;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * dragonHp1);
-					Player3Status_Level3._instance.maxHp = dragonHp1;
-
-					audioSource.clip = dragonAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Dragon Power1");
-					TurnEffect();
-				}
-				else if(powerIndex == dragonPower2Count && collision.gameObject.name == "DragonPower2Pic" + (powerIndex-1).ToString())
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.DragonPower2;
-					Player3Status_Level3._instance.originAttack = dragonAttackAbility;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * dragonHp1);
-					Player3Status_Level3._instance.maxHp = dragonHp1;
-
-					audioSource.clip = dragonAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Dragon Power2");
-					TurnEffect();
-				}
-				else if(powerIndex == dragonPower3Count && collision.gameObject.name == "DragonPower3Pic" + (powerIndex-1).ToString())
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.DragonPower3;
-					Player3Status_Level3._instance.originAttack = dragonAttackAbility;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * dragonHp2);
-					Player3Status_Level3._instance.maxHp = dragonHp2;
-
-					audioSource.clip = dragonAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Dragon Power3");
-					TurnEffect();
-				}
-				
-			}
-		}
-		else if(collision.gameObject.CompareTag("KnightPowerPic"))
-		{
-			if(Player3Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Knight)
-			{
-				if(collision.gameObject.name == "KnightPowerPic" + powerIndex.ToString()
-					|| collision.gameObject.name == "KnightPower1Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "KnightPower2Pic" + powerIndex.ToString())
-				{
-					RedCrossEffect(collision);
-					powerIndex++;
-				}else
-				{
-					RemovePowerRedCrossOnMap();
-					powerIndex = 0;
-				}
-				if(powerIndex == knightPower1Count && collision.gameObject.name == "KnightPower1Pic" + (powerIndex-1).ToString())
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.KnightPower1;
-					Player3Status_Level3._instance.originAttack = knightAttackAbility;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * knightHp);
-					Player3Status_Level3._instance.maxHp = knightHp;
-
-					audioSource.clip = knightAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Knight Power1");
-					TurnEffect();
-				}
-				else if(powerIndex == knightPower2Count && collision.gameObject.name == "KnightPower2Pic" + (powerIndex-1).ToString())
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.KnightPower2;
-					Player3Status_Level3._instance.originAttack = knightAttackAbility;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * knightHp);
-					Player3Status_Level3._instance.maxHp = knightHp;
-
-					audioSource.clip = knightAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Knight Power2");
-					TurnEffect();
-				}
-			}
-		}
-		else if(collision.gameObject.CompareTag("MagicPowerPic"))
-		{
-			if(Player3Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Magic)
-			{
-				if(collision.gameObject.name == "MagicPowerPic" + powerIndex.ToString()
-					|| collision.gameObject.name == "MagicPower1Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "MagicPower2Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "MagicPower3Pic" + powerIndex.ToString())
-				{
-					RedCrossEffect(collision);
-					powerIndex++;
-				}else
-				{
-					RemovePowerRedCrossOnMap();
-					powerIndex = 0;
-				}
-				if(powerIndex == magicPower1Count && collision.gameObject.name == "MagicPower1Pic" + (powerIndex-1).ToString())
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.MagicPower1;
-					Player3Status_Level3._instance.originAttack = magicAttackAbility1;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * magicHp);
-					Player3Status_Level3._instance.maxHp = magicHp;
-
-					audioSource.clip = magicAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Magic Power1");
-					TurnEffect();
-				}
-				else if(powerIndex == magicPower2Count && collision.gameObject.name == "MagicPower2Pic" + (powerIndex-1).ToString())
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.MagicPower2;
-					Player3Status_Level3._instance.originAttack = magicAttackAbility1;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * magicHp);
-					Player3Status_Level3._instance.maxHp = magicHp;
-
-					audioSource.clip = magicAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Magic Power2");
-					TurnEffect();
-				}
-				else if(powerIndex == magicPower3Count && collision.gameObject.name == "MagicPower3Pic" + (powerIndex-1).ToString())
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.MagicPower3;
-					Player3Status_Level3._instance.originAttack = magicAttackAbility2;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * magicHp);
-					Player3Status_Level3._instance.maxHp = magicHp;
-
-					audioSource.clip = magicAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Magic Power3");
-					TurnEffect();
-				}
-				
-			}
-		}
-		else if(collision.gameObject.CompareTag("AssassinPowerPic"))
-		{
-			if(Player3Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Assassin)
-			{
-				if(collision.gameObject.name == "AssassinPowerPic" + powerIndex.ToString()
-					|| collision.gameObject.name == "AssassinPower1Pic" + powerIndex.ToString()
-					|| collision.gameObject.name == "AssassinPower2Pic" + powerIndex.ToString())
-				{
-					RedCrossEffect(collision);
-					powerIndex++;
-				}else
-				{
-					RemovePowerRedCrossOnMap();
-					powerIndex = 0;
-				}
-				if(powerIndex == assassinPower1Count && collision.gameObject.name == "AssassinPower1Pic" + (powerIndex-1).ToString())
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.AssassinPower1;
-					Player3Status_Level3._instance.originAttack = assassinAttackAbility;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * assassinHp1);
-					Player3Status_Level3._instance.maxHp = assassinHp1;
-
-					audioSource.clip = assassinAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Assassin Power1");
-					TurnEffect();
-				}
-				else if(powerIndex == assassinPower2Count && collision.gameObject.name == "AssassinPower2Pic" + (powerIndex-1).ToString())
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.AssassinPower2;
-					Player3Status_Level3._instance.originAttack = assassinAttackAbility;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * assassinHp2);
-					Player3Status_Level3._instance.maxHp = assassinHp2;
-
-					audioSource.clip = assassinAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Knight Power2");
-					TurnEffect();
-				}
-			}
-		}
-		else if(collision.gameObject.CompareTag("BossPowerPic"))
-		{
-			if(Player3Status_Level3._instance.playerCharacter == PlayerCharacter_Level3.Boss)
-			{
-				if(collision.gameObject.name == "BossPowerPic" + powerIndex.ToString())
-				{
-					RedCrossEffect(collision);
-					powerIndex++;
-				}else
-				{
-					RemovePowerRedCrossOnMap();
-					powerIndex = 0;
-				}
-				if(powerIndex == bossPowerCount)
-				{
-					Player3Status_Level3._instance.playerPower = PlayerPower_Level3.BossPower;
-					Player3Status_Level3._instance.originAttack = bossAttackAbility;
-
-					float percent = Player3Status_Level3._instance.hp / Player3Status_Level3._instance.maxHp;
-					Player3Status_Level3._instance.hp = Mathf.RoundToInt(percent * bossHp);
-					Player3Status_Level3._instance.maxHp = bossHp;
-
-					audioSource.clip = bossAttackClip;
-					audioSource.Play();
-
-					Debug.Log("Player3 has Boss Power");
-					TurnEffect();
-				}
-			}
-		}
-		else if(collision.gameObject.CompareTag("PoisonPic"))
-		{
-			powerIndex = 0;
-			switch(Player3Status_Level3._instance.playerPower)
-			{
-				case PlayerPower_Level3.DragonPower1:
-					break;
-				case PlayerPower_Level3.DragonPower2:
-					break;
-				case PlayerPower_Level3.DragonPower3:
-					break;
-				case PlayerPower_Level3.KnightPower1:
-					if(!Player3Status_Level3._instance.overPoison)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-						{
-							Player3Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(3,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.KnightPower2:
-					if(!Player3Status_Level3._instance.overPoison)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-						{
-							Player3Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(3,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.MagicPower1:
-					ChangeToArea(collision);
-					break;
-				case PlayerPower_Level3.MagicPower2:
-					if(!Player3Status_Level3._instance.overPoison)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-						{
-							Player3Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(3,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.MagicPower3:
-					if(!Player3Status_Level3._instance.overPoison)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-						{
-							Player3Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(3,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.AssassinPower1:
-					if(PlayerStatusControl_Level3._instance.playerIdentity == 1 || PlayerStatusControl_Level3._instance.playerIdentity == 2)
-					{
-						BecomeInvisible();
-						visible = false;
-					}
-					break;
-				case PlayerPower_Level3.AssassinPower2:
-					if(PlayerStatusControl_Level3._instance.playerIdentity == 1 || PlayerStatusControl_Level3._instance.playerIdentity == 2)
-					{
-						BecomeInvisible();
-						visible = false;
-					}
-					break;
-				case PlayerPower_Level3.BossPower:
-					break;
-				case PlayerPower_Level3.Default:
-					if(!Player3Status_Level3._instance.overPoison)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-						{
-							Player3Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(3,-1);
-						}
-					}
-					break;
-			}
-		}
-		else if(collision.gameObject.CompareTag("AreaPic"))
-		{
-			powerIndex = 0;
-			switch(Player3Status_Level3._instance.playerPower)
-			{
-				case PlayerPower_Level3.DragonPower1:
-					ChangeToWind(collision);
-					break;
-				case PlayerPower_Level3.DragonPower2:
-					ChangeToPoison(collision);
-					break;
-				case PlayerPower_Level3.DragonPower3:
-					ChangeToPoison(collision);
-					break;
-				case PlayerPower_Level3.KnightPower1:
-					Player3Status_Level3._instance.attackAbility = Player3Status_Level3._instance.originAttack + 2;
-					attackBuffOnArea = true;
-					break;
-				case PlayerPower_Level3.KnightPower2:
-					break;
-				case PlayerPower_Level3.MagicPower1:
-					break;
-				case PlayerPower_Level3.MagicPower2:
-					break;
-				case PlayerPower_Level3.MagicPower3:
-					break;
-				case PlayerPower_Level3.AssassinPower1:
-					if(!Player3Status_Level3._instance.overArea)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-						{
-							Player3Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(3,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.AssassinPower2:
-					if(!Player3Status_Level3._instance.overArea)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-						{
-							Player3Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(3,-1);
-						}
-					}
-					break;
-				case PlayerPower_Level3.BossPower:
-					break;
-				case PlayerPower_Level3.Default:
-					if(!Player3Status_Level3._instance.overArea)
-					{
-						if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-						{
-							Player3Status_Level3._instance.Damage(1);
-							tcpClient.SendHpChange(3,-1);
-						}
-					}
-					break;
-			}
-		}
-		else if(collision.gameObject.CompareTag("WindPic"))
-		{
-			powerIndex = 0;
-			switch(Player3Status_Level3._instance.playerPower)
-			{
-				case PlayerPower_Level3.DragonPower1:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.DragonPower2:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.DragonPower3:
-					ChangeToPoison(collision);
-					break;
-				case PlayerPower_Level3.KnightPower1:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.KnightPower2:
-					break;
-				case PlayerPower_Level3.MagicPower1:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.MagicPower2:
-					ChangeToArea(collision);
-					break;
-				case PlayerPower_Level3.MagicPower3:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.AssassinPower1:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-				case PlayerPower_Level3.AssassinPower2:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-					{
-						Player3Status_Level3._instance.Damage(1);
-						tcpClient.SendHpChange(3,-1);
-					}
-					break;
-				case PlayerPower_Level3.BossPower:
-					break;
-				case PlayerPower_Level3.Default:
-					speedUpOnWind = true;
-					playerMove.speedUp = 2f;
-					break;
-			}
-		}
-		else if(collision.gameObject.CompareTag("AddOnePic"))
-		{
-			if(collision.gameObject.name == "AddOnePic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == addOneCount)
-			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-				{
-					Player3Status_Level3._instance.Recover(2);
-					tcpClient.SendHpChange(3,2);
-				}
-				audioSource.clip = recoverBuffClip;
-				audioSource.Play();
-				RecoverEffect();
-				Debug.Log("Player3 recorve 2 hp");
-			}
-		}
-		else if(collision.gameObject.CompareTag("AddTwoPic"))
-		{
-			if(collision.gameObject.name == "AddTwoPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == addTwoCount)
-			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-				{
-					Player3Status_Level3._instance.Recover(4);
-					tcpClient.SendHpChange(3,4);
-				}
-				audioSource.clip = recoverBuffClip;
-				audioSource.Play();
-				RecoverEffect();
-				Debug.Log("Player3 recorve 4 hp");
-			}
-		}
-		else if(collision.gameObject.CompareTag("OverPoisonPic"))
-		{
-			if(collision.gameObject.name == "OverPoisonPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == overPoisonCount)
-			{
-				Player3Status_Level3._instance.overPoison = true;
-				audioSource.clip = overBuffClip;
-				audioSource.Play();
-				Debug.Log("Player3 is poison no effect");
-			}
-		}
-		else if(collision.gameObject.CompareTag("OverAreaPic"))
-		{
-			if(collision.gameObject.name == "OverAreaPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == overAreaCount)
-			{
-				Player3Status_Level3._instance.overArea = true;
-				audioSource.clip = overBuffClip;
-				audioSource.Play();
-				Debug.Log("Player3 is area no effect");
-			}
-		}
-		else if(collision.gameObject.CompareTag("DamageReflectPic"))
-		{
-			if(collision.gameObject.name == "DamageReflectPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == damageReflectCount)
-			{
-				Player3Status_Level3._instance.damageReflect = true;
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player3 is damage Reflect");
-			}
-		}
-		else if(collision.gameObject.CompareTag("AttackBuffPic"))
-		{
-			if(collision.gameObject.name == "AttackBuffPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == attackBuffCount)
-			{
-				Player3Status_Level3._instance.attackBuff = true;
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player3 is attack buff");
-			}
-		}
-		else if(collision.gameObject.CompareTag("ShieldSkillPic"))
-		{
-			if(collision.gameObject.name == "ShieldSkillPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == shieldSkillCount)
-			{
-				Player3Status_Level3._instance.playerSkill = PlayerSkill_Level3.ShieldSkill;
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player3 has shield skill");
-			}
-		}
-		else if(collision.gameObject.CompareTag("GunSkillPic"))
-		{
-			if(collision.gameObject.name == "GunSkillPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == gunSkillCount)
-			{
-				Player3Status_Level3._instance.playerSkill = PlayerSkill_Level3.GunSkill;
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player3 has gun skill");
-			}
-		}
-		else if(collision.gameObject.CompareTag("IceSkillPic"))
-		{
-			if(collision.gameObject.name == "IceSkillPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == iceSkillCount)
-			{
-				Player3Status_Level3._instance.playerSkill = PlayerSkill_Level3.IceSkill;
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player3 has ice skill");
-			}
-		}
-		else if(collision.gameObject.CompareTag("ChangeHpPic"))
-		{
-			if(collision.gameObject.name == "ChangeHpPic" + powerIndex.ToString())
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == changeHpSkillCount)
-			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-				{
-					if(Player1Status_Level3._instance.hp >= Player2Status_Level3._instance.hp)
-					{
-						if(Player1Status_Level3._instance.hp > Player3Status_Level3._instance.hp)
-						{
-							int diff = Mathf.RoundToInt(Player1Status_Level3._instance.hp - Player3Status_Level3._instance.hp);
-							Player3Status_Level3._instance.Recover(diff);
-							Player1Status_Level3._instance.Damage(diff);
-							tcpClient.SendHpChange(3,diff);
-							tcpClient.SendHpChange(1,-diff);
-							Debug.Log("Player3 and Player1 exchange hp");
-						}
-					}
-					else
-					{
-						if(Player2Status_Level3._instance.hp > Player3Status_Level3._instance.hp)
-						{
-							int diff = Mathf.RoundToInt(Player2Status_Level3._instance.hp - Player3Status_Level3._instance.hp);
-							Player3Status_Level3._instance.Recover(diff);
-							Player2Status_Level3._instance.Damage(diff);
-							tcpClient.SendHpChange(3,diff);
-							tcpClient.SendHpChange(2,-diff);
-							Debug.Log("Player3 and Player2 exchange hp");
-						}
-					}
-				}
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-			}
-		}
-		else if(collision.gameObject.CompareTag("TeleportPic"))
-		{
-			if(collision.gameObject.name == "TeleportPic" + powerIndex.ToString() ||
-			   collision.gameObject.name == "Teleport1Pic" + powerIndex.ToString() ||
-			   collision.gameObject.name == "Teleport2Pic" + powerIndex.ToString() ||
-			   collision.gameObject.name == "Teleport3Pic" + powerIndex.ToString() ||
-			   collision.gameObject.name == "Teleport4Pic" + powerIndex.ToString() )
-			{
-				RedCrossEffect(collision);
-				powerIndex++;
-			}else
-			{
-				RemovePowerRedCrossOnMap();
-				powerIndex = 0;
-			}
-			if(powerIndex == teleportCount)
-			{
-				if(PlayerStatusControl_Level3._instance.playerIdentity == 3)
-				{
-					if(collision.gameObject.name == "Teleport1Pic" + (powerIndex-1).ToString())
-					{
-						playerMove.endPosition = teleportPosition[0].transform.position;
-						gameObject.transform.position = teleportPosition[0].transform.position;
-					}
-					else if(collision.gameObject.name == "Teleport2Pic" + (powerIndex-1).ToString())
-					{
-						playerMove.endPosition = teleportPosition[1].transform.position;
-						gameObject.transform.position = teleportPosition[1].transform.position;
-					}
-					else if(collision.gameObject.name == "Teleport3Pic" + (powerIndex-1).ToString())
-					{
-						playerMove.endPosition = teleportPosition[2].transform.position;
-						gameObject.transform.position = teleportPosition[2].transform.position;
-					}
-					else if(collision.gameObject.name == "Teleport4Pic" + (powerIndex-1).ToString())
-					{
-						playerMove.endPosition = teleportPosition[3].transform.position;
-						gameObject.transform.position = teleportPosition[3].transform.position;
-					}
-				}
-				audioSource.clip = enhanceBuffClip;
-				audioSource.Play();
-				Debug.Log("Player3 has use teleport");
-			}
-		}
-		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player3Bullet")
-				|| collision.gameObject.CompareTag("PlayerCube"))
-		{
-
-		}
-		else
-		{
-			RemovePowerRedCrossOnMap();
-			powerIndex = 0;
-		}
-		if(visible || ( PlayerStatusControl_Level3._instance.playerIdentity == 1 && 
-													(Player1Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower1 ||
-													Player1Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower2 ||
-													Player1Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower3))
-				   || ( PlayerStatusControl_Level3._instance.playerIdentity == 2 && 
-													(Player2Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower1 ||
-													Player2Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower2 ||
-													Player2Status_Level3._instance.playerPower == PlayerPower_Level3.MagicPower3)) )
-		{
-			BecomeVisible();
-		}
-		if(!attackBuffOnArea)
-		{
-			Player3Status_Level3._instance.attackAbility = Player3Status_Level3._instance.originAttack;
-		}
-		if(!speedUpOnWind)
-		{
-			playerMove.speedUp = 1f;
-		}
-	}
-
+	
 
 	void OnTriggerEnter2D(Collider2D collision)
 	{
@@ -2752,18 +1040,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		{
 			return;
 		}
-		if(gameObject.CompareTag("Player1"))
-		{
-			CheckPlayer1Trigger(collision);
-		}
-		else if(gameObject.CompareTag("Player2"))
-		{
-			CheckPlayer2Trigger(collision);
-		}
-		else if(gameObject.CompareTag("Player3"))
-		{
-			CheckPlayer3Trigger(collision);
-		}
+		CheckPlayerTrigger(collision);
 	}
 
 	

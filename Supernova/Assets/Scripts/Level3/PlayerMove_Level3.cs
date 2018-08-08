@@ -28,6 +28,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 	private AudioSource[] audioSources;
 	private AudioSource audioSource;
 	public AudioClip stepSound;
+	private PlayerStatus_Level3 playerStatus;
 
 	public void SetNextPosition(Vector2 pos)
 	{
@@ -86,7 +87,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 	*/
 
 	private void OnCollisionEnter2D(Collision2D other) {
-		if(other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2"))
+		if(other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3"))
 		{
 			return;
 		}
@@ -113,8 +114,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if(other.gameObject.CompareTag("Wall") || (gameObject.CompareTag("Player1") && other.gameObject.CompareTag("Player2")) ||
-													(gameObject.CompareTag("Player2") && other.gameObject.CompareTag("Player1")))
+		if(other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3"))
 		{
 			switch(dir)
 			{
@@ -307,6 +307,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 		nextDir = FaceDirection.Down;
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[1];
+		playerStatus = GetComponent<PlayerStatus_Level3>();
 
 	}
 
@@ -317,11 +318,9 @@ public class PlayerMove_Level3 : MonoBehaviour
 	
 	void FixedUpdate()
 	{
-		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.playerIdentity == 1) 
-			|| (gameObject.CompareTag("Player2") && PlayerStatusControl_Level3._instance.playerIdentity == 2)
-			|| (gameObject.CompareTag("Player3") && PlayerStatusControl_Level3._instance.playerIdentity == 3))
+		if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 		{
-			tcpClient.SendCurrentInfo(transform.position, dir);
+			tcpClient.SendPlayerCurrentInfo(transform.position, dir, PlayerStatusControl_Level3._instance.playerIdentity);
 			ControlMove();
 			NextMove();
 		}

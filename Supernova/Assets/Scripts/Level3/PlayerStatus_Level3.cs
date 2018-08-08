@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
 public enum PlayerCharacter_Level3
 {
 	Dragon, Knight, Magic, Assassin, Boss, Default
@@ -18,14 +17,13 @@ public enum PlayerSkill_Level3
 {
 	ShieldSkill, GunSkill, IceSkill, Default
 }
-*/
-public class Player1Status_Level3 : MonoBehaviour {
+public class PlayerStatus_Level3 : MonoBehaviour {
 
-	public static Player1Status_Level3 _instance;
 
 	public PlayerCharacter_Level3 playerCharacter = PlayerCharacter_Level3.Default;
 	public PlayerPower_Level3 playerPower = PlayerPower_Level3.Default;
 	public PlayerSkill_Level3 playerSkill = PlayerSkill_Level3.Default;
+	public int playerIdentity;
 	public int skillRemain = 0;
 
 	public bool overPoison = false;
@@ -59,11 +57,9 @@ public class Player1Status_Level3 : MonoBehaviour {
 	public float hpChange;
 
 	public Text damageReflectText, attackBuffText, overPoisonText, overAreaText;
-
 	
 	// Use this for initialization
 	void Awake () {
-		_instance = this;
 		cam = Camera.main;
 		attack = GetComponent<PlayerAttack_Level3>();
 		move = GetComponent<PlayerMove_Level3>();
@@ -240,11 +236,11 @@ public class Player1Status_Level3 : MonoBehaviour {
 		if (!isDead)
 		{
 			audioSource.Play();
-			_instance.hp -= damage;
+			hp -= damage;
 			GameObject blood = (GameObject)Instantiate(bloodEffect, transform.position, Quaternion.identity);
 			Destroy(blood.gameObject,1);
 			Debug.Log("Player1收到了" + damage + "点伤害");
-			if (_instance.hp <= 0)
+			if (hp <= 0)
 			{
 				Dead();
 			}

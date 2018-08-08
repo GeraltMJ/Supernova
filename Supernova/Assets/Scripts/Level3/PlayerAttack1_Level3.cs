@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerAttack_Level3 : MonoBehaviour {
+public class PlayerAttack1_Level3 : MonoBehaviour {
 
 	public KeyCode shootKey;
 	private Animator anim;
@@ -23,7 +23,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	private AudioSource audioSource;
 	private AudioSource[] audioSources;
 	private Vector2 firePosition;
-	private PlayerStatus_Level3 playerStatus;
+
 	public void SetFireCommand(Vector2 pos)
 	{
 		fireCommand = true;
@@ -37,7 +37,6 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[0];
 		firePosition = transform.position;
-		playerStatus = GetComponent<PlayerStatus_Level3>();
 	}
 
 	void FixedUpdate()
@@ -59,7 +58,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	void Shoot()
 	{
-		if (playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
+		if ( (gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.playerIdentity == 1)
+			|| (gameObject.CompareTag("Player2") && PlayerStatusControl_Level3._instance.playerIdentity == 2)
+			|| (gameObject.CompareTag("Player3") && PlayerStatusControl_Level3._instance.playerIdentity == 3) )
 		{
 			ControlShoot();
 		}
@@ -100,18 +101,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	void SetBulletTag(GameObject bullet)
 	{
-		if(gameObject.CompareTag("Player1"))
-		{
-			bullet.tag = "Player1Bullet";
-		}
-		else if(gameObject.CompareTag("Player2"))
-		{
-			bullet.tag = "Player2Bullet";
-		}
-		else if(gameObject.CompareTag("Player3"))
-		{
-			bullet.tag = "Player3Bullet";
-		}
+		Bullet_Level3 bullet_1 = bullet.GetComponent<Bullet_Level3>();
+		//bullet_1.role =
+		//bullet_1.parentTag =
 	}
 
 	void SelectAccordingToPower(PlayerPower_Level3 power)
@@ -171,17 +163,50 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	void SelectBullet()
 	{
-		switch(playerStatus.playerSkill)
+		if(gameObject.CompareTag("Player1"))
 		{
-			case PlayerSkill_Level3.ShieldSkill:
+			switch(Player1Status_Level3._instance.playerSkill)
+			{
+				case PlayerSkill_Level3.ShieldSkill:
 					break;
-			case PlayerSkill_Level3.GunSkill:
-				break;
-			case PlayerSkill_Level3.IceSkill:
-				break;
-			case PlayerSkill_Level3.Default:
-				SelectAccordingToPower(playerStatus.playerPower);
-				break;
+				case PlayerSkill_Level3.GunSkill:
+					break;
+				case PlayerSkill_Level3.IceSkill:
+					break;
+				case PlayerSkill_Level3.Default:
+					SelectAccordingToPower(Player1Status_Level3._instance.playerPower);
+					break;
+			}
+		}
+		else if(gameObject.CompareTag("Player2"))
+		{
+			switch(Player2Status_Level3._instance.playerSkill)
+			{
+				case PlayerSkill_Level3.ShieldSkill:
+					break;
+				case PlayerSkill_Level3.GunSkill:
+					break;
+				case PlayerSkill_Level3.IceSkill:
+					break;
+				case PlayerSkill_Level3.Default:
+					SelectAccordingToPower(Player2Status_Level3._instance.playerPower);
+					break;
+			}
+		}
+		else if(gameObject.CompareTag("Player3"))
+		{
+			switch(Player3Status_Level3._instance.playerSkill)
+			{
+				case PlayerSkill_Level3.ShieldSkill:
+					break;
+				case PlayerSkill_Level3.GunSkill:
+					break;
+				case PlayerSkill_Level3.IceSkill:
+					break;
+				case PlayerSkill_Level3.Default:
+					SelectAccordingToPower(Player3Status_Level3._instance.playerPower);
+					break;
+			}
 		}
 	}
 
@@ -199,7 +224,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("UpAttack");
 				if(bullet)
 				{	
-					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+					if((gameObject.CompareTag("Player1") && Player1Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player3") && Player3Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower))
 					{
 						UpAttack();
 						LeftAttack();
@@ -216,7 +243,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("DownAttack");
 				if(bullet)
 				{	
-					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+					if((gameObject.CompareTag("Player1") && Player1Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player3") && Player3Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower))
 					{
 						DownAttack();
 						LeftAttack();
@@ -233,7 +262,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("LeftAttack");
 				if(bullet)
 				{
-					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+					if((gameObject.CompareTag("Player1") && Player1Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player3") && Player3Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower))
 					{
 						LeftAttack();
 						UpAttack();
@@ -250,7 +281,9 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("RightAttack");
 				if(bullet)
 				{
-					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+					if((gameObject.CompareTag("Player1") && Player1Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower) ||
+						(gameObject.CompareTag("Player3") && Player3Status_Level3._instance.playerPower == PlayerPower_Level3.BossPower))
 					{
 						RightAttack();
 						UpAttack();
@@ -278,7 +311,8 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("UpAttack");
 				if(bullet)
 				{	
-					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
 					{
 						EnemyUpAttack();
 						EnemyLeftAttack();
@@ -295,7 +329,8 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("DownAttack");
 				if(bullet)
 				{	
-					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
 					{
 						EnemyDownAttack();
 						EnemyLeftAttack();
@@ -312,7 +347,8 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("LeftAttack");
 				if(bullet)
 				{
-					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
 					{
 						EnemyLeftAttack();
 						EnemyUpAttack();
@@ -329,7 +365,8 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				anim.SetTrigger("RightAttack");
 				if(bullet)
 				{
-					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+					if((gameObject.CompareTag("Player1") && Player1Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower) ||
+						(gameObject.CompareTag("Player2") && Player2Status_Level2._instance.playerPower == PlayerPower_Level2.BossPower))
 					{
 						EnemyRightAttack();
 						EnemyUpAttack();
@@ -347,27 +384,29 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	void UpAttack()
 	{
-		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,90f));
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,90f), this.transform);
 		SetBulletTag(go);
 	}
 
 	void DownAttack()
 	{
-		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-90f));
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-90f), this.transform);
 		SetBulletTag(go);
 	}
 
 	void LeftAttack()
 	{
-		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-180f));
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-180f), this.transform);
 		SetBulletTag(go);
 	}
 
 	void RightAttack()
 	{
-		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity, this.transform);
 		SetBulletTag(go);
 	}
+
+
 	void EnemyUpAttack()
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.Euler(0f,0f,90f));
