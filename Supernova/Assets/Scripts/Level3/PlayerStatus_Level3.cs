@@ -15,8 +15,9 @@ public enum PlayerPower_Level3
 
 public enum PlayerSkill_Level3
 {
-	ShieldSkill, GunSkill, IceSkill, Default
+	ShieldSkill, GunSkill, IceSkill, Default, DoubleDmgSkill, HPSkill
 }
+
 public class PlayerStatus_Level3 : MonoBehaviour {
 
 

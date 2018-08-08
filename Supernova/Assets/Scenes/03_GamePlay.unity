@@ -18476,6 +18476,7 @@ MonoBehaviour:
     type: 2}
   networkManager: {fileID: 1283207309}
   cam: {fileID: 1641557798}
+  endPosition: {x: 0, y: 0}
   stepSound: {fileID: 8300000, guid: f7042784600a44ed592ee4be823bd3f0, type: 3}
 --- !u!114 &594932220
 MonoBehaviour:
@@ -42806,6 +42807,7 @@ MonoBehaviour:
     type: 2}
   networkManager: {fileID: 1283207309}
   cam: {fileID: 1641557798}
+  endPosition: {x: 0, y: 0}
   stepSound: {fileID: 8300000, guid: f7042784600a44ed592ee4be823bd3f0, type: 3}
 --- !u!114 &1065179648
 MonoBehaviour:
@@ -50479,6 +50481,7 @@ MonoBehaviour:
   port: 6666
   player1: {fileID: 1869721033}
   player2: {fileID: 1065179643}
+  player3: {fileID: 0}
 --- !u!114 &1283207311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50510,6 +50513,17 @@ MonoBehaviour:
   twoReady: 0
   selfCheck: 0
   enemyCheck: 0
+  playerHpText: {fileID: 0}
+  enemy1HpText: {fileID: 0}
+  enemy2HpText: {fileID: 0}
+  weaponText: {fileID: 0}
+  weaponImage: {fileID: 0}
+  defaultWeapon: {fileID: 0}
+  dragonWeapon: {fileID: 0}
+  knightWeapon: {fileID: 0}
+  magicWeapon: {fileID: 0}
+  assassinWeapon: {fileID: 0}
+  bossWeapon: {fileID: 0}
 --- !u!82 &1283207312
 AudioSource:
   m_ObjectHideFlags: 0
@@ -83225,10 +83239,10 @@ GameObject:
   - component: {fileID: 1869721040}
   - component: {fileID: 1869721039}
   - component: {fileID: 1869721038}
-  - component: {fileID: 1869721037}
-  - component: {fileID: 1869721036}
   - component: {fileID: 1869721035}
   - component: {fileID: 1869721034}
+  - component: {fileID: 1869721037}
+  - component: {fileID: 1869721036}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Player1
@@ -83256,6 +83270,7 @@ MonoBehaviour:
     type: 2}
   networkManager: {fileID: 1283207309}
   cam: {fileID: 1641557798}
+  endPosition: {x: 0, y: 0}
   stepSound: {fileID: 8300000, guid: f7042784600a44ed592ee4be823bd3f0, type: 3}
 --- !u!114 &1869721035
 MonoBehaviour:
@@ -83307,26 +83322,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1869721033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cba5432c5f7574637826c8d4191fe649, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f67f0ea0a6f71043aa5ce29ce834b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shootKey: 0
   shootTime: 0.47
-  dragonBullet: {fileID: 1913769189507814, guid: 40f43d47894c548529934fdac677333e,
-    type: 2}
-  knightBullet: {fileID: 1532358332637158, guid: fdab0f5c0c47144ce85019a521421dd9,
-    type: 2}
-  magicBullet: {fileID: 1264997878220882, guid: 0ac34322725a2459da46524425e73a62,
-    type: 2}
-  assassinBullet: {fileID: 1017922579666514, guid: 314e628f3f20144f39d34956d38e9ffb,
-    type: 2}
-  bossBullet: {fileID: 1496867175505748, guid: 1210ffa92ec4144d595211eef55de775, type: 2}
-  networkManager: {fileID: 1283207309}
-  dragonAttack: {fileID: 8300000, guid: df2ed2dc25cd74d89a039214970ece28, type: 3}
-  knightAttack: {fileID: 8300000, guid: 7655a93d6464747f793ae59363ec34b6, type: 3}
-  magicAttack: {fileID: 8300000, guid: 0e487b237cbf04e8a8eb9e144695b448, type: 3}
-  assassinAttack: {fileID: 8300000, guid: a9cdf051b9045400e8d179f71567b7fa, type: 3}
-  bossAttack: {fileID: 8300000, guid: 2487634aad791481b9ad46e97c05194c, type: 3}
+  dragonBullet: {fileID: 0}
+  knightBullet: {fileID: 0}
+  magicBullet: {fileID: 0}
+  assassinBullet: {fileID: 0}
+  bossBullet: {fileID: 0}
+  networkManager: {fileID: 0}
+  dragonAttack: {fileID: 0}
+  knightAttack: {fileID: 0}
+  magicAttack: {fileID: 0}
+  assassinAttack: {fileID: 0}
+  bossAttack: {fileID: 0}
 --- !u!114 &1869721037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83335,12 +83346,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1869721033}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0da380459d1054a50bcfa7d4bb3aab31, type: 3}
+  m_Script: {fileID: 11500000, guid: e2ada113075d044988b24a23d0d330a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerCharacter: 5
   playerPower: 11
   playerSkill: 3
+  playerIdentity: 0
   skillRemain: 0
   overPoison: 0
   overArea: 0
@@ -83350,22 +83362,21 @@ MonoBehaviour:
   hp: 5
   originAttack: 0
   attackAbility: 0
-  heartText: {fileID: 1700450439}
-  weaponText: {fileID: 115127968}
-  weaponImage: {fileID: 1607495244}
-  defaultWeapon: {fileID: 21300016, guid: 01fb7a9913c5a6a40bb31b176ed4fa03, type: 3}
-  dragonWeapon: {fileID: 21300000, guid: c5627f5cc13a14a8c9920732f7a584d8, type: 3}
-  knightWeapon: {fileID: 21300000, guid: 113eafdab34f341839c2cea31b1b1cf7, type: 3}
-  magicWeapon: {fileID: 21300000, guid: 76365ca713073485d82a71d1a16905d2, type: 3}
-  assassinWeapon: {fileID: 21300000, guid: 88418c4514e6e4b0a971b3cbd2966665, type: 3}
-  bossWeapon: {fileID: 21300000, guid: 15e2d3643d23f47feb4239ec7bab52cb, type: 3}
-  bloodEffect: {fileID: 1203018944915058, guid: ef7cbaae4f1c04007bac8ec8e1a92dd0,
-    type: 2}
+  heartText: {fileID: 0}
+  weaponText: {fileID: 0}
+  weaponImage: {fileID: 0}
+  defaultWeapon: {fileID: 0}
+  dragonWeapon: {fileID: 0}
+  knightWeapon: {fileID: 0}
+  magicWeapon: {fileID: 0}
+  assassinWeapon: {fileID: 0}
+  bossWeapon: {fileID: 0}
+  bloodEffect: {fileID: 0}
   hpChange: 0
-  damageReflectText: {fileID: 1948491304}
-  attackBuffText: {fileID: 609268006}
-  overPoisonText: {fileID: 658634844}
-  overAreaText: {fileID: 1389021095}
+  damageReflectText: {fileID: 0}
+  attackBuffText: {fileID: 0}
+  overPoisonText: {fileID: 0}
+  overAreaText: {fileID: 0}
 --- !u!82 &1869721038
 AudioSource:
   m_ObjectHideFlags: 0
