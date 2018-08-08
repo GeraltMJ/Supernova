@@ -45,6 +45,8 @@ public class RoomMenuLogic : MonoBehaviour {
 	public int[] playerCharacterIndexArray;
 	public int[] playerReadyStatus;
 
+	public bool gameStart = false;
+
 	// Use this for initialization
 
 
@@ -52,6 +54,12 @@ public class RoomMenuLogic : MonoBehaviour {
 	{
 		playerReadyStatus[player] = 1;
 		readyCount++;
+	}
+
+	public void SetPlayerNoReady(int player)
+	{
+		playerReadyStatus[player] = 0;
+		readyCount--;
 	}
 	public void SetPlayerCharacter(int player, int character)
 	{
@@ -67,7 +75,6 @@ public class RoomMenuLogic : MonoBehaviour {
 		playerReadyStatus[player] = 0;
 		playerTotal--;
 	}
-	public void StartGame(){}
 
 	public void ReceiveNewIncomer(int player)
 	{
@@ -80,7 +87,7 @@ public class RoomMenuLogic : MonoBehaviour {
 		}
 		if(playerIndex == 0)
 		{
-			TcpClient_All._instance.SendMapSelectCommand(mapIndex);
+			TcpClient_All._instance.SendMapSelectCommand(mapIndex, playerIndex);
 		}
 
 	}
@@ -109,6 +116,14 @@ public class RoomMenuLogic : MonoBehaviour {
 	void CheckMapSelect()
 	{
 		mapSelectImage.sprite = mapSprites[mapIndex];
+	}
+
+	void CheckGameStart()
+	{
+		if(gameStart)
+		{
+			SceneManager.LoadScene("03_GamePlay", LoadSceneMode.Single);
+		}
 	}
 
 
@@ -162,7 +177,9 @@ public class RoomMenuLogic : MonoBehaviour {
 		
 		CheckPlayerStatus();
 		CheckMapSelect();
-
+		CheckGameStart();
+	
+	/*
 		if(async == null)
 		{
 			return;
@@ -185,26 +202,33 @@ public class RoomMenuLogic : MonoBehaviour {
 		{
 			async.allowSceneActivation = true;
 		}
+	*/
 	}
 
 	//改变制定位置的立绘图像
 	//右选人按钮的点击事件
 	public void OnCharRightBtnDown()
 	{
-		picIndex = (picIndex + 1) % 3;
-		characterSelectImage.sprite = characterSprites[picIndex];
-		SetPlayerCharacter(playerIndex, picIndex);
-		TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
+		if(!isReady)
+		{
+			picIndex = (picIndex + 1) % 3;
+			characterSelectImage.sprite = characterSprites[picIndex];
+			SetPlayerCharacter(playerIndex, picIndex);
+			TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
+		}
 
 	}
 
 	//左选人按钮的点击事件
 	public void OnCharLeftBtnDown()
 	{
-		picIndex = (picIndex + 2) % 3;
-		characterSelectImage.sprite = characterSprites[picIndex];
-		SetPlayerCharacter(playerIndex, picIndex);
-		TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
+		if(!isReady)
+		{
+			picIndex = (picIndex + 2) % 3;
+			characterSelectImage.sprite = characterSprites[picIndex];
+			SetPlayerCharacter(playerIndex, picIndex);
+			TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
+		}
 	
 	}
 
@@ -214,14 +238,14 @@ public class RoomMenuLogic : MonoBehaviour {
 	{
 		mapIndex = (mapIndex + 1)%2;
 		SetMap(mapIndex);
-		TcpClient_All._instance.SendMapSelectCommand(mapIndex);
+		TcpClient_All._instance.SendMapSelectCommand(mapIndex, playerIndex);
 	}
 
 	public void OnMapRightBtnDown()
 	{
 		mapIndex = (mapIndex + 1)%2;
 		SetMap(mapIndex);
-		TcpClient_All._instance.SendMapSelectCommand(mapIndex);
+		TcpClient_All._instance.SendMapSelectCommand(mapIndex, playerIndex);
 	}
 
 	
@@ -239,17 +263,35 @@ public class RoomMenuLogic : MonoBehaviour {
 	//退出按钮的点击事件
 	public void OnExitBtnDown()
 	{
-		SceneManager.LoadScene("StartMenu");
+		SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
 		TcpClient_All._instance.enabled = false;
 	}
 
 	//准备按钮的点击事件
 	public void OnReadyBtnDown()
 	{
-		playerReadyStatus[playerIndex] = 1;
-		readyCount++;
-		isReady = true;
-		TcpClient_All._instance.SendReadyCommand(playerIndex);
+		if(isReady)
+		{
+			playerReadyStatus[playerIndex] = 0;
+			readyCount--;
+			isReady = false;
+			TcpClient_All._instance.SendNoReadyCommand(playerIndex);
+		}
+		else
+		{
+			playerReadyStatus[playerIndex] = 1;
+			readyCount++;
+			isReady = true;
+			TcpClient_All._instance.SendReadyCommand(playerIndex);
+		}
+	}
+
+	public void OnStartBtnDown()
+	{
+		if(readyCount == 2)
+		{
+			TcpClient_All._instance.SendStartCommand(playerIndex);
+		}
 	}
 
 	IEnumerator LoadGame(int sceneIndex)
