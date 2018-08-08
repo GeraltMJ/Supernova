@@ -43,12 +43,6 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	private AudioSource audioSource;
 	private Camera cam;
 
-	public Text heartText;
-	public Text weaponText;
-	public Image weaponImage;
-
-	public Sprite defaultWeapon, dragonWeapon, knightWeapon, magicWeapon, assassinWeapon, bossWeapon;
-
 	public GameObject bloodEffect;
 
 	private float attackBuffRemain = 10.0f;
@@ -56,8 +50,6 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	private float overPoisonRemain = 10.0f;
 	private float overAreaRemain = 10.0f;
 	public float hpChange;
-
-	public Text damageReflectText, attackBuffText, overPoisonText, overAreaText;
 	
 	// Use this for initialization
 	void Awake () {
@@ -66,63 +58,6 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		move = GetComponent<PlayerMove_Level3>();
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[2];
-		damageReflectText.enabled = false;
-		attackBuffText.enabled = false;
-		overPoisonText.enabled = false;
-		overAreaText.enabled = false;
-	}
-
-	void CheckHpAndHearts()
-	{
-		heartText.text = "x " + Mathf.RoundToInt(hp).ToString();
-	}
-
-	void CheckAttackAbility()
-	{
-		weaponText.text = "x " + Mathf.RoundToInt(attackAbility).ToString();
-	}
-
-	void CheckWeaponImage()
-	{
-		switch(playerPower)
-		{
-			case PlayerPower_Level3.DragonPower1:
-				weaponImage.sprite = dragonWeapon;
-				break;
-			case PlayerPower_Level3.DragonPower2:
-				weaponImage.sprite = dragonWeapon;
-				break;
-			case PlayerPower_Level3.DragonPower3:
-				weaponImage.sprite = dragonWeapon;
-				break;
-			case PlayerPower_Level3.KnightPower1:
-				weaponImage.sprite = knightWeapon;
-				break;
-			case PlayerPower_Level3.KnightPower2:
-				weaponImage.sprite = knightWeapon;
-				break;
-			case PlayerPower_Level3.MagicPower1:
-				weaponImage.sprite = magicWeapon;
-				break;
-			case PlayerPower_Level3.MagicPower2:
-				weaponImage.sprite = magicWeapon;
-				break;
-			case PlayerPower_Level3.MagicPower3:
-				weaponImage.sprite = magicWeapon;
-				break;
-			case PlayerPower_Level3.AssassinPower1:
-				weaponImage.sprite = assassinWeapon;
-				break;
-			case PlayerPower_Level3.AssassinPower2:
-				weaponImage.sprite = assassinWeapon;
-				break;
-			case PlayerPower_Level3.BossPower:
-				weaponImage.sprite = bossWeapon;
-				break;
-			case PlayerPower_Level3.Default:
-				weaponImage.sprite = defaultWeapon;
-				break;
-		}
 	}
 
 	void CheckAttackBuff()
@@ -133,7 +68,6 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 			{
 				originAttack += 2;
 				attackBuffFirst = false;
-				attackBuffText.enabled = true;
 			}
 			attackBuffRemain -= Time.deltaTime;
 			if(attackBuffRemain < 0)
@@ -141,7 +75,6 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 				originAttack -= 2;
 				attackBuff = false;
 				attackBuffFirst = true;
-				attackBuffText.enabled = false;
 				attackBuffRemain = 10.0f;
 			}
 		}
@@ -151,12 +84,10 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	{
 		if(damageReflect)
 		{
-			damageReflectText.enabled = true;
 			damageReflectRemain -= Time.deltaTime;
 			if(damageReflectRemain < 0)
 			{
 				damageReflect = false;
-				damageReflectText.enabled = false;
 				damageReflectRemain = 10.0f;
 			}
 		}
@@ -166,12 +97,10 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	{
 		if(overPoison)
 		{
-			overPoisonText.enabled = true;
 			overPoisonRemain -= Time.deltaTime;
 			if(overPoisonRemain < 0)
 			{
 				overPoison = false;
-				overPoisonText.enabled = false;
 				overPoisonRemain = 10.0f;
 			}
 		}
@@ -181,12 +110,10 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	{
 		if(overArea)
 		{
-			overAreaText.enabled = true;
 			overAreaRemain -= Time.deltaTime;
 			if(overAreaRemain < 0)
 			{
 				overArea = false;
-				overAreaText.enabled = false;
 				overAreaRemain = 10.0f;
 			}
 		}
@@ -207,9 +134,6 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 
 	void Update()
 	{
-		CheckHpAndHearts();
-		CheckAttackAbility();
-		CheckWeaponImage();
 		CheckAttackBuff();
 		CheckDamageReflect();
 		CheckOverPoison();

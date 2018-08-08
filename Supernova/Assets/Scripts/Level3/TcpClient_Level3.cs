@@ -22,7 +22,7 @@ public class TcpClient_Level3 : MonoBehaviour
 	byte[] sendData = new byte[1024];
 	int recvLen;
 	Thread connectThread;
-	public GameObject player1, player2, player3;
+	private GameObject player1, player2, player3;
 	private PlayerMove_Level3 pm1, pm2, pm3;
 
 	private PlayerAttack_Level3 pa1, pa2, pa3;
@@ -184,15 +184,14 @@ public class TcpClient_Level3 : MonoBehaviour
 
 	void SocketQuit()
 	{
+		if(serverSocket != null)
+		{
+			serverSocket.Close();
+		}
 		if(connectThread != null)
 		{
 			connectThread.Interrupt();
 			connectThread.Abort();
-		}
-
-		if(serverSocket != null)
-		{
-			serverSocket.Close();
 		}
 		Debug.Log("Client Quit");
 	}
@@ -200,6 +199,9 @@ public class TcpClient_Level3 : MonoBehaviour
 	void Start()
 	{
 		_instance = this;
+		player1 = GameObject.FindWithTag("Player1");
+		player2 = GameObject.FindWithTag("Player2");
+		player3 = GameObject.FindWithTag("Player3");
 		pm1 = player1.GetComponent<PlayerMove_Level3>();
 		pm2 = player2.GetComponent<PlayerMove_Level3>();
 		pm3 = player3.GetComponent<PlayerMove_Level3>();

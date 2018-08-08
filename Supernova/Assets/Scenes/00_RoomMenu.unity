@@ -558,9 +558,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnGoBtnDown
-        m_Mode: 3
+      - m_Target: {fileID: 1317426746}
+        m_MethodName: OnStartBtnDown
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -900,7 +900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67e570f7896e41d496f2feee1abbcf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetIP: 10.66.196.177
+  targetIP: 10.66.196.172
   port: 6666
 --- !u!4 &932973781
 Transform:
@@ -1432,6 +1432,7 @@ MonoBehaviour:
   loadingPicture: {fileID: 0}
   playerCharacterIndexArray: 
   playerReadyStatus: 
+  gameStart: 0
 --- !u!4 &1317426747
 Transform:
   m_ObjectHideFlags: 0

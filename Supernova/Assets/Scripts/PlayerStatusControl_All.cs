@@ -9,6 +9,7 @@ public class PlayerStatusControl_All : MonoBehaviour {
 	public int playerIndex;
 	void Start () {
 		_instance = this;
+		DontDestroyOnLoad(this.gameObject);
 	}
 	
 	// Update is called once per frame

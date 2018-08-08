@@ -9,7 +9,6 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 
 	public static PlayerStatusControl_Level3 _instance;
 	public int playerIdentity;
-	public bool isPlayer1 = false;
 	public GameObject player1, player2, player3;
 	private PlayerMove_Level3 player1Move, player2Move, player3Move;
 	private PlayerStatus_Level3 player1Status, player2Status, player3Status;
@@ -40,6 +39,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	public Text weaponText;
 	public Image weaponImage;
 	public Sprite defaultWeapon, dragonWeapon, knightWeapon, magicWeapon, assassinWeapon, bossWeapon;
+	public Text damageReflectText, attackBuffText, overPoisonText, overAreaText;
 
 
 /*
@@ -80,6 +80,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	void Awake()
 	{
 		_instance = this;
+		playerIdentity = PlayerStatusControl_All._instance.playerIndex + 1;
 		player1Move = player1.GetComponent<PlayerMove_Level3>();
 		player2Move = player2.GetComponent<PlayerMove_Level3>();
 		player3Move = player3.GetComponent<PlayerMove_Level3>();
@@ -97,6 +98,10 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		win_lose_Image.enabled = false;
 		win_lose_black.enabled = false;
 		tcpClient = GetComponent<TcpClient_Level3>();
+		damageReflectText.enabled = false;
+		attackBuffText.enabled = false;
+		overPoisonText.enabled = false;
+		overAreaText.enabled = false;
 		
 
 	}
@@ -150,19 +155,19 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		switch(playerIdentity)
 		{
 			case 1:
-				playerHpText.text = player1Status.hp.ToString() + "/" + player1Status.maxHp.ToString();
-				enemy1HpText.text = player2Status.hp.ToString() + "/" + player2Status.maxHp.ToString();
-				enemy2HpText.text = player3Status.hp.ToString() + "/" + player3Status.maxHp.ToString();
+				playerHpText.text = Mathf.RoundToInt(player1Status.hp).ToString() + "/" + Mathf.RoundToInt(player1Status.maxHp).ToString();
+				enemy1HpText.text = Mathf.RoundToInt(player2Status.hp).ToString() + "/" + Mathf.RoundToInt(player2Status.maxHp).ToString();
+				enemy2HpText.text = Mathf.RoundToInt(player3Status.hp).ToString() + "/" + Mathf.RoundToInt(player3Status.maxHp).ToString();
 				break;
 			case 2:
-				playerHpText.text = player2Status.hp.ToString() + "/" + player2Status.maxHp.ToString();
-				enemy1HpText.text = player1Status.hp.ToString() + "/" + player1Status.maxHp.ToString();
-				enemy2HpText.text = player3Status.hp.ToString() + "/" + player3Status.maxHp.ToString();
+				playerHpText.text = Mathf.RoundToInt(player2Status.hp).ToString() + "/" + Mathf.RoundToInt(player2Status.maxHp).ToString();
+				enemy1HpText.text = Mathf.RoundToInt(player1Status.hp).ToString() + "/" + Mathf.RoundToInt(player1Status.maxHp).ToString();
+				enemy2HpText.text = Mathf.RoundToInt(player3Status.hp).ToString() + "/" + Mathf.RoundToInt(player3Status.maxHp).ToString();
 				break;
 			case 3:
-				playerHpText.text = player3Status.hp.ToString() + "/" + player3Status.maxHp.ToString();
-				enemy1HpText.text = player1Status.hp.ToString() + "/" + player1Status.maxHp.ToString();
-				enemy2HpText.text = player2Status.hp.ToString() + "/" + player2Status.maxHp.ToString();
+				playerHpText.text = Mathf.RoundToInt(player3Status.hp).ToString() + "/" + Mathf.RoundToInt(player3Status.maxHp).ToString();
+				enemy1HpText.text = Mathf.RoundToInt(player1Status.hp).ToString() + "/" + Mathf.RoundToInt(player1Status.maxHp).ToString();
+				enemy2HpText.text = Mathf.RoundToInt(player2Status.hp).ToString() + "/" + Mathf.RoundToInt(player2Status.maxHp).ToString();
 				break;
 		}
 	}
@@ -215,18 +220,79 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		switch(playerIdentity)
 		{
 			case 1:
-			
+				WeaponImageSelect(player1Status.playerPower);
 				break;
 			case 2:
+				WeaponImageSelect(player2Status.playerPower);
 				break;
 			case 3:
+				WeaponImageSelect(player3Status.playerPower);
 				break;
 		}
 	}
 
 	void CheckPlayerWeaponText()
 	{
+		switch(playerIdentity)
+		{
+			case 1:
+				weaponText.text = Mathf.RoundToInt(player1Status.attackAbility).ToString();
+				break;
+			case 2:
+				weaponText.text = Mathf.RoundToInt(player2Status.attackAbility).ToString();
+				break;
+			case 3:
+				weaponText.text = Mathf.RoundToInt(player3Status.attackAbility).ToString();
+				break;
+		}
+	}
 
+	void CheckReflectDamage()
+	{
+		if ((playerIdentity == 1 && player1Status.damageReflect) || (playerIdentity == 2 && player2Status.damageReflect) || (playerIdentity == 3 && player3Status.damageReflect))
+		{
+			damageReflectText.enabled = true;
+		}
+		else
+		{
+			damageReflectText.enabled = false;
+		}
+	}
+
+	void CheckAttackBuff()
+	{
+		if ((playerIdentity == 1 && player1Status.attackBuff) || (playerIdentity == 2 && player2Status.attackBuff) || (playerIdentity == 3 && player3Status.attackBuff))
+		{
+			attackBuffText.enabled = true;
+		}
+		else
+		{
+			attackBuffText.enabled = false;
+		}
+	}
+
+	void CheckOverPoison()
+	{
+		if ((playerIdentity == 1 && player1Status.overPoison) || (playerIdentity == 2 && player2Status.overPoison) || (playerIdentity == 3 && player3Status.overPoison))
+		{
+			overPoisonText.enabled = true;
+		}
+		else
+		{
+			overPoisonText.enabled = false;
+		}
+	}
+
+	void CheckOverArea()
+	{
+		if ((playerIdentity == 1 && player1Status.overArea) || (playerIdentity == 2 && player2Status.overArea) || (playerIdentity == 3 && player3Status.overArea))
+		{
+			overAreaText.enabled = true;
+		}
+		else
+		{
+			overAreaText.enabled = false;
+		}
 	}
 
 	void Update()
@@ -235,6 +301,10 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		CheckPlayerHp();
 		CheckPlayerWeaponImage();
 		CheckPlayerWeaponText();
+		CheckAttackBuff();
+		CheckReflectDamage();
+		CheckOverPoison();
+		CheckOverArea();
 	}
 	void WaitForStart()
 	{

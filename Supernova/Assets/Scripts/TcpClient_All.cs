@@ -23,170 +23,13 @@ public class TcpClient_All : MonoBehaviour
 	byte[] sendData = new byte[1024];
 	int recvLen;
 	Thread connectThread;
-	//public GameObject player1;
-	//public GameObject player2;
-	/*
-	private PlayerMove_Level2 em1;
-	private PlayerMove_Level2 em2;
-	private PlayerAttack_Level2 pa1;
-	private PlayerAttack_Level2 pa2;
-	*/
-	/*
-	void HandleSynMessage(string[] number, int startIndex)
-	{
-		int msgType = int.Parse(number[startIndex++]);
-		if(msgType == 0)
-		{
-			startIndex += 3;
-			if(number.Length > startIndex)
-			{
-				HandleSynMessage(number,startIndex);
-			}
-		}
-		else if(msgType == 1)
-		{
-			Vector2 positionToSet = new Vector2(float.Parse(number[startIndex++]),float.Parse(number[startIndex++]));
-			if(PlayerStatusControl_Level2._instance.isPlayer1)
-			{
-				pa2.SetFireCommand(positionToSet);
-			}else
-			{
-				pa1.SetFireCommand(positionToSet);
-			}
-			if(number.Length > startIndex)
-			{
-				HandleSynMessage(number,startIndex);
-			}
-			
-		}
-		else if(msgType == 2)
-		{
-			int player = int.Parse(number[startIndex++]);
-			float hpChange = float.Parse(number[startIndex++]);
-			if(player == 1)
-			{
-				Player1Status_Level2._instance.hpChange = hpChange;
-			}
-			else if(player == 2)
-			{
-				Player2Status_Level2._instance.hpChange = hpChange;
-			}
-			if(number.Length > startIndex)
-			{
-				HandleSynMessage(number,startIndex);
-			}
-		}
-	}
+	private GameObject player1, player2, player3;
+	private PlayerMove_Level3 pm1, pm2, pm3;
 
-
-	void StringToInfo(string str)
-	{
-		str = str.Replace("(","").Replace(")","");
-		string[] number = str.Split(',');
-		int msgType = int.Parse(number[1]);
-		if(msgType == 0)
-		{
-			Vector2 positionToSet = new Vector2(float.Parse(number[2]),float.Parse(number[3]));
-			int dirCount = int.Parse(number[4]);
-			if(PlayerStatusControl_Level2._instance.isPlayer1)
-			{
-				em2.SetNextPosition(positionToSet);
-				em2.SetDirection(dirCount);
-			}
-			else
-			{
-				em1.SetNextPosition(positionToSet);
-				em1.SetDirection(dirCount);
-			}
-			
-			if(number.Length > 5)
-			{
-				HandleSynMessage(number,5);
-			}
-		}
-		else if(msgType == 1)
-		{
-			Vector2 positionToSet = new Vector2(float.Parse(number[2]),float.Parse(number[3]));
-			if(PlayerStatusControl_Level2._instance.isPlayer1)
-			{
-				pa2.SetFireCommand(positionToSet);
-			}else
-			{
-				pa1.SetFireCommand(positionToSet);
-			}
-			if(number.Length > 4)
-			{
-				HandleSynMessage(number,4);
-			}
-		}
-		else if(msgType == 2)
-		{	
-			int player = int.Parse(number[2]);
-			float hpChange = float.Parse(number[3]);
-			if(player == 1)
-			{
-				Player1Status_Level2._instance.hpChange = hpChange;
-			}
-			else if(player == 2)
-			{
-				Player2Status_Level2._instance.hpChange = hpChange;
-			}
-			if(number.Length > 4)
-			{
-				HandleSynMessage(number,4);
-			}
-		}
-	}
-
-	void PlayerStringToInfo(string str)
-	{
-		str = str.Replace("(","").Replace(")","");
-		string[] number = str.Split(',');
-		int msgType = int.Parse(number[0]);
-		int player = int.Parse(number[1]);
-		if(msgType == 0)
-		{
-			Vector2 positionToSet = new Vector2(float.Parse(number[2]),float.Parse(number[3]));
-			int dirCount = int.Parse(number[4]);
-			if(player == 1)
-			{
-				em1.SetNextPosition(positionToSet);
-				em1.SetDir(dirCount);
-			}
-			else if(player == 2)
-			{
-				em2.SetNextPosition(positionToSet);
-				em2.SetDir(dirCount);
-			}
-		}
-		else if(msgType == 1)
-		{
-			Vector2 positionToSet = new Vector2(float.Parse(number[2]),float.Parse(number[3]));
-			if(player == 1)
-			{
-				pa1.SetFireCommand(positionToSet);
-			}
-			else if(player == 2)
-			{
-				pa2.SetFireCommand(positionToSet);
-			}
-			
-		}
-	}
-
-	void SimpleCommandHandle(string str)
-	{
-		if(str == "R")
-		{
-			PlayerStatusControl_Level2._instance.twoReady = true;
-		}
-		else if(str == "G")
-		{
-			
-			PlayerStatusControl_Level2._instance.enemyCheck = true;
-		}
-	}
-	*/
+	private PlayerAttack_Level3 pa1, pa2, pa3;
+	
+	private PlayerStatus_Level3 ps1, ps2, ps3;
+	
 	void SendEnterRoomInfo(int player)
 	{
 		byte[] byteToSend = new byte[msgLen];
@@ -210,10 +53,10 @@ public class TcpClient_All : MonoBehaviour
 		serverSocket.Send(byteToSend);
 	}
 
-	public void SendMapSelectCommand(int mapNumber)
+	public void SendMapSelectCommand(int mapNumber, int player)
 	{
 		byte[] byteToSend = new byte[msgLen];
-		string posStr = ",3" + "," + mapNumber.ToString();
+		string posStr = ",3" + "," + player.ToString() + "," + mapNumber.ToString();
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
@@ -225,10 +68,17 @@ public class TcpClient_All : MonoBehaviour
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
-
-	public void SendStartCommand(){
+	public void SendNoReadyCommand(int player)
+	{
 		byte[] byteToSend = new byte[msgLen];
-		string posStr = ",999";
+		string posStr = ",5" + "," + player.ToString();
+		byteToSend = Encoding.ASCII.GetBytes(posStr);
+		serverSocket.Send(byteToSend);
+	}
+
+	public void SendStartCommand(int player){
+		byte[] byteToSend = new byte[msgLen];
+		string posStr = ",999" + "," + player.ToString();
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
@@ -236,35 +86,120 @@ public class TcpClient_All : MonoBehaviour
 	private void SynHandleRoomCommand(string[] number, int startIndex)
 	{
 		int msgType = int.Parse(number[startIndex++]);
+		int player = int.Parse(number[startIndex++]);
 		if(msgType == 0)
 		{
-			int player = int.Parse(number[startIndex++]);
-			RoomMenuLogic._instance.ReceiveNewIncomer(player);
+			if(PlayerStatusControl_All._instance.playerIndex != player)
+			{
+				RoomMenuLogic._instance.ReceiveNewIncomer(player);
+			}
 		}
 		else if(msgType == 1)
 		{
-			int player = int.Parse(number[startIndex++]);
-			RoomMenuLogic._instance.SetPlayerReady(player);
+			if(PlayerStatusControl_All._instance.playerIndex != player)
+			{
+				RoomMenuLogic._instance.SetPlayerReady(player);
+			}
 		}
 		else if(msgType == 2)
 		{
-			int player = int.Parse(number[startIndex++]);
 			int character = int.Parse(number[startIndex++]);
-			RoomMenuLogic._instance.SetPlayerCharacter(player, character);
+			if(PlayerStatusControl_All._instance.playerIndex != player)
+			{
+				RoomMenuLogic._instance.SetPlayerCharacter(player, character);
+			}
 		}
 		else if(msgType == 3)
 		{
 			int map = int.Parse(number[startIndex++]);
-			RoomMenuLogic._instance.SetMap(map);
+			if(PlayerStatusControl_All._instance.playerIndex != player)
+			{
+				RoomMenuLogic._instance.SetMap(map);
+			}
 		}
 		else if(msgType == 4)
 		{
-			int player = int.Parse(number[startIndex++]);
-			RoomMenuLogic._instance.SetPlayerQuit(player);
+			if(PlayerStatusControl_All._instance.playerIndex != player)
+			{
+				RoomMenuLogic._instance.SetPlayerQuit(player);
+			}
+		}
+		else if(msgType == 5)
+		{
+			if(PlayerStatusControl_All._instance.playerIndex != player)
+			{
+				RoomMenuLogic._instance.SetPlayerNoReady(player);
+			}
+		}
+		else if(msgType == 6)
+		{
+			Vector2 positionToSet = new Vector2(float.Parse(number[startIndex++]),float.Parse(number[startIndex++]));
+			int dirCount = int.Parse(number[startIndex++]);
+			switch(player)
+			{
+				case 1:
+					pm1.SetNextPosition(positionToSet);
+					pm1.SetDirection(dirCount);
+					break;
+				case 2:
+					pm2.SetNextPosition(positionToSet);
+					pm2.SetDirection(dirCount);
+					break;
+				case 3:
+					pm3.SetNextPosition(positionToSet);
+					pm3.SetDirection(dirCount);
+					break;
+			}
+			if(number.Length > startIndex)
+			{
+				HandleSynMessage(number,startIndex);
+			}
+		}
+		else if(msgType == 7)
+		{
+			Vector2 positionToSet = new Vector2(float.Parse(number[startIndex++]),float.Parse(number[startIndex++]));
+
+			switch(player)
+			{
+				case 1:
+					pa1.SetFireCommand(positionToSet);
+					break;
+				case 2:
+					pa2.SetFireCommand(positionToSet);
+					break;
+				case 3:
+					pa3.SetFireCommand(positionToSet);
+					break;
+			}
+			if(number.Length > startIndex)
+			{
+				HandleSynMessage(number,startIndex);
+			}
+		}
+		else if(msgType == 8)
+		{
+			float hpChange = float.Parse(number[startIndex++]);
+
+			switch(player)
+			{
+				case 1:
+					ps1.hpChange = hpChange;
+					break;
+				case 2:
+					ps2.hpChange = hpChange;
+					break;
+				case 3:
+					ps3.hpChange = hpChange;
+					break;
+			}
+			if(number.Length > startIndex)
+			{
+				HandleSynMessage(number,startIndex);
+			}
 		}
 		else if(msgType == 999)
 		{
-			RoomMenuLogic._instance.StartGame();
+			RoomMenuLogic._instance.gameStart = true;
 		}
 		if(startIndex < number.Length)
 		{
@@ -311,11 +246,6 @@ public class TcpClient_All : MonoBehaviour
 			PlayerStatusControl_All._instance.playerIndex = 2;
 			RoomMenuLogic._instance.playerIndex = 2;
 		}
-		else if(recvStr == "3")
-		{
-			PlayerStatusControl_All._instance.playerIndex = 3;
-			RoomMenuLogic._instance.playerIndex = 3;
-		}
 		RoomMenuLogic._instance.SetPlayerCharacter(PlayerStatusControl_All._instance.playerIndex, 0);
 		SendEnterRoomInfo(PlayerStatusControl_All._instance.playerIndex);
 
@@ -350,15 +280,14 @@ public class TcpClient_All : MonoBehaviour
 	{
 
 		SendQuitCommand(PlayerStatusControl_All._instance.playerIndex);
+		if(serverSocket != null)
+		{
+			serverSocket.Close();
+		}
 		if(connectThread != null)
 		{
 			connectThread.Interrupt();
 			connectThread.Abort();
-		}
-
-		if(serverSocket != null)
-		{
-			serverSocket.Close();
 		}
 		Debug.Log("Client Quit");
 	}
@@ -366,6 +295,7 @@ public class TcpClient_All : MonoBehaviour
 	void Start()
 	{
 		_instance = this;
+		InitSocket();
 		//em1 = player1.GetComponent<PlayerMove_Level2>();
 		//em2 = player2.GetComponent<PlayerMove_Level2>();
 		//pa1 = player1.GetComponent<PlayerAttack_Level2>();
@@ -373,36 +303,22 @@ public class TcpClient_All : MonoBehaviour
 		InitSocket();
 		
 	}
-	/*
+
+	void Update()
+	{
+
+	}
+	
+	void OnDisable()
+	{
+		SocketQuit();	
+	}
+
 	public void SendSelfCommand(string str)
 	{	
 		byte[] commandSelf = new byte[msgLen];
 		commandSelf = Encoding.ASCII.GetBytes(str);
 		serverSocket.Send(commandSelf, 1, SocketFlags.None);
-	}
-
-	public void SendCurrentInfo(Vector2 pos, FaceDirection dir)
-	{
-		int count = 0;
-		switch(dir)
-		{
-			case FaceDirection.Up:
-				count = 0;
-				break;
-			case FaceDirection.Down:
-				count = 1;
-				break;
-			case FaceDirection.Left:
-				count = 2;
-				break;
-			case FaceDirection.Right:
-				count = 3;
-				break;
-		}
-		byte[] byteToSend = new byte[msgLen];
-		string posStr = ",0" + "," + pos.ToString() + "," + count.ToString();
-		byteToSend = Encoding.ASCII.GetBytes(posStr);
-		serverSocket.Send(byteToSend);
 	}
 
 	public void SendPlayerCurrentInfo(Vector2 pos, FaceDirection dir, int player)
@@ -424,15 +340,15 @@ public class TcpClient_All : MonoBehaviour
 				break;
 		}
 		byte[] byteToSend = new byte[msgLen];
-		string posStr = ",0" + "," + player.ToString() + "," + pos.ToString() + "," + count.ToString();
+		string posStr = ",6" + "," + player.ToString() + "," + pos.ToString() + "," + count.ToString();
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
 
-	public void SendFireCommand(Vector2 pos)
+	public void SendFireCommand(Vector2 pos, int player)
 	{
 		byte[] byteToSend = new byte[msgLen];
-		string posStr = ",1" + "," + pos.ToString();
+		string posStr = ",7" + "," + player.ToString() + "," + pos.ToString();
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
@@ -440,15 +356,103 @@ public class TcpClient_All : MonoBehaviour
 	public void SendHpChange(int player, int value)
 	{
 		byte[] byteToSend = new byte[msgLen];
-		string posStr = ",2" + "," + player.ToString() + "," + value.ToString();
+		string posStr = ",8" + "," + player.ToString() + "," + value.ToString();
 		byteToSend = Encoding.ASCII.GetBytes(posStr);
 		serverSocket.Send(byteToSend);
 	}
-	*/
-	void OnDisable()
+
+	void HandleSynMessage(string[] number, int startIndex)
 	{
-		SocketQuit();	
+		int msgType = int.Parse(number[startIndex++]);
+		int player = int.Parse(number[startIndex++]);
+		if(msgType == 0)
+		{
+			Vector2 positionToSet = new Vector2(float.Parse(number[startIndex++]),float.Parse(number[startIndex++]));
+			int dirCount = int.Parse(number[startIndex++]);
+			switch(player)
+			{
+				case 1:
+					pm1.SetNextPosition(positionToSet);
+					pm1.SetDirection(dirCount);
+					break;
+				case 2:
+					pm2.SetNextPosition(positionToSet);
+					pm2.SetDirection(dirCount);
+					break;
+				case 3:
+					pm3.SetNextPosition(positionToSet);
+					pm3.SetDirection(dirCount);
+					break;
+			}
+			if(number.Length > startIndex)
+			{
+				HandleSynMessage(number,startIndex);
+			}
+		}
+		else if(msgType == 1)
+		{
+			Vector2 positionToSet = new Vector2(float.Parse(number[startIndex++]),float.Parse(number[startIndex++]));
+
+			switch(player)
+			{
+				case 1:
+					pa1.SetFireCommand(positionToSet);
+					break;
+				case 2:
+					pa2.SetFireCommand(positionToSet);
+					break;
+				case 3:
+					pa3.SetFireCommand(positionToSet);
+					break;
+			}
+			if(number.Length > startIndex)
+			{
+				HandleSynMessage(number,startIndex);
+			}
+		}
+		else if(msgType == 2)
+		{
+			float hpChange = float.Parse(number[startIndex++]);
+
+			switch(player)
+			{
+				case 1:
+					ps1.hpChange = hpChange;
+					break;
+				case 2:
+					ps2.hpChange = hpChange;
+					break;
+				case 3:
+					ps3.hpChange = hpChange;
+					break;
+			}
+			if(number.Length > startIndex)
+			{
+				HandleSynMessage(number,startIndex);
+			}
+		}
 	}
+
+
+	void StringToInfo(string str)
+	{
+		str = str.Replace("(","").Replace(")","");
+		string[] number = str.Split(',');
+		HandleSynMessage(number, 1);
+	}
+
+	void SimpleCommandHandle(string str)
+	{
+		if(str == "R")
+		{
+			PlayerStatusControl_Level3._instance.twoReady = true;
+		}
+		else if(str == "G")
+		{
+			PlayerStatusControl_Level3._instance.enemyCheck = true;
+		}
+	}
+
 
 }
 
