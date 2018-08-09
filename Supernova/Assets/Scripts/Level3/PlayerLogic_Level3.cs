@@ -38,6 +38,11 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 	public Sprite windReplace;
 
 	public GameObject[] teleportPosition;
+
+	public GameObject dragonTurnEffect, knightTurnEffect, magicTurnEffect, assassinTurnEffect;
+	public GameObject dragonGainPowerEffect, knightGainPowerEffect, magicGainPowerEffect, assassinGainPowerEffect;
+	public GameObject gainShieldSkillEffect, gainIceSkillEffect, gainGunSkillEffect;
+	public GameObject changeHpEffect;
 	
 
 	public GameObject smokeEffect;
@@ -187,7 +192,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				playerStatus.playerPower = PlayerPower_Level3.Default;
 				playerStatus.originAttack = 0.0f;
 				RemoveCharacterRedCross();
-				TurnEffect();
+				TurnEffect(playerStatus.playerCharacter, collision);
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[0];
 				animator.runtimeAnimatorController = dragonController;
@@ -208,7 +213,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				playerStatus.playerPower = PlayerPower_Level3.Default;
 				playerStatus.originAttack = 0.0f;
 				RemoveCharacterRedCross();
-				TurnEffect();
+				TurnEffect(playerStatus.playerCharacter, collision);
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[1];
 				animator.runtimeAnimatorController = knightController;
@@ -229,7 +234,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				playerStatus.playerPower = PlayerPower_Level3.Default;
 				playerStatus.originAttack = 0.0f;
 				RemoveCharacterRedCross();
-				TurnEffect();
+				TurnEffect(playerStatus.playerCharacter, collision);
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[2];
 				animator.runtimeAnimatorController = magicController;
@@ -250,7 +255,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				playerStatus.playerPower = PlayerPower_Level3.Default;
 				playerStatus.originAttack = 0.0f;
 				RemoveCharacterRedCross();
-				TurnEffect();
+				TurnEffect(playerStatus.playerCharacter, collision);
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[3];
 				animator.runtimeAnimatorController = assassinController;
@@ -271,7 +276,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				playerStatus.playerPower = PlayerPower_Level3.Default;
 				playerStatus.originAttack = 0.0f;
 				RemoveCharacterRedCross();
-				TurnEffect();
+				TurnEffect(playerStatus.playerCharacter, collision);
 				CharacterRedCrossEffect(collision);
 				spriteRender.sprite = sprite[4];
 				animator.runtimeAnimatorController = bossController;
@@ -311,7 +316,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Dragon Power1");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 				else if(powerIndex == dragonPower2Count && collision.gameObject.name == "DragonPower2Pic" + (powerIndex-1).ToString())
 				{
@@ -326,7 +331,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Dragon Power2");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 				else if(powerIndex == dragonPower3Count && collision.gameObject.name == "DragonPower3Pic" + (powerIndex-1).ToString())
 				{
@@ -341,7 +346,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Dragon Power3");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 				
 			}
@@ -374,7 +379,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Knight Power1");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 				else if(powerIndex == knightPower2Count && collision.gameObject.name == "KnightPower2Pic" + (powerIndex-1).ToString())
 				{
@@ -389,7 +394,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Knight Power2");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 			}
 		}
@@ -422,7 +427,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Magic Power1");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 				else if(powerIndex == magicPower2Count && collision.gameObject.name == "MagicPower2Pic" + (powerIndex-1).ToString())
 				{
@@ -437,7 +442,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Magic Power2");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 				else if(powerIndex == magicPower3Count && collision.gameObject.name == "MagicPower3Pic" + (powerIndex-1).ToString())
 				{
@@ -452,7 +457,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Magic Power3");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 				
 			}
@@ -485,7 +490,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Assassin Power1");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 				else if(powerIndex == assassinPower2Count && collision.gameObject.name == "AssassinPower2Pic" + (powerIndex-1).ToString())
 				{
@@ -500,7 +505,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Knight Power2");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 			}
 		}
@@ -530,7 +535,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					audioSource.Play();
 
 					Debug.Log("Player1 has Boss Power");
-					TurnEffect();
+					GainPowerEffect(playerStatus.playerCharacter, collision);
 				}
 			}
 		}
@@ -879,6 +884,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			if(powerIndex == shieldSkillCount)
 			{
 				playerStatus.playerSkill = PlayerSkill_Level3.ShieldSkill;
+				GainSkillEffect(playerStatus.playerSkill);
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 has shield skill");
@@ -898,6 +904,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			if(powerIndex == gunSkillCount)
 			{
 				playerStatus.playerSkill = PlayerSkill_Level3.GunSkill;
+				GainSkillEffect(playerStatus.playerSkill);
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 has gun skill");
@@ -917,6 +924,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			if(powerIndex == iceSkillCount)
 			{
 				playerStatus.playerSkill = PlayerSkill_Level3.IceSkill;
+				GainSkillEffect(playerStatus.playerSkill);
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 has ice skill");
@@ -967,6 +975,9 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						}
 					}
 				}
+				GameObject effect = Instantiate(changeHpEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+				effect.transform.parent = gameObject.transform;
+				Destroy(effect, 1);
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 			}
@@ -1061,10 +1072,86 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 
 	
 
-	void TurnEffect()
+	void TurnEffect(PlayerCharacter_Level3 playerCharacter, Collider2D collision)
 	{
-		GameObject smoke = Instantiate(smokeEffect, transform.position, Quaternion.identity) as GameObject;
-		Destroy(smoke, 1);
+		GameObject effect;
+		switch(playerCharacter)
+		{
+			case PlayerCharacter_Level3.Dragon:
+				effect = Instantiate(dragonTurnEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+				Destroy(effect, 1);
+				break;
+			case PlayerCharacter_Level3.Knight:
+				effect = Instantiate(knightTurnEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+				Destroy(effect, 1);
+				break;
+			case PlayerCharacter_Level3.Magic:
+				effect = Instantiate(magicTurnEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+				Destroy(effect, 1);
+				break;
+			case PlayerCharacter_Level3.Assassin:
+				effect = Instantiate(assassinTurnEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+				Destroy(effect, 1);
+				break;
+			case PlayerCharacter_Level3.Boss:
+				break;
+		}
+		
+	}
+
+	void GainPowerEffect(PlayerCharacter_Level3 playerCharacter, Collider2D collision)
+	{
+		GameObject effect;
+		switch(playerCharacter)
+		{
+			case PlayerCharacter_Level3.Dragon:
+				effect = Instantiate(dragonGainPowerEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+				effect.transform.parent = gameObject.transform;
+				Destroy(effect, 1);
+				break;
+			case PlayerCharacter_Level3.Knight:
+				effect = Instantiate(knightGainPowerEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+				effect.transform.parent = gameObject.transform;
+				Destroy(effect, 1);
+				break;
+			case PlayerCharacter_Level3.Magic:
+				effect = Instantiate(magicGainPowerEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+				effect.transform.parent = gameObject.transform;
+				Destroy(effect, 1);
+				break;
+			case PlayerCharacter_Level3.Assassin:
+				effect = Instantiate(assassinGainPowerEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+				effect.transform.parent = gameObject.transform;
+				Destroy(effect, 1);
+				break;
+			case PlayerCharacter_Level3.Boss:
+				break;
+		}
+		
+	}
+
+	void GainSkillEffect(PlayerSkill_Level3 playerCharacter)
+	{
+		GameObject effect;
+		switch(playerCharacter)
+		{
+			case PlayerSkill_Level3.ShieldSkill:
+				effect = Instantiate(gainShieldSkillEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+				effect.transform.parent = gameObject.transform;
+				Destroy(effect, 1);
+				break;
+			case PlayerSkill_Level3.GunSkill:
+				effect = Instantiate(gainGunSkillEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+				effect.transform.parent = gameObject.transform;
+				Destroy(effect, 1);
+				break;
+			case PlayerSkill_Level3.IceSkill:
+				effect = Instantiate(gainIceSkillEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+				effect.transform.parent = gameObject.transform;
+				Destroy(effect, 1);
+				break;
+		}
+		
 	}
 
 	void CharacterRedCrossEffect(Collider2D collision)
