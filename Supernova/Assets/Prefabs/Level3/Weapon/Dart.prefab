@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212199341132929976}
   - component: {fileID: 61078073307868494}
   - component: {fileID: 50416921258220978}
+  - component: {fileID: 114308275355989524}
   - component: {fileID: 95547036879014632}
   m_Layer: 0
   m_Name: Dart
@@ -37,8 +38,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1482756489821976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.5, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: 21.62952, y: -2.492, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -79,14 +80,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.99, y: 2.72}
+    oldSize: {x: 0.9975, y: 0.68}
     newSize: {x: 3.99, y: 2.72}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.99, y: 2.72}
+  m_Size: {x: 1, y: 0.6}
   m_EdgeRadius: 0
 --- !u!95 &95547036879014632
 Animator:
@@ -97,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 1482756489821976}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dd8a4074b3046744eb796709c4fed9f7, type: 2}
+  m_Controller: {fileID: 9100000, guid: fe6d9f96a6ea44cb69693b20545c85c0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -106,6 +107,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114308275355989524
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1482756489821976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f91ccb1c7663f4ae0a0282837569124e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletType: 0
+  explosion: {fileID: 1170070905422660, guid: 2062f0f1755964682af74c99a6c10c31, type: 2}
+  parentTag: 
+  timer: 0
 --- !u!212 &212199341132929976
 SpriteRenderer:
   m_ObjectHideFlags: 1

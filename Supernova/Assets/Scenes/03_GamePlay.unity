@@ -3731,7 +3731,7 @@ RectTransform:
   m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 1239079528}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -9269,7 +9269,7 @@ RectTransform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 1239079528}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -10405,7 +10405,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &332564028
 Animator:
   serializedVersion: 3
@@ -18612,7 +18612,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCharacter: 5
   playerPower: 11
-  playerSkill: 3
+  playerSkill: 4
   playerIdentity: 3
   skillRemain: 0
   overPoison: 0
@@ -18639,15 +18639,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootKey: 0
   shootTime: 0.47
-  dragonBullet: {fileID: 1913769189507814, guid: 40f43d47894c548529934fdac677333e,
+  dragonBullet: {fileID: 1005642493255400, guid: 6eb985b9f2e0d47d0b8135ef16e52a5c,
     type: 2}
-  knightBullet: {fileID: 1532358332637158, guid: fdab0f5c0c47144ce85019a521421dd9,
+  knightBullet: {fileID: 1458927194762122, guid: 0fcc711d707a94140a0698671c02e1cd,
     type: 2}
-  magicBullet: {fileID: 1264997878220882, guid: 0ac34322725a2459da46524425e73a62,
+  magicBullet: {fileID: 1590228818863846, guid: 0fa528b1916ed4cbb996a30a67cfdcb3,
     type: 2}
-  assassinBullet: {fileID: 1017922579666514, guid: 314e628f3f20144f39d34956d38e9ffb,
+  assassinBullet: {fileID: 1482756489821976, guid: 49089ffb55da44451b619053c8f6bbc3,
     type: 2}
   bossBullet: {fileID: 1496867175505748, guid: 1210ffa92ec4144d595211eef55de775, type: 2}
+  shieldSkillBullet: {fileID: 1028892427654830, guid: d5fd2566b69dbb540b3f7cf0e49888b2,
+    type: 2}
+  gunSkillBullet: {fileID: 1419684328193988, guid: 1312861be2565bf4ab718b729fbdf392,
+    type: 2}
   dragonAttack: {fileID: 8300000, guid: df2ed2dc25cd74d89a039214970ece28, type: 3}
   knightAttack: {fileID: 8300000, guid: 7655a93d6464747f793ae59363ec34b6, type: 3}
   magicAttack: {fileID: 8300000, guid: 0e487b237cbf04e8a8eb9e144695b448, type: 3}
@@ -19035,7 +19039,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -198173339
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f3a948537eea8f045868826171c30778, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -35211,7 +35215,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &871209189
 Animator:
   serializedVersion: 3
@@ -43048,7 +43052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCharacter: 5
   playerPower: 11
-  playerSkill: 3
+  playerSkill: 4
   playerIdentity: 2
   skillRemain: 0
   overPoison: 0
@@ -43075,15 +43079,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootKey: 0
   shootTime: 0.47
-  dragonBullet: {fileID: 1913769189507814, guid: 40f43d47894c548529934fdac677333e,
+  dragonBullet: {fileID: 1005642493255400, guid: 6eb985b9f2e0d47d0b8135ef16e52a5c,
     type: 2}
-  knightBullet: {fileID: 1532358332637158, guid: fdab0f5c0c47144ce85019a521421dd9,
+  knightBullet: {fileID: 1458927194762122, guid: 0fcc711d707a94140a0698671c02e1cd,
     type: 2}
-  magicBullet: {fileID: 1264997878220882, guid: 0ac34322725a2459da46524425e73a62,
+  magicBullet: {fileID: 1590228818863846, guid: 0fa528b1916ed4cbb996a30a67cfdcb3,
     type: 2}
-  assassinBullet: {fileID: 1017922579666514, guid: 314e628f3f20144f39d34956d38e9ffb,
+  assassinBullet: {fileID: 1482756489821976, guid: 49089ffb55da44451b619053c8f6bbc3,
     type: 2}
   bossBullet: {fileID: 1496867175505748, guid: 1210ffa92ec4144d595211eef55de775, type: 2}
+  shieldSkillBullet: {fileID: 1028892427654830, guid: d5fd2566b69dbb540b3f7cf0e49888b2,
+    type: 2}
+  gunSkillBullet: {fileID: 1419684328193988, guid: 1312861be2565bf4ab718b729fbdf392,
+    type: 2}
   dragonAttack: {fileID: 8300000, guid: df2ed2dc25cd74d89a039214970ece28, type: 3}
   knightAttack: {fileID: 8300000, guid: 7655a93d6464747f793ae59363ec34b6, type: 3}
   magicAttack: {fileID: 8300000, guid: 0e487b237cbf04e8a8eb9e144695b448, type: 3}
@@ -43281,7 +43289,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -198173339
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: f3a948537eea8f045868826171c30778, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -49129,7 +49137,6 @@ RectTransform:
   - {fileID: 1444312075}
   - {fileID: 1353967339}
   - {fileID: 206404376}
-  - {fileID: 1866881064}
   - {fileID: 1815958478}
   - {fileID: 1607495243}
   - {fileID: 115127967}
@@ -49139,6 +49146,7 @@ RectTransform:
   - {fileID: 2030272059}
   - {fileID: 1484467585}
   - {fileID: 1892718825}
+  - {fileID: 1866881064}
   - {fileID: 1948491303}
   - {fileID: 609268005}
   - {fileID: 658634843}
@@ -58899,7 +58907,7 @@ RectTransform:
   m_LocalScale: {x: 0.19999999, y: 0.59999996, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 1239079528}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -59485,7 +59493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &1503338261
 Animator:
   serializedVersion: 3
@@ -62957,7 +62965,7 @@ RectTransform:
   m_LocalScale: {x: 0.2, y: 0.6, z: 1}
   m_Children: []
   m_Father: {fileID: 1239079528}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -65693,7 +65701,7 @@ RectTransform:
   m_LocalScale: {x: 0.49999997, y: 0.49999997, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 1239079528}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -66548,7 +66556,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1239079528}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -69808,7 +69816,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1239079528}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -83138,7 +83146,7 @@ GameObject:
   - component: {fileID: 1866881066}
   - component: {fileID: 1866881065}
   m_Layer: 0
-  m_Name: Button_Level2
+  m_Name: Button_Level3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83155,7 +83163,7 @@ RectTransform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children: []
   m_Father: {fileID: 1239079528}
-  m_RootOrder: 4
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -83267,7 +83275,7 @@ MonoBehaviour:
     m_TypeName: ETCButton+OnUPHandler, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   axis:
-    name: Button_Level2
+    name: Button_Level3
     autoLinkTagPlayer: 0
     autoTag: Player
     player: {fileID: 0}
@@ -83745,15 +83753,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootKey: 0
   shootTime: 0.47
-  dragonBullet: {fileID: 1913769189507814, guid: 40f43d47894c548529934fdac677333e,
+  dragonBullet: {fileID: 1005642493255400, guid: 6eb985b9f2e0d47d0b8135ef16e52a5c,
     type: 2}
-  knightBullet: {fileID: 1532358332637158, guid: fdab0f5c0c47144ce85019a521421dd9,
+  knightBullet: {fileID: 1458927194762122, guid: 0fcc711d707a94140a0698671c02e1cd,
     type: 2}
-  magicBullet: {fileID: 1264997878220882, guid: 0ac34322725a2459da46524425e73a62,
+  magicBullet: {fileID: 1590228818863846, guid: 0fa528b1916ed4cbb996a30a67cfdcb3,
     type: 2}
-  assassinBullet: {fileID: 1017922579666514, guid: 314e628f3f20144f39d34956d38e9ffb,
+  assassinBullet: {fileID: 1482756489821976, guid: 49089ffb55da44451b619053c8f6bbc3,
     type: 2}
   bossBullet: {fileID: 1496867175505748, guid: 1210ffa92ec4144d595211eef55de775, type: 2}
+  shieldSkillBullet: {fileID: 1028892427654830, guid: d5fd2566b69dbb540b3f7cf0e49888b2,
+    type: 2}
+  gunSkillBullet: {fileID: 1419684328193988, guid: 1312861be2565bf4ab718b729fbdf392,
+    type: 2}
   dragonAttack: {fileID: 8300000, guid: df2ed2dc25cd74d89a039214970ece28, type: 3}
   knightAttack: {fileID: 8300000, guid: 7655a93d6464747f793ae59363ec34b6, type: 3}
   magicAttack: {fileID: 8300000, guid: 0e487b237cbf04e8a8eb9e144695b448, type: 3}
@@ -83772,7 +83784,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCharacter: 5
   playerPower: 11
-  playerSkill: 3
+  playerSkill: 4
   playerIdentity: 1
   skillRemain: 0
   overPoison: 0
@@ -84168,7 +84180,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -198173339
   m_SortingLayer: 3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: bb581bdfc233f4a4cac2610941b9a4bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -85225,7 +85237,7 @@ RectTransform:
   m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 1239079528}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -89687,7 +89699,7 @@ RectTransform:
   m_LocalScale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
   m_Children: []
   m_Father: {fileID: 1239079528}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -92649,7 +92661,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &2122019261
 Animator:
   serializedVersion: 3

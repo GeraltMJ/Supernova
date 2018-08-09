@@ -49,6 +49,9 @@ TagManager:
   - Rain
   - Player3
   - Player3Bullet
+  - Player1Skill
+  - Player2Skill
+  - Player3Skill
   layers:
   - Default
   - TransparentFX

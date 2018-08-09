@@ -4,165 +4,191 @@ using UnityEngine;
 
 public class Bullet_Level3 : MonoBehaviour {
 
-	public float speed = 6.0f;
+	public PlayerCharacter_Level3 bulletType;
 	public GameObject explosion;
 	private GameObject explo;
 	private TcpClient_Level2 tcpClient;
+	private float dragonSpeed = 6.0f;
+	private float assassinSpeed = 6.0f;
+	private float magicSpeed = 3.0f;
+	private float knightSpeed = 9.0f;
+	private float bossSpeed = 8f;
+	private float assassinTimeLimit = 1.5f;
+	private float dragonTimeLimit = 3.5f;
+	private float knightTimeLimit = 1f;
+	private float magicTimeLimit = 5f;
+	private float bossTimeLimit = 5f;
 
 	public string parentTag; //表示实例化该子弹的玩家的Tag
-	public Sprite[] weapon; //子弹的Sprites数组
-	public Sprite this_sprite; //该子弹实例的Sprite
-	public Role role; //在子弹被创建的时候由 Player 赋值
 	
-
 	public float timer = 0f;
+	private GameObject player1, player2, player3;
+	private PlayerStatus_Level3 ps1, ps2, ps3;
 
 	void Start() {
-		tcpClient = TcpClient_Level2._instance;
-		this_sprite = this.GetComponent<SpriteRenderer>().sprite;
-		switch (role)
-		{
-			case Role.Assasin:
-				this_sprite = weapon[0];
-				break;
-
-			case Role.Dragon:
-				this_sprite = weapon[1];
-				break;
-
-			case Role.Knight:
-				this_sprite = weapon[2];
-				break;
-
-			case Role.Mage:
-				this_sprite = weapon[3];
-				break;
-
-			case Role.King:
-				this_sprite = weapon[4];
-				break;
-
-		}
+		player1 = GameObject.FindWithTag("Player1");
+		player2 = GameObject.FindWithTag("Player2");
+		player3 = GameObject.FindWithTag("Player3");
+		ps1 = player1.GetComponent<PlayerStatus_Level3>();
+		ps2 = player2.GetComponent<PlayerStatus_Level3>();
+		ps3 = player3.GetComponent<PlayerStatus_Level3>();
 	}
 
 	void Update () {
-		switch (role)
-		{
-			case Role.Assasin:
-				AssasinWeaponControl();
-				break;
 
-			case Role.Dragon:
+		switch(bulletType)
+		{
+			case PlayerCharacter_Level3.Dragon:
 				DragonWeaponControl();
 				break;
-
-			case Role.Knight:
+			case PlayerCharacter_Level3.Knight:
 				KnightWeaponControl();
 				break;
-
-			case Role.Mage:
-				MageWeaponControl();
+			case PlayerCharacter_Level3.Assassin:
+				AssasinWeaponControl();
+				break;
+			case PlayerCharacter_Level3.Magic:
+				MagicWeaponControl();
+				break;
+			case PlayerCharacter_Level3.Boss:
+				BossWeaponControl();
 				break;
 		}
 	}
 
 	private void AssasinWeaponControl()
 	{
-		this.transform.Rotate(0, 0, Time.deltaTime);
-		timer += Time.deltaTime;
-		if(timer >= 2.5f)
+		if(timer < assassinTimeLimit)
 		{
-			transform.Translate(Vector3.left * speed * Time.deltaTime);
+			this.transform.Translate(Time.deltaTime * assassinSpeed * Vector3.right);
+			timer += Time.deltaTime;
 		}
 		else
 		{
-			transform.Translate(Vector3.right * speed * Time.deltaTime);
+			this.transform.Translate(Time.deltaTime * assassinSpeed * Vector3.left);
 		}
 	}
 
 	private void KnightWeaponControl()
 	{
-
+		if (timer < knightTimeLimit)
+		{
+			this.transform.Translate(Time.deltaTime * knightSpeed * Vector3.right);
+			timer += Time.deltaTime;
+		}
+		else
+		{
+			Destroy(this.gameObject);
+		}
 	}
 
-	private void MageWeaponControl()
+	private void MagicWeaponControl()
 	{
-
+		if (timer < magicTimeLimit)
+		{
+			this.transform.Translate(Time.deltaTime * magicSpeed * Vector3.right);
+			timer += Time.deltaTime;
+		}
+		else
+		{
+			Destroy(this.gameObject);
+		}
 	}
 
 	private void DragonWeaponControl()
 	{
-
+		if (timer < dragonTimeLimit)
+		{
+			this.transform.Translate(Time.deltaTime * dragonSpeed * Vector3.right);
+			timer += Time.deltaTime;
+		}
+		else
+		{
+			Destroy(this.gameObject);
+		}
 	}
 
-	void OnTriggerEnter2D(Collider2D collision) {
+	private void BossWeaponControl()
+	{
+		if (timer < bossTimeLimit)
+		{
+			this.transform.Translate(Time.deltaTime * bossSpeed * Vector3.right);
+			timer += Time.deltaTime;
+		}
+		else
+		{
+			Destroy(this.gameObject);
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D collision) 
+	{
 		
 		if(collision.gameObject.tag == "Wall")
 		{
 			Destroy(gameObject);
 		}
-		
-		if(gameObject.CompareTag("Player2Bullet"))
+
+		if(gameObject.CompareTag("Player1Bullet"))
 		{
-			if(collision.gameObject.tag == "Player1")
-			{	
-				if(PlayerStatusControl_Level2._instance.isPlayer1)
-				{
-					if(Player1Status_Level2._instance.damageReflect)
-					{
-						Player2Status_Level2._instance.Damage(Player2Status_Level2._instance.attackAbility);
-						tcpClient.SendHpChange(2,-Mathf.RoundToInt(Player2Status_Level2._instance.attackAbility));
-					}
-					else
-					{	
-						if(Player2Status_Level2._instance.playerPower == PlayerPower_Level2.KnightPower && Player1Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Dragon)
-						{
-							Player1Status_Level2._instance.Damage(Player2Status_Level2._instance.attackAbility+2);
-							tcpClient.SendHpChange(1,-Mathf.RoundToInt(Player2Status_Level2._instance.attackAbility)-2);
-						}
-						else
-						{
-							Player1Status_Level2._instance.Damage(Player2Status_Level2._instance.attackAbility);
-							tcpClient.SendHpChange(1,-Mathf.RoundToInt(Player2Status_Level2._instance.attackAbility));
-						}
-					}
-				}
-				explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
-				Destroy(explo,1);
-				Destroy(gameObject);
-			}
-		}
-		if (gameObject.CompareTag("Player1Bullet"))
-		{	
-			if(collision.gameObject.tag == "Player2")
+			if(collision.gameObject.CompareTag("Player2") || collision.gameObject.CompareTag("Player3"))
 			{
-				if(!PlayerStatusControl_Level2._instance.isPlayer1)
+				if(collision.gameObject.CompareTag("Player2") && PlayerStatusControl_Level3._instance.playerIdentity == 2)
 				{
-					if(Player2Status_Level2._instance.damageReflect)
-					{
-						Player1Status_Level2._instance.Damage(Player1Status_Level2._instance.attackAbility);
-						tcpClient.SendHpChange(1,-Mathf.RoundToInt(Player1Status_Level2._instance.attackAbility));
-					}
-					else
-					{
-						if(Player1Status_Level2._instance.playerPower == PlayerPower_Level2.KnightPower && Player2Status_Level2._instance.playerCharacter == PlayerCharacter_Level2.Dragon)
-						{
-							Player2Status_Level2._instance.Damage(Player1Status_Level2._instance.attackAbility+2);
-							tcpClient.SendHpChange(2,-Mathf.RoundToInt(Player1Status_Level2._instance.attackAbility)-2);
-						}
-						else
-						{
-							Player2Status_Level2._instance.Damage(Player1Status_Level2._instance.attackAbility);
-							tcpClient.SendHpChange(2,-Mathf.RoundToInt(Player1Status_Level2._instance.attackAbility));
-						}
-					}
+					ps2.Damage(ps1.attackAbility);
+					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps1.attackAbility));
 				}
-				
+				if(collision.gameObject.CompareTag("Player3") && PlayerStatusControl_Level3._instance.playerIdentity == 3)
+				{
+					ps3.Damage(ps1.attackAbility);
+					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps1.attackAbility));
+				}
 				explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
 				Destroy(explo,1);
 				Destroy(gameObject);
 			}
 		}
+		else if(gameObject.CompareTag("Player2Bullet"))
+		{
+			if(collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Player3"))
+			{
+				if(collision.gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.playerIdentity == 1)
+				{
+					ps1.Damage(ps2.attackAbility);
+					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps2.attackAbility));
+				}
+				if(collision.gameObject.CompareTag("Player3") && PlayerStatusControl_Level3._instance.playerIdentity == 3)
+				{
+					ps3.Damage(ps2.attackAbility);
+					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps2.attackAbility));
+				}
+				explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
+				Destroy(explo,1);
+				Destroy(gameObject);
+			}
+		}
+		else if(gameObject.CompareTag("Player3Bullet"))
+		{
+			if(collision.gameObject.CompareTag("Player1") || collision.gameObject.CompareTag("Player2"))
+			{
+				if(collision.gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.playerIdentity == 1)
+				{
+					ps1.Damage(ps3.attackAbility);
+					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps3.attackAbility));
+				}
+				if(collision.gameObject.CompareTag("Player2") && PlayerStatusControl_Level3._instance.playerIdentity == 2)
+				{
+					ps2.Damage(ps3.attackAbility);
+					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps3.attackAbility));
+				}
+				explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
+				Destroy(explo,1);
+				Destroy(gameObject);
+			}
+		}
+
+
+
 	}
 
 }

@@ -16,6 +16,8 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	public GameObject dragonBullet, knightBullet, magicBullet, assassinBullet, bossBullet;
 	private GameObject bullet;
 
+	public GameObject shieldSkillBullet, gunSkillBullet;
+
 	//public GameObject networkManager;
 	//private TcpClient_Level3 tcpClient;
 
@@ -71,29 +73,99 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	void ControlShoot()
 	{
-		if(ETCInput.GetButton("Button_Level2") || Input.GetKeyDown(shootKey))
+		if(ETCInput.GetButton("Button_Level3") || Input.GetKeyDown(shootKey))
 		{
 			//tcpClient.SendFireCommand(transform.position, PlayerStatusControl_Level3._instance.playerIdentity);
 			TcpClient_All._instance.SendFireCommand(transform.position, PlayerStatusControl_Level3._instance.playerIdentity);
-			Fire();
+			switch(playerStatus.playerSkill)
+			{
+				case PlayerSkill_Level3.ShieldSkill:
+					ShieldSkillFire();
+					break;
+				case PlayerSkill_Level3.GunSkill:
+					GunSkillFire();
+					break;
+				case PlayerSkill_Level3.DoubleDmgSkill:
+					DoubleDmgSkillFire();
+					break;
+				case PlayerSkill_Level3.IceSkill:
+					IceSkillFire();
+					break;
+				case PlayerSkill_Level3.Default:
+					Fire();
+					break;
+			}
 		}
 	}
-	/* 
-	void EnemyShoot()
+	void ShieldSkillFire()
 	{
-		if(currentCommand == "F")
+		GameObject go = (GameObject)Instantiate(shieldSkillBullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+		go.transform.parent = gameObject.transform;
+		SetSkillTag(go);
+		Destroy(go,1);
+	}
+	void GunSkillFire()
+	{
+		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
+		switch(faceDir)
 		{
-			Fire();
-			currentCommand = "";
+			case FaceDirection.Down:
+				GameObject go = (GameObject)Instantiate(gunSkillBullet, new Vector3(this.transform.position.x, this.transform.position.y-15, this.transform.position.z), Quaternion.Euler(0f,0f,90f));
+				go.transform.parent = gameObject.transform;
+				SetSkillTag(go);
+				Destroy(go,1);
+				break;
+			case FaceDirection.Up:
+				go = (GameObject)Instantiate(gunSkillBullet, new Vector3(this.transform.position.x, this.transform.position.y+15, this.transform.position.z), Quaternion.Euler(0f,0f,-90f));
+				go.transform.parent = gameObject.transform;
+				SetSkillTag(go);
+				Destroy(go,1);
+				break;
+			case FaceDirection.Left:
+				go = (GameObject)Instantiate(gunSkillBullet, new Vector3(this.transform.position.x-15, this.transform.position.y, this.transform.position.z), Quaternion.identity);
+				go.transform.parent = gameObject.transform;
+				SetSkillTag(go);
+				Destroy(go,1);
+				break;
+			case FaceDirection.Right:
+				go = (GameObject)Instantiate(gunSkillBullet, new Vector3(this.transform.position.x+15, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-180f));
+				go.transform.parent = gameObject.transform;
+				SetSkillTag(go);
+				Destroy(go,1);
+				break;
 		}
 	}
-	*/
+	void DoubleDmgSkillFire()
+	{
+
+	}
+	void IceSkillFire()
+	{
+
+	}
 
 	void EnemyShoot()
 	{
 		if(fireCommand)
 		{
-			EnemyFire();
+			switch(playerStatus.playerSkill)
+			{
+				case PlayerSkill_Level3.ShieldSkill:
+					ShieldSkillFire();
+					break;
+				case PlayerSkill_Level3.GunSkill:
+					GunSkillFire();
+					break;
+				case PlayerSkill_Level3.DoubleDmgSkill:
+					DoubleDmgSkillFire();
+					break;
+				case PlayerSkill_Level3.IceSkill:
+					IceSkillFire();
+					break;
+				case PlayerSkill_Level3.Default:
+					EnemyFire();
+					break;
+			}
 			fireCommand = false;
 			firePosition = transform.position;
 		}
@@ -113,6 +185,27 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		{
 			bullet.tag = "Player3Bullet";
 		}
+	}
+
+	void SetSkillTag(GameObject bullet)
+	{
+		if(gameObject.CompareTag("Player1"))
+		{
+			bullet.tag = "Player1Skill";
+		}
+		else if(gameObject.CompareTag("Player2"))
+		{
+			bullet.tag = "Player2Skill";
+		}
+		else if(gameObject.CompareTag("Player3"))
+		{
+			bullet.tag = "Player3Skill";
+		}
+	}
+	void SetBulletType(GameObject bullet)
+	{
+		Bullet_Level3 bl = bullet.GetComponent<Bullet_Level3>();
+		bl.bulletType = playerStatus.playerCharacter;
 	}
 
 	void SelectAccordingToPower(PlayerPower_Level3 power)
@@ -170,30 +263,14 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		}
 	}
 
-	void SelectBullet()
-	{
-		switch(playerStatus.playerSkill)
-		{
-			case PlayerSkill_Level3.ShieldSkill:
-					break;
-			case PlayerSkill_Level3.GunSkill:
-				break;
-			case PlayerSkill_Level3.IceSkill:
-				break;
-			case PlayerSkill_Level3.Default:
-				SelectAccordingToPower(playerStatus.playerPower);
-				break;
-		}
-	}
-
-
 	void Fire()
 	{
 		isShoot = true;
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
-
-		SelectBullet();
+		Debug.Log(bullet);
+		SelectAccordingToPower(playerStatus.playerPower);
 		audioSource.Play();
+		Debug.Log(bullet);
 		switch (faceDir)
 		{
 			case FaceDirection.Up:
@@ -271,7 +348,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	{
 		isShoot = true;
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
-		SelectBullet();
+		SelectAccordingToPower(playerStatus.playerPower);
 		audioSource.Play();
 		switch (faceDir)
 		{
@@ -350,47 +427,55 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,90f));
 		SetBulletTag(go);
+		SetBulletType(go);
 	}
 
 	void DownAttack()
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-90f));
 		SetBulletTag(go);
+		SetBulletType(go);
 	}
 
 	void LeftAttack()
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-180f));
 		SetBulletTag(go);
+		SetBulletType(go);
 	}
 
 	void RightAttack()
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
 		SetBulletTag(go);
+		SetBulletType(go);
 	}
 	void EnemyUpAttack()
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.Euler(0f,0f,90f));
 		SetBulletTag(go);
+		SetBulletType(go);
 	}
 
 	void EnemyDownAttack()
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.Euler(0f,0f,-90f));
 		SetBulletTag(go);
+		SetBulletType(go);
 	}
 
 	void EnemyLeftAttack()
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.Euler(0f,0f,-180f));
 		SetBulletTag(go);
+		SetBulletType(go);
 	}
 
 	void EnemyRightAttack()
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.identity);
 		SetBulletTag(go);
+		SetBulletType(go);
 	}
 }
 
