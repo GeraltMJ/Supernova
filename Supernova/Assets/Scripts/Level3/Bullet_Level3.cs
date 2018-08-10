@@ -18,8 +18,6 @@ public class Bullet_Level3 : MonoBehaviour {
 	private float knightTimeLimit = 1f;
 	private float magicTimeLimit = 5f;
 	private float bossTimeLimit = 5f;
-
-	public string parentTag; //表示实例化该子弹的玩家的Tag
 	
 	public float timer = 0f;
 	private GameObject player1, player2, player3;
