@@ -75,6 +75,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	{
 		if(ETCInput.GetButton("Button_Level3") || Input.GetKeyDown(shootKey))
 		{
+			isShoot = true;
 			//tcpClient.SendFireCommand(transform.position, PlayerStatusControl_Level3._instance.playerIdentity);
 			TcpClient_All._instance.SendFireCommand(transform.position, PlayerStatusControl_Level3._instance.playerIdentity);
 			switch(playerStatus.playerSkill)
@@ -137,7 +138,24 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	}
 	void DoubleDmgSkillFire()
 	{
-
+		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
+		SelectAccordingToPower(playerStatus.playerPower);
+		audioSource.Play();
+		switch(faceDir)
+		{
+			case FaceDirection.Up:
+				UpDoubleAttack();
+				break;
+			case FaceDirection.Down:
+				DownDoubleAttack();
+				break;
+			case FaceDirection.Left:
+				LeftDoubleAttack();
+				break;
+			case FaceDirection.Right:
+				RightDoubleAttack();
+				break;
+		}
 	}
 	void IceSkillFire()
 	{
@@ -148,6 +166,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	{
 		if(fireCommand)
 		{
+			isShoot = true;
 			switch(playerStatus.playerSkill)
 			{
 				case PlayerSkill_Level3.ShieldSkill:
@@ -265,7 +284,6 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	void Fire()
 	{
-		isShoot = true;
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
 		Debug.Log(bullet);
 		SelectAccordingToPower(playerStatus.playerPower);
@@ -346,7 +364,6 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	void EnemyFire()
 	{
-		isShoot = true;
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
 		SelectAccordingToPower(playerStatus.playerPower);
 		audioSource.Play();
@@ -476,6 +493,58 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.identity);
 		SetBulletTag(go);
 		SetBulletType(go);
+	}
+
+	void DownDoubleAttack()
+	{
+		GameObject b1 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, -45), this.transform);
+		GameObject b2 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, -90), this.transform);
+		GameObject b3 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, -135), this.transform);
+		SetBulletTag(b1);
+		SetBulletType(b1);
+		SetBulletTag(b2);
+		SetBulletType(b2);
+		SetBulletTag(b3);
+		SetBulletType(b3);
+	}
+
+	void UpDoubleAttack()
+	{
+		GameObject b1 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, 45), this.transform);
+		GameObject b2 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, 90), this.transform);
+		GameObject b3 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, 135), this.transform);
+		SetBulletTag(b1);
+		SetBulletType(b1);
+		SetBulletTag(b2);
+		SetBulletType(b2);
+		SetBulletTag(b3);
+		SetBulletType(b3);
+	}
+
+	void LeftDoubleAttack()
+	{
+		GameObject b1 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, -135), this.transform);
+		GameObject b2 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, -180), this.transform);
+		GameObject b3 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, 135), this.transform);
+		SetBulletTag(b1);
+		SetBulletType(b1);
+		SetBulletTag(b2);
+		SetBulletType(b2);
+		SetBulletTag(b3);
+		SetBulletType(b3);
+	}
+
+	void RightDoubleAttack()
+	{
+		GameObject b1 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, 45), this.transform);
+		GameObject b2 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity, this.transform);
+		GameObject b3 = GameObject.Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0, 0, -45), this.transform);
+		SetBulletTag(b1);
+		SetBulletType(b1);
+		SetBulletTag(b2);
+		SetBulletType(b2);
+		SetBulletTag(b3);
+		SetBulletType(b3);
 	}
 }
 

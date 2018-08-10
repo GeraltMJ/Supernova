@@ -87,9 +87,9 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		player2Status = player2.GetComponent<PlayerStatus_Level3>();
 		player3Status = player3.GetComponent<PlayerStatus_Level3>();
 
-		player1Move.enabled = false;
-		player2Move.enabled = false;
-		player3Move.enabled = false;
+		//player1Move.enabled = false;
+		//player2Move.enabled = false;
+		//player3Move.enabled = false;
 		remainSeconds = 3f;
 		durationSeconds = 0;
 		text.text = "Wait for another player";

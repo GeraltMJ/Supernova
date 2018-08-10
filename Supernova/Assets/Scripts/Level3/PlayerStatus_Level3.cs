@@ -19,6 +19,10 @@ public enum PlayerSkill_Level3
 }
 public class PlayerStatus_Level3 : MonoBehaviour {
 
+	private int shieldSkillCount = 2;
+	private int iceSkillCount = 4;
+	private int doubleDmgSkillCount = 3;
+	private int laserSkillCount = 4;
 
 	public PlayerCharacter_Level3 playerCharacter = PlayerCharacter_Level3.Default;
 	public PlayerPower_Level3 playerPower = PlayerPower_Level3.Default;

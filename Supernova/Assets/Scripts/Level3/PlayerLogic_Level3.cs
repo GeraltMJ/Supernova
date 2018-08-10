@@ -864,7 +864,8 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			if(powerIndex == attackBuffCount)
 			{
-				playerStatus.attackBuff = true;
+				playerStatus.playerSkill = PlayerSkill_Level3.DoubleDmgSkill;
+				GainSkillEffect(playerStatus.playerSkill);
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 is attack buff");
