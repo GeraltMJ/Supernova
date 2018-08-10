@@ -52,6 +52,7 @@ TagManager:
   - Player1Skill
   - Player2Skill
   - Player3Skill
+  - StarPic
   layers:
   - Default
   - TransparentFX
