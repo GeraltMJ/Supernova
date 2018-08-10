@@ -9,18 +9,18 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1126913849937800}
+  m_RootGameObject: {fileID: 1955141743969918}
   m_IsPrefabParent: 1
---- !u!1 &1126913849937800
+--- !u!1 &1955141743969918
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4053279472595176}
-  - component: {fileID: 212695259554870140}
-  - component: {fileID: 95122556036279046}
+  - component: {fileID: 4328850406163242}
+  - component: {fileID: 212723738243823456}
+  - component: {fileID: 95737498410088840}
   m_Layer: 0
   m_Name: GainIceSkillEffect
   m_TagString: Untagged
@@ -28,29 +28,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4053279472595176
+--- !u!4 &4328850406163242
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1126913849937800}
+  m_GameObject: {fileID: 1955141743969918}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.8323386, y: 3.150887, z: 0}
+  m_LocalPosition: {x: -1.0424271, y: 2.9427545, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &95122556036279046
+--- !u!95 &95737498410088840
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1126913849937800}
+  m_GameObject: {fileID: 1955141743969918}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 5681ed70a64204fdaa6f8bb1a2b0850e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1720b5f32da0e4aaf9d455aa4f83beff, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -59,12 +59,12 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!212 &212695259554870140
+--- !u!212 &212723738243823456
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1126913849937800}
+  m_GameObject: {fileID: 1955141743969918}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -93,13 +93,13 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -198173339
   m_SortingLayer: 3
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 95803ff2278d84453991988b8f01edc3, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: c43557b3e22284943af66c5e5acfa15e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.18, y: 1.36}
+  m_Size: {x: 2.78, y: 2.78}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

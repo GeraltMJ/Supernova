@@ -13,6 +13,7 @@ public class RoomMenuLogic : MonoBehaviour {
 	private Image[] playerCharacterImage;
 	public GameObject[] readyPic;//表示3个角色的Ready图片
 	public Sprite[] characterSprites; //3 个角色的立绘图像
+	public Sprite[] selectCharacterSprites; //选择地方的立绘
 	public Sprite[] mapSprites;
 	
 	public Sprite defaultCharacter;
@@ -140,7 +141,7 @@ public class RoomMenuLogic : MonoBehaviour {
 		{
 			playerCharacterImage[i].sprite = defaultCharacter;
 		}
-		characterSelectImage.sprite = characterSprites[0];
+		characterSelectImage.sprite = selectCharacterSprites[0];
 		mapIndex = 0;
 		playerCharacterIndexArray = new int[3];
 		playerReadyStatus = new int[3];
@@ -211,8 +212,8 @@ public class RoomMenuLogic : MonoBehaviour {
 	{
 		if(!isReady)
 		{
-			picIndex = (picIndex + 1) % 3;
-			characterSelectImage.sprite = characterSprites[picIndex];
+			picIndex = (picIndex + 1) % 2;
+			characterSelectImage.sprite = selectCharacterSprites[picIndex];
 			SetPlayerCharacter(playerIndex, picIndex);
 			TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
 		}
@@ -224,8 +225,8 @@ public class RoomMenuLogic : MonoBehaviour {
 	{
 		if(!isReady)
 		{
-			picIndex = (picIndex + 2) % 3;
-			characterSelectImage.sprite = characterSprites[picIndex];
+			picIndex = (picIndex + 1) % 2;
+			characterSelectImage.sprite = selectCharacterSprites[picIndex];
 			SetPlayerCharacter(playerIndex, picIndex);
 			TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
 		}

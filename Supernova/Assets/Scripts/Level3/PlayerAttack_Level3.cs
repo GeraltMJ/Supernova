@@ -100,6 +100,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	}
 	void ShieldSkillFire()
 	{
+		playerStatus.skillRemain -= 1;
 		GameObject go = (GameObject)Instantiate(shieldSkillBullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
 		go.transform.parent = gameObject.transform;
 		SetSkillTag(go);
@@ -107,6 +108,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	}
 	void GunSkillFire()
 	{
+		playerStatus.skillRemain -= 1;
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
 		switch(faceDir)
 		{
@@ -138,6 +140,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	}
 	void DoubleDmgSkillFire()
 	{
+		playerStatus.skillRemain -= 1;
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
 		SelectAccordingToPower(playerStatus.playerPower);
 		audioSource.Play();
@@ -159,7 +162,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	}
 	void IceSkillFire()
 	{
-
+		playerStatus.skillRemain -= 1;
 	}
 
 	void EnemyShoot()

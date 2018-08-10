@@ -18,12 +18,6 @@ public enum PlayerSkill_Level3
 	ShieldSkill, GunSkill, IceSkill, DoubleDmgSkill, Default
 }
 public class PlayerStatus_Level3 : MonoBehaviour {
-
-	private int shieldSkillCount = 2;
-	private int iceSkillCount = 4;
-	private int doubleDmgSkillCount = 3;
-	private int laserSkillCount = 4;
-
 	public PlayerCharacter_Level3 playerCharacter = PlayerCharacter_Level3.Default;
 	public PlayerPower_Level3 playerPower = PlayerPower_Level3.Default;
 	public PlayerSkill_Level3 playerSkill = PlayerSkill_Level3.Default;
@@ -53,6 +47,8 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	private float overPoisonRemain = 10.0f;
 	private float overAreaRemain = 10.0f;
 	public float hpChange;
+
+	public GameObject carrySkillEffect;
 	
 	// Use this for initialization
 	void Awake () {
@@ -135,6 +131,18 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		hpChange = 0;
 	}
 
+	void CheckSkillRemain()
+	{
+		if(skillRemain == 0)
+		{
+			playerSkill = PlayerSkill_Level3.Default;
+			if(carrySkillEffect)
+			{
+				Destroy(carrySkillEffect);
+			}
+		}
+	}
+
 	void Update()
 	{
 		CheckAttackBuff();
@@ -142,6 +150,7 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		CheckOverPoison();
 		CheckOverArea();
 		CheckHpChange();
+		CheckSkillRemain();
 	}
 
 	

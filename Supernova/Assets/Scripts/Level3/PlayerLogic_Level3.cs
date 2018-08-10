@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerLogic_Level3 : MonoBehaviour {
 
+
+	private int shieldSkillLimit = 2;
+	private int iceSkillLimit = 4;
+	private int doubleDmgSkillLimit = 3;
+	private int gunSkillLimit = 4;
+
 	private int dragonPower1Count = 9;
 	private int dragonPower2Count = 9;
 	private int dragonPower3Count = 11;
@@ -41,14 +47,17 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 
 	public GameObject dragonTurnEffect, knightTurnEffect, magicTurnEffect, assassinTurnEffect;
 	public GameObject dragonGainPowerEffect, knightGainPowerEffect, magicGainPowerEffect, assassinGainPowerEffect;
-	public GameObject gainShieldSkillEffect, gainIceSkillEffect, gainGunSkillEffect;
+	public GameObject gainShieldSkillEffect, gainIceSkillEffect, gainGunSkillEffect, gainDoubleDmgSkillEffect;
 	public GameObject changeHpEffect;
+	public GameObject poisonEffect, areaEffect, windEffect;
+	public GameObject teleportEffect;
+	public GameObject recoverEffect2, recoverEffect4;
+	public GameObject carryIceSkillEffect, carryGunSkillEffect, carryDoubleDmgSkillEffect;
 	
 
 	public GameObject smokeEffect;
 	public GameObject redCross;
 	private SpriteRenderer spriteRender;
-	public Sprite[] sprite;
 	public RuntimeAnimatorController dragonController, knightController, magicController, assassinController, bossController;
 	private Animator animator;
 	private int deleteIndex = 0;
@@ -113,7 +122,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		powerRedCrossToDelete = new GameObject[50];
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[0];
-		//tcpClient  = networkManager.GetComponent<TcpClient_Level3>();
 	}
 
 	void ChangeToArea(Collider2D collision)
@@ -142,11 +150,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 	void BecomeVisible()
 	{
 		spriteRender.sortingLayerName = "Player";
-	}
-
-	void RecoverEffect()
-	{
-
 	}
 
 	void RemovePowerRedCrossOnMap()
@@ -194,7 +197,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemoveCharacterRedCross();
 				TurnEffect(playerStatus.playerCharacter, collision);
 				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[0];
 				animator.runtimeAnimatorController = dragonController;
 				audioSource.clip = dragonAttackClip;
 				audioSource.Play();
@@ -215,7 +217,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemoveCharacterRedCross();
 				TurnEffect(playerStatus.playerCharacter, collision);
 				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[1];
 				animator.runtimeAnimatorController = knightController;
 				audioSource.clip = knightAttackClip;
 				audioSource.Play();
@@ -236,7 +237,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemoveCharacterRedCross();
 				TurnEffect(playerStatus.playerCharacter, collision);
 				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[2];
 				animator.runtimeAnimatorController = magicController;
 				audioSource.clip = magicAttackClip;
 				audioSource.Play();
@@ -257,7 +257,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemoveCharacterRedCross();
 				TurnEffect(playerStatus.playerCharacter, collision);
 				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[3];
 				animator.runtimeAnimatorController = assassinController;
 				audioSource.clip = assassinAttackClip;
 				audioSource.Play();
@@ -278,7 +277,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				RemoveCharacterRedCross();
 				TurnEffect(playerStatus.playerCharacter, collision);
 				CharacterRedCrossEffect(collision);
-				spriteRender.sprite = sprite[4];
 				animator.runtimeAnimatorController = bossController;
 				audioSource.clip = bossAttackClip;
 				audioSource.Play();
@@ -556,9 +554,10 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
+						GameObject effect = Instantiate(poisonEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+						Destroy(effect, 1);
 					}
 					break;
 				case PlayerPower_Level3.KnightPower2:
@@ -567,9 +566,10 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
+						GameObject effect = Instantiate(poisonEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+						Destroy(effect, 1);
 					}
 					break;
 				case PlayerPower_Level3.MagicPower1:
@@ -581,9 +581,10 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
+						GameObject effect = Instantiate(poisonEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+						Destroy(effect, 1);
 					}
 					break;
 				case PlayerPower_Level3.MagicPower3:
@@ -592,9 +593,10 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
+						GameObject effect = Instantiate(poisonEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+						Destroy(effect, 1);
 					}
 					break;
 				case PlayerPower_Level3.AssassinPower1:
@@ -619,9 +621,10 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
+						GameObject effect = Instantiate(poisonEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+						Destroy(effect, 1);
 					}
 					break;
 			}
@@ -658,9 +661,10 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
+						GameObject effect = Instantiate(areaEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+						Destroy(effect, 1);
 					}
 					break;
 				case PlayerPower_Level3.AssassinPower2:
@@ -669,9 +673,10 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
+						GameObject effect = Instantiate(areaEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+						Destroy(effect, 1);
 					}
 					break;
 				case PlayerPower_Level3.BossPower:
@@ -682,15 +687,18 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
+						GameObject effect = Instantiate(areaEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+						Destroy(effect, 1);
 					}
 					break;
 			}
 		}
 		else if(collision.gameObject.CompareTag("WindPic"))
 		{
+			GameObject effect = Instantiate(windEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+			Destroy(effect, 1);
 			powerIndex = 0;
 			switch(playerStatus.playerPower)
 			{
@@ -732,7 +740,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 					break;
@@ -760,12 +767,11 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 				{
 					playerStatus.Recover(2);
-					//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,2);
 					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,2);
 				}
 				audioSource.clip = recoverBuffClip;
 				audioSource.Play();
-				RecoverEffect();
+				RecoverEffect(2);
 				Debug.Log("Player1 recorve 2 hp");
 			}
 		}
@@ -785,12 +791,11 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 				{
 					playerStatus.Recover(4);
-					//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,4);
 					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,4);
 				}
 				audioSource.clip = recoverBuffClip;
 				audioSource.Play();
-				RecoverEffect();
+				RecoverEffect(4);
 				Debug.Log("Player1 recorve 4 hp");
 			}
 		}
@@ -865,6 +870,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			if(powerIndex == attackBuffCount)
 			{
 				playerStatus.playerSkill = PlayerSkill_Level3.DoubleDmgSkill;
+				playerStatus.skillRemain = doubleDmgSkillLimit;
 				GainSkillEffect(playerStatus.playerSkill);
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
@@ -885,6 +891,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			if(powerIndex == shieldSkillCount)
 			{
 				playerStatus.playerSkill = PlayerSkill_Level3.ShieldSkill;
+				playerStatus.skillRemain = shieldSkillLimit;
 				GainSkillEffect(playerStatus.playerSkill);
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
@@ -905,6 +912,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			if(powerIndex == gunSkillCount)
 			{
 				playerStatus.playerSkill = PlayerSkill_Level3.GunSkill;
+				playerStatus.skillRemain = gunSkillLimit;
 				GainSkillEffect(playerStatus.playerSkill);
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
@@ -925,6 +933,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			if(powerIndex == iceSkillCount)
 			{
 				playerStatus.playerSkill = PlayerSkill_Level3.IceSkill;
+				playerStatus.skillRemain = iceSkillLimit;
 				GainSkillEffect(playerStatus.playerSkill);
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
@@ -953,8 +962,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 							int diff = Mathf.RoundToInt(enemy1Status.hp - playerStatus.hp);
 							playerStatus.Recover(diff);
 							enemy1Status.Damage(diff);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,diff);
-							//tcpClient.SendHpChange(enemy1Status.playerIdentity,-diff);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,diff);
 							TcpClient_All._instance.SendHpChange(enemy1Status.playerIdentity,-diff);
 							Debug.Log("Player1 and Player2 exchange hp");
@@ -967,8 +974,6 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 							int diff = Mathf.RoundToInt(enemy2Status.hp - playerStatus.hp);
 							playerStatus.Recover(diff);
 							enemy2Status.Damage(diff);
-							//tcpClient.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,diff);
-							//tcpClient.SendHpChange(enemy2Status.playerIdentity,-diff);
 							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,diff);
 							TcpClient_All._instance.SendHpChange(enemy2Status.playerIdentity,-diff);
 							
@@ -1023,6 +1028,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						gameObject.transform.position = teleportPosition[3].transform.position;
 					}
 				}
+				TeleportEffect();
 				audioSource.clip = enhanceBuffClip;
 				audioSource.Play();
 				Debug.Log("Player1 has use teleport");
@@ -1069,6 +1075,30 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			return;
 		}
 		CheckPlayerTrigger(collision);
+	}
+
+
+	void TeleportEffect()
+	{
+		GameObject effect = Instantiate(teleportEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+		effect.transform.parent = gameObject.transform;
+		Destroy(effect, 1);
+	}
+
+	void RecoverEffect(int value)
+	{
+		if(value == 2)
+		{
+			GameObject effect = Instantiate(recoverEffect2, gameObject.transform.position, Quaternion.identity) as GameObject;
+			effect.transform.parent = gameObject.transform;
+			Destroy(effect, 1);
+		}
+		else if(value == 4)
+		{
+			GameObject effect = Instantiate(recoverEffect4, gameObject.transform.position, Quaternion.identity) as GameObject;
+			effect.transform.parent = gameObject.transform;
+			Destroy(effect, 1);
+		}
 	}
 
 	
@@ -1145,11 +1175,26 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				effect = Instantiate(gainGunSkillEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
 				effect.transform.parent = gameObject.transform;
 				Destroy(effect, 1);
+				playerStatus.carrySkillEffect = Instantiate(carryGunSkillEffect,
+															new Vector3(gameObject.transform.position.x,gameObject.transform.position.y-0.5f,gameObject.transform.position.z), 
+															Quaternion.identity) as GameObject;
+				playerStatus.carrySkillEffect.transform.parent = gameObject.transform;
 				break;
 			case PlayerSkill_Level3.IceSkill:
 				effect = Instantiate(gainIceSkillEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
 				effect.transform.parent = gameObject.transform;
 				Destroy(effect, 1);
+				playerStatus.carrySkillEffect = Instantiate(carryIceSkillEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+				playerStatus.carrySkillEffect.transform.parent = gameObject.transform;
+				break;
+			case PlayerSkill_Level3.DoubleDmgSkill:
+				effect = Instantiate(gainDoubleDmgSkillEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
+				effect.transform.parent = gameObject.transform;
+				Destroy(effect, 1);
+				playerStatus.carrySkillEffect = Instantiate(carryDoubleDmgSkillEffect, 
+															new Vector3(gameObject.transform.position.x,gameObject.transform.position.y-0.5f,gameObject.transform.position.z), 
+															Quaternion.identity) as GameObject;
+				playerStatus.carrySkillEffect.transform.parent = gameObject.transform;
 				break;
 		}
 		
