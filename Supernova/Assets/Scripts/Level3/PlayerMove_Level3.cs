@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class PlayerMove_Level3 : MonoBehaviour 
 {
+
+
+	public bool leftCubeActive = false;
+	public bool rightCubeActive = false;
+	public bool upCubeActive = false;
+	public bool downCubeActive = false;
 	private Animator anim;
 	public float speed = 2.1f;
 	public float speedUp = 1f;
@@ -72,19 +78,6 @@ public class PlayerMove_Level3 : MonoBehaviour
 				break;
 		}
 	}
-
-	/* 
-	void CameraMove(string str)
-	{
-		if(gameObject.name == "Player1" && PlayerStatusControl_Level2._instance.isPlayer1)
-		{
-			camAnimator.SetTrigger(str);
-		}else if(gameObject.name == "Player2" && !PlayerStatusControl_Level2._instance.isPlayer1)
-		{
-			camAnimator.SetTrigger(str);
-		}
-	}
-	*/
 
 	private void OnCollisionEnter2D(Collision2D other) {
 		if(other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3"))
@@ -163,22 +156,22 @@ public class PlayerMove_Level3 : MonoBehaviour
 	
 	void ControlMove()
 	{	
-		if ((Input.GetKeyDown(KeyCode.W) || ETCInput.GetButton("UpButton")))
+		if ((Input.GetKeyDown(KeyCode.W) || ETCInput.GetButton("UpButton")) && !upCubeActive)
 		{
 			dir = FaceDirection.Up;
 			anim.SetTrigger("UpWalk");
 		}
-		else if(Input.GetKeyDown(KeyCode.S) || ETCInput.GetButton("DownButton"))
+		else if((Input.GetKeyDown(KeyCode.S) || ETCInput.GetButton("DownButton")) && !downCubeActive)
 		{
 			dir = FaceDirection.Down;
 			anim.SetTrigger("DownWalk");
 		}
-		else if(Input.GetKeyDown(KeyCode.A) || ETCInput.GetButton("LeftButton"))
+		else if((Input.GetKeyDown(KeyCode.A) || ETCInput.GetButton("LeftButton")) && !leftCubeActive)
 		{
 			dir = FaceDirection.Left;
 			anim.SetTrigger("LeftWalk");
 		}
-		else if(Input.GetKeyDown(KeyCode.D) || ETCInput.GetButton("RightButton"))
+		else if((Input.GetKeyDown(KeyCode.D) || ETCInput.GetButton("RightButton")) && !rightCubeActive)
 		{
 			dir = FaceDirection.Right;
 			anim.SetTrigger("RightWalk");
@@ -186,7 +179,24 @@ public class PlayerMove_Level3 : MonoBehaviour
 		
 	}
 	
-	
+	void CheckFaceDirection()
+	{
+		switch(dir)
+		{
+			case FaceDirection.Up:
+				anim.SetTrigger("UpWalk");
+				break;
+			case FaceDirection.Down:
+				anim.SetTrigger("DownWalk");
+				break;
+			case FaceDirection.Left:
+				anim.SetTrigger("LeftWalk");
+				break;
+			case FaceDirection.Right:
+				anim.SetTrigger("RightWalk");
+				break;
+		}
+	}
 	
 	void EnemyMove()
 	{
@@ -213,48 +223,6 @@ public class PlayerMove_Level3 : MonoBehaviour
 		}
 	}
 	
-	
-	
-	 /* 
-	void EnemyMove()
-	{
-		dir = nextDir;
-		switch(dir)
-		{
-			case FaceDirection.Up:
-				anim.SetTrigger("UpWalk");
-				break;
-			case FaceDirection.Down:
-				anim.SetTrigger("DownWalk");
-				break;
-			case FaceDirection.Left:
-				anim.SetTrigger("LeftWalk");
-				break;
-			case FaceDirection.Right:
-				anim.SetTrigger("RightWalk");
-				break;
-		}
-		if(!isMoving)
-		{
-			endPosition = nextPosition;
-			process = 0;
-			isMoving = true;
-		}
-		if(isMoving)
-		{
-			process += Time.deltaTime*speed;
-			if(process < 1)
-			{
-				transform.position = Vector2.Lerp(transform.position, endPosition, process);
-			}
-			else
-			{
-				isMoving = false;
-				FixPosition();
-			}
-		}
-	}
-	*/
 
 	void NextMove()
 	{
@@ -281,7 +249,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 		}
 		if(isMoving)
 		{
-			process += Time.deltaTime*speed*speedUp;
+			process += Time.deltaTime * speed * speedUp * playerStatus.frozenSpeed;
 			if(process < 1)
 			{
 				transform.position = Vector2.Lerp(transform.position, endPosition, process);
@@ -328,118 +296,10 @@ public class PlayerMove_Level3 : MonoBehaviour
 		else
 		{
 			EnemyMove();
-		} 
+		}
+		CheckFaceDirection();
 	}
 
-	/* 
-	void MoveAccordingToServer()
-	{
-
-		switch(dir)
-		{
-			case FaceDirection.Up:
-				anim.SetTrigger("UpWalk");
-				break;
-			case FaceDirection.Down:
-				anim.SetTrigger("DownWalk");
-				break;
-			case FaceDirection.Left:
-				anim.SetTrigger("LeftWalk");
-				break;
-			case FaceDirection.Right:
-				anim.SetTrigger("RightWalk");
-				break;
-		}
-		if(!isMoving)
-		{	
-			process = 0;
-			isMoving = true;
-			endPosition = nextPosition;
-		}
-		if(isMoving)
-		{
-			process += Time.deltaTime*speed;
-			if(process < 1)
-			{
-				transform.position = Vector2.Lerp(transform.position, endPosition, process);
-				if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level3._instance.isPlayer1))
-				{
-					FixCameraPosition();
-				}
-				//Debug.Log(process);
-				//tcpClient.SendCurrentInfo(transform.position, dir);
-			}
-			else
-			{
-				FixPosition();
-				Vector2 predictPosition = new Vector2(0f,0f);
-				switch(dir)
-				{
-					case FaceDirection.Up:
-						predictPosition = new Vector2(transform.position.x, transform.position.y + 1);
-						break;
-					case FaceDirection.Down:
-						predictPosition = new Vector2(transform.position.x, transform.position.y - 1);
-						break;
-					case FaceDirection.Left:
-						predictPosition = new Vector2(transform.position.x - 1, transform.position.y);
-						break;
-					case FaceDirection.Right:
-						predictPosition = new Vector2(transform.position.x + 1, transform.position.y);
-						break;
-				}
-				
-				if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1))
-				{
-					tcpClient.SendPlayerCurrentInfo(predictPosition, dir,1);
-				}
-				else if((gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
-				{
-					tcpClient.SendPlayerCurrentInfo(predictPosition, dir,2);
-				}
-				isMoving = false;
-			}
-		}
-	}
-
-	void ControlMoveSyn()
-	{	
-		if ((Input.GetKeyDown(KeyCode.W) || ETCInput.GetButton("UpButton")))
-		{
-			dir = FaceDirection.Up;
-			anim.SetTrigger("UpWalk");
-		}
-		else if(Input.GetKeyDown(KeyCode.S) || ETCInput.GetButton("DownButton"))
-		{
-			dir = FaceDirection.Down;
-			anim.SetTrigger("DownWalk");
-		}
-		else if(Input.GetKeyDown(KeyCode.A) || ETCInput.GetButton("LeftButton"))
-		{
-			dir = FaceDirection.Left;
-			anim.SetTrigger("LeftWalk");
-		}
-		else if(Input.GetKeyDown(KeyCode.D) || ETCInput.GetButton("RightButton"))
-		{
-			dir = FaceDirection.Right;
-			anim.SetTrigger("RightWalk");
-		}
-
-		
-	}
-	*/
-
-	
-	/*
-	private void Update()
-	{
-		if((gameObject.CompareTag("Player1") && PlayerStatusControl_Level2._instance.isPlayer1) || (gameObject.CompareTag("Player2") && !PlayerStatusControl_Level2._instance.isPlayer1))
-		{
-			ControlMoveSyn();
-		}
-		MoveAccordingToServer();
-	}
-	*/
 	
 	
 }

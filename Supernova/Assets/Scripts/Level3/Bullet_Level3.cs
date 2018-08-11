@@ -5,7 +5,8 @@ using UnityEngine;
 public class Bullet_Level3 : MonoBehaviour {
 
 	public PlayerCharacter_Level3 bulletType;
-	public GameObject explosion;
+	public GameObject explosion, iceExlposion;
+	public GameObject frozenCarryEffect;
 	private GameObject explo;
 	private TcpClient_Level2 tcpClient;
 	private float dragonSpeed = 6.0f;
@@ -18,6 +19,7 @@ public class Bullet_Level3 : MonoBehaviour {
 	private float knightTimeLimit = 1f;
 	private float magicTimeLimit = 5f;
 	private float bossTimeLimit = 5f;
+	public bool isIceBullet = false;
 	
 	public float timer = 0f;
 	private GameObject player1, player2, player3;
@@ -61,9 +63,14 @@ public class Bullet_Level3 : MonoBehaviour {
 			this.transform.Translate(Time.deltaTime * assassinSpeed * Vector3.right);
 			timer += Time.deltaTime;
 		}
-		else
+		else if(timer > assassinTimeLimit && timer <= 2*assassinTimeLimit)
 		{
 			this.transform.Translate(Time.deltaTime * assassinSpeed * Vector3.left);
+			timer += Time.deltaTime;
+		}
+		else
+		{
+			Destroy(this.gameObject);
 		}
 	}
 
@@ -141,8 +148,31 @@ public class Bullet_Level3 : MonoBehaviour {
 					ps3.Damage(ps1.attackAbility);
 					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps1.attackAbility));
 				}
-				explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
-				Destroy(explo,1);
+				if(isIceBullet)
+				{
+					if(collision.gameObject.CompareTag("Player2"))
+					{
+						ps2.frozenSpeed = 0.5f;
+						ps2.frozenRemain = 6;
+						ps2.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
+						ps2.frozenCarryEffect.transform.parent = collision.gameObject.transform;
+					}
+					if(collision.gameObject.CompareTag("Player3"))
+					{
+						ps3.frozenSpeed = 0.5f;
+						ps3.frozenRemain = 6;
+						ps3.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
+						ps3.frozenCarryEffect.transform.parent = collision.gameObject.transform;
+					}
+					
+					explo = (GameObject)Instantiate(iceExlposion, collision.transform.position, Quaternion.identity);
+					Destroy(explo,1);
+				}
+				else
+				{
+					explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
+					Destroy(explo,1);
+				}
 				Destroy(gameObject);
 			}
 		}
@@ -160,8 +190,31 @@ public class Bullet_Level3 : MonoBehaviour {
 					ps3.Damage(ps2.attackAbility);
 					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps2.attackAbility));
 				}
-				explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
-				Destroy(explo,1);
+				if(isIceBullet)
+				{
+					if(collision.gameObject.CompareTag("Player1"))
+					{
+						ps1.frozenSpeed = 0.5f;
+						ps1.frozenRemain = 6;
+						ps1.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
+						ps1.frozenCarryEffect.transform.parent = collision.gameObject.transform;
+					}
+					if(collision.gameObject.CompareTag("Player3"))
+					{
+						ps3.frozenSpeed = 0.5f;
+						ps3.frozenRemain = 6;
+						ps3.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
+						ps3.frozenCarryEffect.transform.parent = collision.gameObject.transform;
+					}
+					
+					explo = (GameObject)Instantiate(iceExlposion, collision.transform.position, Quaternion.identity);
+					Destroy(explo,1);
+				}
+				else
+				{
+					explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
+					Destroy(explo,1);
+				}
 				Destroy(gameObject);
 			}
 		}
@@ -179,8 +232,31 @@ public class Bullet_Level3 : MonoBehaviour {
 					ps2.Damage(ps3.attackAbility);
 					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps3.attackAbility));
 				}
-				explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
-				Destroy(explo,1);
+				if(isIceBullet)
+				{
+					if(collision.gameObject.CompareTag("Player1"))
+					{
+						ps1.frozenSpeed = 0.5f;
+						ps1.frozenRemain = 6;
+						ps1.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
+						ps1.frozenCarryEffect.transform.parent = collision.gameObject.transform;
+					}
+					if(collision.gameObject.CompareTag("Player2"))
+					{
+						ps2.frozenSpeed = 0.5f;
+						ps2.frozenRemain = 6;
+						ps2.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
+						ps2.frozenCarryEffect.transform.parent = collision.gameObject.transform;
+					}
+					
+					explo = (GameObject)Instantiate(iceExlposion, collision.transform.position, Quaternion.identity);
+					Destroy(explo,1);
+				}
+				else
+				{
+					explo = (GameObject)Instantiate(explosion, collision.transform.position, Quaternion.identity);
+					Destroy(explo,1);
+				}
 				Destroy(gameObject);
 			}
 		}

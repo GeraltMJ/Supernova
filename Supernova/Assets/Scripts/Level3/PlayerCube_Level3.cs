@@ -40,17 +40,44 @@ public class PlayerCube_Level3 : MonoBehaviour {
 	
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if(other.gameObject.CompareTag("Wall"))
+		if(other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3"))
 		{
 			Opposite();
 		}
-		if(player.gameObject.CompareTag("Player1") && other.gameObject.CompareTag("Player2"))
+		if(gameObject.name == "PlayerCubeUp" && (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3")))
 		{
-			Opposite();
+			pm.upCubeActive = true;
 		}
-		else if(player.gameObject.CompareTag("Player2") && other.gameObject.CompareTag("Player1"))
+		if(gameObject.name == "PlayerCubeDown" && (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3")))
 		{
-			Opposite();
+			pm.downCubeActive = true;
+		}
+		if(gameObject.name == "PlayerCubeLeft" && (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3")))
+		{
+			pm.leftCubeActive = true;
+		}
+		if(gameObject.name == "PlayerCubeRight" && (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3")))
+		{
+			pm.rightCubeActive = true;
+		}
+	}
+
+	void OnTriggerExit2D(Collider2D other) {
+		if(gameObject.name == "PlayerCubeUp" && (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3")))
+		{
+			pm.upCubeActive = false;
+		}
+		if(gameObject.name == "PlayerCubeDown" && (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3")))
+		{
+			pm.downCubeActive = false;
+		}
+		if(gameObject.name == "PlayerCubeLeft" && (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3")))
+		{
+			pm.leftCubeActive = false;
+		}
+		if(gameObject.name == "PlayerCubeRight" && (other.gameObject.CompareTag("Wall") || other.gameObject.CompareTag("Player1") || other.gameObject.CompareTag("Player2") || other.gameObject.CompareTag("Player3")))
+		{
+			pm.rightCubeActive = false;
 		}
 	}
 }

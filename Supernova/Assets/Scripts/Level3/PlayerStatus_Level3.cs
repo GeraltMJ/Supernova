@@ -49,6 +49,10 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	public float hpChange;
 
 	public GameObject carrySkillEffect;
+
+	public float frozenSpeed = 1f;
+	public GameObject frozenCarryEffect;
+	public float frozenRemain = 0;
 	
 	// Use this for initialization
 	void Awake () {
@@ -57,6 +61,22 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		move = GetComponent<PlayerMove_Level3>();
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[2];
+	}
+
+	void CheckFrozenStatus()
+	{
+		if(frozenRemain > 0)
+		{
+			frozenRemain -= Time.deltaTime;
+		}
+		if(frozenRemain <= 0)
+		{
+			if(frozenCarryEffect)
+			{
+				Destroy(frozenCarryEffect);
+			}
+			frozenSpeed = 1f;
+		}
 	}
 
 	void CheckAttackBuff()
@@ -151,6 +171,7 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		CheckOverArea();
 		CheckHpChange();
 		CheckSkillRemain();
+		CheckFrozenStatus();
 	}
 
 	

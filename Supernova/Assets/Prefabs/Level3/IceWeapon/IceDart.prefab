@@ -85,7 +85,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1191651433511296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.603447, y: -6.200701, z: 0}
+  m_LocalPosition: {x: -3.0056136, y: 2.7963223, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4216947731482010}
@@ -218,7 +218,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletType: 0
   explosion: {fileID: 1170070905422660, guid: 2062f0f1755964682af74c99a6c10c31, type: 2}
-  parentTag: 
+  iceExlposion: {fileID: 1760467954508058, guid: 1451595071e65480e8e20fcb72fbe2c1,
+    type: 2}
+  frozenCarryEffect: {fileID: 1942895712856144, guid: ea711e5ab637f448c8420dd51c81406a,
+    type: 2}
+  isIceBullet: 0
   timer: 0
 --- !u!212 &212746178994317368
 SpriteRenderer:
@@ -252,8 +256,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1167130773
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -342,9 +346,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -198173339
+  m_SortingLayer: 3
+  m_SortingOrder: 1
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

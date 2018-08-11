@@ -14,6 +14,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	private bool fireCommand;
 
 	public GameObject dragonBullet, knightBullet, magicBullet, assassinBullet, bossBullet;
+	public GameObject iceDragonBullet, iceKnightBullet, iceMagicBullet, iceAssassinBullet, iceBossBullet;
 	private GameObject bullet;
 
 	public GameObject shieldSkillBullet, gunSkillBullet;
@@ -90,10 +91,11 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 					DoubleDmgSkillFire();
 					break;
 				case PlayerSkill_Level3.IceSkill:
-					IceSkillFire();
+					playerStatus.skillRemain -= 1;
+					Fire(true);
 					break;
 				case PlayerSkill_Level3.Default:
-					Fire();
+					Fire(false);
 					break;
 			}
 		}
@@ -142,7 +144,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	{
 		playerStatus.skillRemain -= 1;
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
-		SelectAccordingToPower(playerStatus.playerPower);
+		SelectAccordingToPower(playerStatus.playerPower, false);
 		audioSource.Play();
 		switch(faceDir)
 		{
@@ -159,10 +161,6 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				RightDoubleAttack();
 				break;
 		}
-	}
-	void IceSkillFire()
-	{
-		playerStatus.skillRemain -= 1;
 	}
 
 	void EnemyShoot()
@@ -182,10 +180,11 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 					DoubleDmgSkillFire();
 					break;
 				case PlayerSkill_Level3.IceSkill:
-					IceSkillFire();
+					playerStatus.skillRemain -= 1;
+					EnemyFire(true);
 					break;
 				case PlayerSkill_Level3.Default:
-					EnemyFire();
+					EnemyFire(false);
 					break;
 			}
 			fireCommand = false;
@@ -230,52 +229,58 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		bl.bulletType = playerStatus.playerCharacter;
 	}
 
-	void SelectAccordingToPower(PlayerPower_Level3 power)
+	void SetBulletIce(GameObject bullet, bool isIce)
+	{
+		Bullet_Level3 bl = bullet.GetComponent<Bullet_Level3>();
+		bl.isIceBullet = isIce;
+	}
+
+	void SelectAccordingToPower(PlayerPower_Level3 power, bool isIce)
 	{
 		switch(power)
 		{
 			case PlayerPower_Level3.DragonPower1:
-				bullet = dragonBullet;
+				bullet = isIce? iceDragonBullet : dragonBullet;
 				audioSource.clip = dragonAttack;
 				break;
 			case PlayerPower_Level3.DragonPower2:
-				bullet = dragonBullet;
+				bullet = isIce? iceDragonBullet : dragonBullet;
 				audioSource.clip = dragonAttack;
 				break;
 			case PlayerPower_Level3.DragonPower3:
-				bullet = dragonBullet;
+				bullet = isIce? iceDragonBullet : dragonBullet;
 				audioSource.clip = dragonAttack;
 				break;
 			case PlayerPower_Level3.KnightPower1:
-				bullet = knightBullet;
+				bullet = isIce? iceKnightBullet : knightBullet;
 				audioSource.clip = knightAttack;
 				break;
 			case PlayerPower_Level3.KnightPower2:
-				bullet = knightBullet;
+				bullet = isIce? iceKnightBullet : knightBullet;
 				audioSource.clip = knightAttack;
 				break;
 			case PlayerPower_Level3.MagicPower1:
-				bullet = magicBullet;
+				bullet = isIce? iceMagicBullet : magicBullet;
 				audioSource.clip = magicAttack;
 				break;
 			case PlayerPower_Level3.MagicPower2:
-				bullet = magicBullet;
+				bullet = isIce? iceMagicBullet : magicBullet;
 				audioSource.clip = magicAttack;
 				break;
 			case PlayerPower_Level3.MagicPower3:
-				bullet = magicBullet;
+				bullet = isIce? iceMagicBullet : magicBullet;
 				audioSource.clip = magicAttack;
 				break;
 			case PlayerPower_Level3.AssassinPower1:
-				bullet = assassinBullet;
+				bullet = isIce? iceAssassinBullet : assassinBullet;
 				audioSource.clip = assassinAttack;
 				break;
 			case PlayerPower_Level3.AssassinPower2:
-				bullet = assassinBullet;
+				bullet = isIce? iceAssassinBullet : assassinBullet;
 				audioSource.clip = assassinAttack;
 				break;
 			case PlayerPower_Level3.BossPower:
-				bullet = bossBullet;
+				bullet = isIce? iceBossBullet : bossBullet;
 				audioSource.clip = bossAttack;
 				break;
 			case PlayerPower_Level3.Default:
@@ -285,11 +290,11 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		}
 	}
 
-	void Fire()
+	void Fire(bool isIce)
 	{
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
 		Debug.Log(bullet);
-		SelectAccordingToPower(playerStatus.playerPower);
+		SelectAccordingToPower(playerStatus.playerPower, isIce);
 		audioSource.Play();
 		Debug.Log(bullet);
 		switch (faceDir)
@@ -300,13 +305,13 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				{	
 					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
 					{
-						UpAttack();
-						LeftAttack();
-						RightAttack();
+						UpAttack(isIce);
+						LeftAttack(isIce);
+						RightAttack(isIce);
 					}
 					else
 					{
-						UpAttack();
+						UpAttack(isIce);
 					}
 				}
 				break;
@@ -317,13 +322,13 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				{	
 					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
 					{
-						DownAttack();
-						LeftAttack();
-						RightAttack();
+						DownAttack(isIce);
+						LeftAttack(isIce);
+						RightAttack(isIce);
 					}
 					else
 					{
-						DownAttack();
+						DownAttack(isIce);
 					}
 				}
 				break;
@@ -334,13 +339,13 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				{
 					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
 					{
-						LeftAttack();
-						UpAttack();
-						DownAttack();
+						LeftAttack(isIce);
+						UpAttack(isIce);
+						DownAttack(isIce);
 					}
 					else
 					{
-						LeftAttack();
+						LeftAttack(isIce);
 					}
 				}
 				break;
@@ -351,13 +356,13 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				{
 					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
 					{
-						RightAttack();
-						UpAttack();
-						DownAttack();
+						RightAttack(isIce);
+						UpAttack(isIce);
+						DownAttack(isIce);
 					}
 					else
 					{
-						RightAttack();
+						RightAttack(isIce);
 					}
 				}
 				break;
@@ -365,10 +370,10 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		
 	}
 
-	void EnemyFire()
+	void EnemyFire(bool isIce)
 	{
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
-		SelectAccordingToPower(playerStatus.playerPower);
+		SelectAccordingToPower(playerStatus.playerPower,isIce);
 		audioSource.Play();
 		switch (faceDir)
 		{
@@ -378,13 +383,13 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				{	
 					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
 					{
-						EnemyUpAttack();
-						EnemyLeftAttack();
-						EnemyRightAttack();
+						EnemyUpAttack(isIce);
+						EnemyLeftAttack(isIce);
+						EnemyRightAttack(isIce);
 					}
 					else
 					{
-						EnemyUpAttack();
+						EnemyUpAttack(isIce);
 					}
 				}
 				break;
@@ -395,13 +400,13 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				{	
 					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
 					{
-						EnemyDownAttack();
-						EnemyLeftAttack();
-						EnemyRightAttack();
+						EnemyDownAttack(isIce);
+						EnemyLeftAttack(isIce);
+						EnemyRightAttack(isIce);
 					}
 					else
 					{
-						EnemyDownAttack();
+						EnemyDownAttack(isIce);
 					}
 				}
 				break;
@@ -412,13 +417,13 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				{
 					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
 					{
-						EnemyLeftAttack();
-						EnemyUpAttack();
-						EnemyDownAttack();
+						EnemyLeftAttack(isIce);
+						EnemyUpAttack(isIce);
+						EnemyDownAttack(isIce);
 					}
 					else
 					{
-						EnemyLeftAttack();
+						EnemyLeftAttack(isIce);
 					}
 				}
 				break;
@@ -429,13 +434,13 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 				{
 					if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
 					{
-						EnemyRightAttack();
-						EnemyUpAttack();
-						EnemyDownAttack();
+						EnemyRightAttack(isIce);
+						EnemyUpAttack(isIce);
+						EnemyDownAttack(isIce);
 					}
 					else
 					{
-						EnemyRightAttack();
+						EnemyRightAttack(isIce);
 					}
 				}
 				break;
@@ -443,59 +448,67 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		
 	}
 
-	void UpAttack()
+	void UpAttack(bool isIce)
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,90f));
 		SetBulletTag(go);
 		SetBulletType(go);
+		SetBulletIce(go,isIce);
 	}
 
-	void DownAttack()
+	void DownAttack(bool isIce)
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-90f));
 		SetBulletTag(go);
 		SetBulletType(go);
+		SetBulletIce(go,isIce);
 	}
 
-	void LeftAttack()
+	void LeftAttack(bool isIce)
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.Euler(0f,0f,-180f));
 		SetBulletTag(go);
 		SetBulletType(go);
+		SetBulletIce(go,isIce);
 	}
 
-	void RightAttack()
+	void RightAttack(bool isIce)
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
 		SetBulletTag(go);
 		SetBulletType(go);
+		SetBulletIce(go,isIce);
 	}
-	void EnemyUpAttack()
+	void EnemyUpAttack(bool isIce)
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.Euler(0f,0f,90f));
 		SetBulletTag(go);
 		SetBulletType(go);
+		SetBulletIce(go,isIce);
 	}
 
-	void EnemyDownAttack()
+	void EnemyDownAttack(bool isIce)
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.Euler(0f,0f,-90f));
 		SetBulletTag(go);
 		SetBulletType(go);
+		SetBulletIce(go,isIce);
 	}
 
-	void EnemyLeftAttack()
+	void EnemyLeftAttack(bool isIce)
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.Euler(0f,0f,-180f));
 		SetBulletTag(go);
 		SetBulletType(go);
+		SetBulletIce(go,isIce);
 	}
 
-	void EnemyRightAttack()
+	void EnemyRightAttack(bool isIce)
 	{
 		GameObject go = (GameObject)Instantiate(bullet, new Vector2(firePosition.x, firePosition.y), Quaternion.identity);
 		SetBulletTag(go);
 		SetBulletType(go);
+		SetBulletIce(go,isIce);
 	}
 
 	void DownDoubleAttack()

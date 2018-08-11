@@ -120,7 +120,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletType: 0
   explosion: {fileID: 1170070905422660, guid: 2062f0f1755964682af74c99a6c10c31, type: 2}
-  parentTag: 
+  iceExlposion: {fileID: 1760467954508058, guid: 1451595071e65480e8e20fcb72fbe2c1,
+    type: 2}
+  frozenCarryEffect: {fileID: 1942895712856144, guid: ea711e5ab637f448c8420dd51c81406a,
+    type: 2}
+  isIceBullet: 0
   timer: 0
 --- !u!212 &212199341132929976
 SpriteRenderer:
