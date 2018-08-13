@@ -23,6 +23,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 	private int assassinPower2Count = 12;
 
 	private int bossPowerCount = 31;
+	private int startSkillCount = 13;
 
 
 	private int powerIndex = 0;
@@ -695,7 +696,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					break;
 			}
 		}
-		else if(collision.gameObject.CompareTag("WindPic"))
+		else if(collision.gameObject.CompareTag("WindPic") || collision.gameObject.CompareTag("Wind_Poison") || collision.gameObject.CompareTag("Wind_Area"))
 		{
 			GameObject effect = Instantiate(windEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
 			Destroy(effect, 1);
@@ -744,6 +745,8 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						}
 					break;
 				case PlayerPower_Level3.BossPower:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
 					break;
 				case PlayerPower_Level3.Default:
 					speedUpOnWind = true;
@@ -1033,6 +1036,36 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				audioSource.Play();
 				Debug.Log("Player1 has use teleport");
 			}
+		}
+
+		else if(collision.gameObject.CompareTag("StarSkillPic"))
+		{
+			if(collision.gameObject.name == "StarSkillPic" + powerIndex.ToString())
+			{
+				RedCrossEffect(collision);
+				powerIndex++;
+			}
+			else
+			{
+				RemovePowerRedCrossOnMap();
+				powerIndex = 0;
+			}
+			if(powerIndex == startSkillCount)
+			{
+				if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
+				{
+					playerMove.starTeleport = true;
+					playerMove.canAttackInStar = true;
+					playerMove.starRemain = 6f;
+					TcpClient_All._instance.SendStarTeleportCommand(PlayerStatusControl_Level3._instance.playerIdentity);
+				}
+			}
+		}
+		else if(collision.gameObject.CompareTag("StarPic"))
+		{
+			powerIndex = 0;
+			collision.gameObject.GetComponent<SpriteRenderer>().sprite = null;
+			collision.gameObject.tag = "Untagged";
 		}
 		
 		else if(collision.gameObject.CompareTag("Player1Bullet") || collision.gameObject.CompareTag("Player2Bullet") || collision.gameObject.CompareTag("Player3Bullet")

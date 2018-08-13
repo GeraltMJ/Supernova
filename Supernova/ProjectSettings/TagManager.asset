@@ -53,6 +53,8 @@ TagManager:
   - Player2Skill
   - Player3Skill
   - StarPic
+  - Wind_Poison
+  - Wind_Area
   layers:
   - Default
   - TransparentFX

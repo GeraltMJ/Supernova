@@ -35,6 +35,12 @@ public class PlayerMove_Level3 : MonoBehaviour
 	private AudioSource audioSource;
 	public AudioClip stepSound;
 	private PlayerStatus_Level3 playerStatus;
+	private PlayerAttack_Level3 playerAttack;
+
+	private bool isInStar = false;
+	public bool starTeleport = false;
+	public bool canAttackInStar = false;
+	public float starRemain = 0;
 
 	public void SetNextPosition(Vector2 pos)
 	{
@@ -226,42 +232,70 @@ public class PlayerMove_Level3 : MonoBehaviour
 
 	void NextMove()
 	{
-		if(!isMoving)
+		if(isInStar)
 		{	
-			switch(dir)
+			if(!canAttackInStar)
 			{
-				case FaceDirection.Up:
-					endPosition = new Vector2(transform.position.x, transform.position.y + 1);
-					break;
-				case FaceDirection.Down:
-					endPosition = new Vector2(transform.position.x, transform.position.y - 1);
-					break;
-				case FaceDirection.Left:
-					endPosition = new Vector2(transform.position.x - 1, transform.position.y);
-					break;
-				case FaceDirection.Right:
-					endPosition = new Vector2(transform.position.x+1, transform.position.y);
-					break;
+				playerAttack.enabled = false;
 			}
-			process = 0;
-			isMoving = true;
-			//tcpClient.SendCurrentInfo(endPosition, dir);
-		}
-		if(isMoving)
-		{
-			process += Time.deltaTime * speed * speedUp * playerStatus.frozenSpeed;
-			if(process < 1)
+			if(starRemain >= 0)
 			{
-				transform.position = Vector2.Lerp(transform.position, endPosition, process);
-				FixCameraPosition();
-				//tcpClient.SendCurrentInfo(transform.position, dir);
+				starRemain -= Time.deltaTime;
 			}
 			else
 			{
+				transform.position = new Vector2(transform.position.x + 50, transform.position.y);
 				isMoving = false;
-				FixPosition();
-				//audioSource.clip = stepSound;
-				//audioSource.Play();
+				isInStar = false;
+				playerAttack.enabled = true;
+			}
+		}
+		if(starTeleport)
+		{
+			transform.position = new Vector2(transform.position.x - 50, transform.position.y);
+			isMoving = false;
+			starTeleport = false;
+			isInStar = true;
+		}
+		else
+		{
+			if(!isMoving)
+			{	
+				switch(dir)
+				{
+					case FaceDirection.Up:
+						endPosition = new Vector2(transform.position.x, transform.position.y + 1);
+						break;
+					case FaceDirection.Down:
+						endPosition = new Vector2(transform.position.x, transform.position.y - 1);
+						break;
+					case FaceDirection.Left:
+						endPosition = new Vector2(transform.position.x - 1, transform.position.y);
+						break;
+					case FaceDirection.Right:
+						endPosition = new Vector2(transform.position.x+1, transform.position.y);
+						break;
+				}
+				process = 0;
+				isMoving = true;
+				//tcpClient.SendCurrentInfo(endPosition, dir);
+			}
+			if(isMoving)
+			{
+				process += Time.deltaTime * speed * speedUp * playerStatus.frozenSpeed;
+				if(process < 1)
+				{
+					transform.position = Vector2.Lerp(transform.position, endPosition, process);
+					FixCameraPosition();
+					//tcpClient.SendCurrentInfo(transform.position, dir);
+				}
+				else
+				{
+					isMoving = false;
+					FixPosition();
+					//audioSource.clip = stepSound;
+					//audioSource.Play();
+				}
 			}
 		}
 	}
@@ -269,14 +303,12 @@ public class PlayerMove_Level3 : MonoBehaviour
 	void Start () 
 	{	
 		anim = GetComponent<Animator>();
-		//camAnimator = cam.GetComponent<Animator>();
-		//tcpClient = networkManager.GetComponent<TcpClient_Level3>();
 		nextPosition = new Vector2(transform.position.x, transform.position.y - 1);
 		nextDir = FaceDirection.Down;
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[1];
 		playerStatus = GetComponent<PlayerStatus_Level3>();
-
+		playerAttack = GetComponent<PlayerAttack_Level3>();
 	}
 
 	void FixCameraPosition()

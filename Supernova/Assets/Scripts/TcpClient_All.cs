@@ -84,6 +84,14 @@ public class TcpClient_All : MonoBehaviour
 		serverSocket.Send(byteToSend);
 	}
 
+	public void SendStarTeleportCommand(int player)
+	{
+		byte[] byteToSend = new byte[msgLen];
+		string posStr = ",10" + "," + player.ToString();
+		byteToSend = Encoding.ASCII.GetBytes(posStr);
+		serverSocket.Send(byteToSend);
+	}
+
 	public void SendStartCommand(int player){
 		byte[] byteToSend = new byte[msgLen];
 		string posStr = ",999" + "," + player.ToString();
@@ -178,6 +186,27 @@ public class TcpClient_All : MonoBehaviour
 		else if(msgType == 9)
 		{
 			PlayerStatusControl_Level3._instance.playerReady[player-1] = true;
+		}
+		else if(msgType == 10)
+		{
+			switch(PlayerStatusControl_Level3._instance.playerIdentity)
+			{
+				case 1:
+					pm1.starTeleport = true;
+					pm1.canAttackInStar = false;
+					pm1.starRemain = 6f;
+					break;
+				case 2:
+					pm2.starTeleport = true;
+					pm2.canAttackInStar = false;
+					pm2.starRemain = 6f;
+					break;
+				case 3:
+					pm3.starTeleport = true;
+					pm3.canAttackInStar = false;
+					pm3.starRemain = 6f;
+					break;
+			}
 		}
 		else if(msgType == 999)
 		{

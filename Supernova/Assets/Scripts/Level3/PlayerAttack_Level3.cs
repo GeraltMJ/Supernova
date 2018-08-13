@@ -149,16 +149,52 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		switch(faceDir)
 		{
 			case FaceDirection.Up:
-				UpDoubleAttack();
+				if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+				{
+					UpDoubleAttack();
+					LeftDoubleAttack();
+					RightDoubleAttack();
+				}
+				else
+				{
+					UpDoubleAttack();
+				}
 				break;
 			case FaceDirection.Down:
-				DownDoubleAttack();
+				if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+				{
+					DownDoubleAttack();
+					LeftDoubleAttack();
+					RightDoubleAttack();
+				}
+				else
+				{
+					DownDoubleAttack();
+				}
 				break;
 			case FaceDirection.Left:
-				LeftDoubleAttack();
+				if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+				{
+					UpDoubleAttack();
+					LeftDoubleAttack();
+					DownDoubleAttack();
+				}
+				else
+				{
+					LeftDoubleAttack();
+				}
 				break;
 			case FaceDirection.Right:
-				RightDoubleAttack();
+				if(playerStatus.playerPower == PlayerPower_Level3.BossPower)
+				{
+					UpDoubleAttack();
+					DownDoubleAttack();
+					RightDoubleAttack();
+				}
+				else
+				{
+					RightDoubleAttack();
+				}
 				break;
 		}
 	}
