@@ -21,9 +21,9 @@ GameObject:
   - component: {fileID: 4079212247338084}
   - component: {fileID: 212305775313151584}
   - component: {fileID: 95088240036864578}
-  - component: {fileID: 114383608102560248}
   - component: {fileID: 61138062860937922}
   - component: {fileID: 50856699147515496}
+  - component: {fileID: 114108651744737898}
   m_Layer: 0
   m_Name: "\u541F\u5531\u4E4B\u738B\u6B66\u5668"
   m_TagString: Untagged
@@ -107,7 +107,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114383608102560248
+--- !u!114 &114108651744737898
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -115,11 +115,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1496867175505748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d68c8c330c23400ab28a80930eec210, type: 3}
+  m_Script: {fileID: 11500000, guid: f91ccb1c7663f4ae0a0282837569124e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
-  explosion: {fileID: 1955081383859574, guid: 0e13c32585f4941b1ba5d4bef4e10ede, type: 2}
+  bulletType: 0
+  explosion: {fileID: 1170070905422660, guid: 2062f0f1755964682af74c99a6c10c31, type: 2}
+  iceExlposion: {fileID: 1760467954508058, guid: 1451595071e65480e8e20fcb72fbe2c1,
+    type: 2}
+  frozenCarryEffect: {fileID: 1942895712856144, guid: ea711e5ab637f448c8420dd51c81406a,
+    type: 2}
+  isIceBullet: 0
+  timer: 0
 --- !u!212 &212305775313151584
 SpriteRenderer:
   m_ObjectHideFlags: 1

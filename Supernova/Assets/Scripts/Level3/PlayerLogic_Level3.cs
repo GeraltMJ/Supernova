@@ -45,7 +45,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 
 	public GameObject[] teleportPosition;
 
-	public GameObject dragonTurnEffect, knightTurnEffect, magicTurnEffect, assassinTurnEffect;
+	public GameObject dragonTurnEffect, knightTurnEffect, magicTurnEffect, assassinTurnEffect, bossTurnEffect;
 	public GameObject dragonGainPowerEffect, knightGainPowerEffect, magicGainPowerEffect, assassinGainPowerEffect;
 	public GameObject gainShieldSkillEffect, gainIceSkillEffect, gainGunSkillEffect, gainDoubleDmgSkillEffect;
 	public GameObject changeHpEffect;
@@ -1125,6 +1125,8 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				Destroy(effect, 1);
 				break;
 			case PlayerCharacter_Level3.Boss:
+				effect = Instantiate(bossTurnEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
+				Destroy(effect, 1);
 				break;
 		}
 		

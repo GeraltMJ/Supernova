@@ -192,46 +192,48 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		}
 	}
 
-	void SetBulletTag(GameObject bullet)
+	void SetBulletTag(GameObject mybullet)
 	{
 		if(gameObject.CompareTag("Player1"))
 		{
-			bullet.tag = "Player1Bullet";
+			mybullet.tag = "Player1Bullet";
 		}
 		else if(gameObject.CompareTag("Player2"))
 		{
-			bullet.tag = "Player2Bullet";
+			mybullet.tag = "Player2Bullet";
 		}
 		else if(gameObject.CompareTag("Player3"))
 		{
-			bullet.tag = "Player3Bullet";
+			mybullet.tag = "Player3Bullet";
 		}
 	}
 
-	void SetSkillTag(GameObject bullet)
+	void SetSkillTag(GameObject mybullet)
 	{
 		if(gameObject.CompareTag("Player1"))
 		{
-			bullet.tag = "Player1Skill";
+			mybullet.tag = "Player1Skill";
 		}
 		else if(gameObject.CompareTag("Player2"))
 		{
-			bullet.tag = "Player2Skill";
+			mybullet.tag = "Player2Skill";
 		}
 		else if(gameObject.CompareTag("Player3"))
 		{
-			bullet.tag = "Player3Skill";
+			mybullet.tag = "Player3Skill";
 		}
 	}
-	void SetBulletType(GameObject bullet)
+	void SetBulletType(GameObject mybullet)
 	{
-		Bullet_Level3 bl = bullet.GetComponent<Bullet_Level3>();
+		Bullet_Level3 bl = mybullet.GetComponent<Bullet_Level3>();
+		Debug.Log(bl.bulletType);
+		Debug.Log(playerStatus.playerCharacter);
 		bl.bulletType = playerStatus.playerCharacter;
 	}
 
-	void SetBulletIce(GameObject bullet, bool isIce)
+	void SetBulletIce(GameObject mybullet, bool isIce)
 	{
-		Bullet_Level3 bl = bullet.GetComponent<Bullet_Level3>();
+		Bullet_Level3 bl = mybullet.GetComponent<Bullet_Level3>();
 		bl.isIceBullet = isIce;
 	}
 
@@ -293,10 +295,10 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	void Fire(bool isIce)
 	{
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
-		Debug.Log(bullet);
+		//Debug.Log(bullet);
 		SelectAccordingToPower(playerStatus.playerPower, isIce);
 		audioSource.Play();
-		Debug.Log(bullet);
+		//Debug.Log(bullet);
 		switch (faceDir)
 		{
 			case FaceDirection.Up:
