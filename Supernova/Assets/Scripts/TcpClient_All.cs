@@ -193,17 +193,14 @@ public class TcpClient_All : MonoBehaviour
 			{
 				case 1:
 					pm1.starTeleport = true;
-					pm1.canAttackInStar = false;
 					pm1.starRemain = 6f;
 					break;
 				case 2:
 					pm2.starTeleport = true;
-					pm2.canAttackInStar = false;
 					pm2.starRemain = 6f;
 					break;
 				case 3:
 					pm3.starTeleport = true;
-					pm3.canAttackInStar = false;
 					pm3.starRemain = 6f;
 					break;
 			}

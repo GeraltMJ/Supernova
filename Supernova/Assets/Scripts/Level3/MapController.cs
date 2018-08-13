@@ -5,9 +5,12 @@ using UnityEngine;
 public class MapController : MonoBehaviour {
 
 	// Use this for initialization
-	public float firstChange = 10f;
-	public float secondChange = 45f;
-	public float changeDuration = 10f;
+	public float firstChange = 20f;
+	public float secondChange = 50f;
+	public float thirdChange = 110f;
+	public float firstChangeDuration = 6f;
+	public float secondChangeDuration = 8f;
+	public float thirdChangeDuration = 10f;
 	private float timer = 0;
 	public Sprite poisonImage, areaImage, windImage;
 	
@@ -19,7 +22,16 @@ public class MapController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		timer += Time.deltaTime;
-		if(timer > secondChange + changeDuration)
+
+		if(timer > thirdChange + thirdChangeDuration)
+		{
+			WindToPoisonArea();
+		}
+		else if(timer > thirdChange)
+		{
+			PoisonAreaToWind();
+		}
+		else if(timer > secondChange + secondChangeDuration)
 		{
 			WindToPoisonArea();
 		}
@@ -27,7 +39,7 @@ public class MapController : MonoBehaviour {
 		{
 			PoisonAreaToWind();
 		}
-		else if(timer > firstChange + changeDuration)
+		else if(timer > firstChange + firstChangeDuration)
 		{
 			WindToPoisonArea();
 		}

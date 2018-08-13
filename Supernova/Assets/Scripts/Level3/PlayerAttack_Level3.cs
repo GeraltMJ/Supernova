@@ -19,10 +19,8 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 
 	public GameObject shieldSkillBullet, gunSkillBullet;
 
-	//public GameObject networkManager;
-	//private TcpClient_Level3 tcpClient;
-
-	public AudioClip dragonAttack, knightAttack, magicAttack, assassinAttack, bossAttack;
+	public AudioClip dragonAttackClip, knightAttackClip, magicAttackClip, assassinAttackClip, bossAttackClip;
+	public AudioClip gunSkillClip, iceSkillClip, shieldSkillClip;
 	private AudioSource audioSource;
 	private AudioSource[] audioSources;
 	private Vector2 firePosition;
@@ -36,7 +34,6 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	void Start()
 	{
 		anim = GetComponent<Animator>();
-		//tcpClient = networkManager.GetComponent<TcpClient_Level3>();
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[0];
 		firePosition = transform.position;
@@ -77,7 +74,6 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		if(ETCInput.GetButton("Button_Level3") || Input.GetKeyDown(shootKey))
 		{
 			isShoot = true;
-			//tcpClient.SendFireCommand(transform.position, PlayerStatusControl_Level3._instance.playerIdentity);
 			TcpClient_All._instance.SendFireCommand(transform.position, PlayerStatusControl_Level3._instance.playerIdentity);
 			switch(playerStatus.playerSkill)
 			{
@@ -102,6 +98,8 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	}
 	void ShieldSkillFire()
 	{
+		audioSource.clip = shieldSkillClip;
+		audioSource.Play();
 		playerStatus.skillRemain -= 1;
 		GameObject go = (GameObject)Instantiate(shieldSkillBullet, new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z), Quaternion.identity);
 		go.transform.parent = gameObject.transform;
@@ -110,6 +108,8 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	}
 	void GunSkillFire()
 	{
+		audioSource.clip = gunSkillClip;
+		audioSource.Play();
 		playerStatus.skillRemain -= 1;
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
 		switch(faceDir)
@@ -279,47 +279,47 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		{
 			case PlayerPower_Level3.DragonPower1:
 				bullet = isIce? iceDragonBullet : dragonBullet;
-				audioSource.clip = dragonAttack;
+				audioSource.clip = dragonAttackClip;
 				break;
 			case PlayerPower_Level3.DragonPower2:
 				bullet = isIce? iceDragonBullet : dragonBullet;
-				audioSource.clip = dragonAttack;
+				audioSource.clip = dragonAttackClip;
 				break;
 			case PlayerPower_Level3.DragonPower3:
 				bullet = isIce? iceDragonBullet : dragonBullet;
-				audioSource.clip = dragonAttack;
+				audioSource.clip = dragonAttackClip;
 				break;
 			case PlayerPower_Level3.KnightPower1:
 				bullet = isIce? iceKnightBullet : knightBullet;
-				audioSource.clip = knightAttack;
+				audioSource.clip = knightAttackClip;
 				break;
 			case PlayerPower_Level3.KnightPower2:
 				bullet = isIce? iceKnightBullet : knightBullet;
-				audioSource.clip = knightAttack;
+				audioSource.clip = knightAttackClip;
 				break;
 			case PlayerPower_Level3.MagicPower1:
 				bullet = isIce? iceMagicBullet : magicBullet;
-				audioSource.clip = magicAttack;
+				audioSource.clip = magicAttackClip;
 				break;
 			case PlayerPower_Level3.MagicPower2:
 				bullet = isIce? iceMagicBullet : magicBullet;
-				audioSource.clip = magicAttack;
+				audioSource.clip = magicAttackClip;
 				break;
 			case PlayerPower_Level3.MagicPower3:
 				bullet = isIce? iceMagicBullet : magicBullet;
-				audioSource.clip = magicAttack;
+				audioSource.clip = magicAttackClip;
 				break;
 			case PlayerPower_Level3.AssassinPower1:
 				bullet = isIce? iceAssassinBullet : assassinBullet;
-				audioSource.clip = assassinAttack;
+				audioSource.clip = assassinAttackClip;
 				break;
 			case PlayerPower_Level3.AssassinPower2:
 				bullet = isIce? iceAssassinBullet : assassinBullet;
-				audioSource.clip = assassinAttack;
+				audioSource.clip = assassinAttackClip;
 				break;
 			case PlayerPower_Level3.BossPower:
 				bullet = isIce? iceBossBullet : bossBullet;
-				audioSource.clip = bossAttack;
+				audioSource.clip = bossAttackClip;
 				break;
 			case PlayerPower_Level3.Default:
 				bullet = null;
@@ -331,10 +331,12 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	void Fire(bool isIce)
 	{
 		faceDir = gameObject.GetComponent<PlayerMove_Level3>().dir;
-		//Debug.Log(bullet);
 		SelectAccordingToPower(playerStatus.playerPower, isIce);
+		if(isIce)
+		{
+			audioSource.clip = iceSkillClip;
+		}
 		audioSource.Play();
-		//Debug.Log(bullet);
 		switch (faceDir)
 		{
 			case FaceDirection.Up:

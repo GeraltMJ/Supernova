@@ -49,6 +49,7 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	public float hpChange;
 
 	public GameObject carrySkillEffect;
+	public GameObject carryPowerEffect;
 
 	public float frozenSpeed = 1f;
 	public GameObject frozenCarryEffect;

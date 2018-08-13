@@ -234,10 +234,6 @@ public class PlayerMove_Level3 : MonoBehaviour
 	{
 		if(isInStar)
 		{	
-			if(!canAttackInStar)
-			{
-				playerAttack.enabled = false;
-			}
 			if(starRemain >= 0)
 			{
 				starRemain -= Time.deltaTime;
@@ -247,7 +243,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 				transform.position = new Vector2(transform.position.x + 50, transform.position.y);
 				isMoving = false;
 				isInStar = false;
-				playerAttack.enabled = true;
+				speedUp = 1f;
 			}
 		}
 		if(starTeleport)
