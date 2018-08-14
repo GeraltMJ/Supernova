@@ -13,6 +13,7 @@ public class MapController : MonoBehaviour {
 	public float thirdChangeDuration = 10f;
 	private float timer = 0;
 	public Sprite poisonImage, areaImage, windImage;
+	public bool gameStart = false;
 	
 
 	void Start () {
@@ -21,31 +22,34 @@ public class MapController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		timer += Time.deltaTime;
+		if(gameStart)
+		{
+			timer += Time.deltaTime;
 
-		if(timer > thirdChange + thirdChangeDuration)
-		{
-			WindToPoisonArea();
-		}
-		else if(timer > thirdChange)
-		{
-			PoisonAreaToWind();
-		}
-		else if(timer > secondChange + secondChangeDuration)
-		{
-			WindToPoisonArea();
-		}
-		else if(timer > secondChange)
-		{
-			PoisonAreaToWind();
-		}
-		else if(timer > firstChange + firstChangeDuration)
-		{
-			WindToPoisonArea();
-		}
-		else if(timer > firstChange)
-		{
-			PoisonAreaToWind();
+			if(timer > thirdChange + thirdChangeDuration)
+			{
+				WindToPoisonArea();
+			}
+			else if(timer > thirdChange)
+			{
+				PoisonAreaToWind();
+			}
+			else if(timer > secondChange + secondChangeDuration)
+			{
+				WindToPoisonArea();
+			}
+			else if(timer > secondChange)
+			{
+				PoisonAreaToWind();
+			}
+			else if(timer > firstChange + firstChangeDuration)
+			{
+				WindToPoisonArea();
+			}
+			else if(timer > firstChange)
+			{
+				PoisonAreaToWind();
+			}
 		}
 	}
 

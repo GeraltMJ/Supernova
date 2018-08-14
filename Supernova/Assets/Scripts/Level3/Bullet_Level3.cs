@@ -140,13 +140,29 @@ public class Bullet_Level3 : MonoBehaviour {
 			{
 				if(collision.gameObject.CompareTag("Player2") && PlayerStatusControl_Level3._instance.playerIdentity == 2)
 				{
-					ps2.Damage(ps1.attackAbility);
-					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps1.attackAbility));
+					if(ps2.damageReflect)
+					{
+						ps1.Damage(ps1.attackAbility);
+						TcpClient_All._instance.SendHpChange(ps1.playerIdentity, -Mathf.RoundToInt(ps1.attackAbility));
+					}
+					else
+					{
+						ps2.Damage(ps1.attackAbility);
+						TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps1.attackAbility));
+					}
 				}
 				if(collision.gameObject.CompareTag("Player3") && PlayerStatusControl_Level3._instance.playerIdentity == 3)
 				{
-					ps3.Damage(ps1.attackAbility);
-					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps1.attackAbility));
+					if(ps3.damageReflect)
+					{
+						ps1.Damage(ps1.attackAbility);
+						TcpClient_All._instance.SendHpChange(ps1.playerIdentity, -Mathf.RoundToInt(ps1.attackAbility));
+					}
+					else
+					{
+						ps3.Damage(ps1.attackAbility);
+						TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps1.attackAbility));
+					}
 				}
 				if(isIceBullet)
 				{
@@ -154,6 +170,10 @@ public class Bullet_Level3 : MonoBehaviour {
 					{
 						ps2.frozenSpeed = 0.5f;
 						ps2.frozenRemain = 6;
+						if(ps2.frozenCarryEffect)
+						{
+							Destroy(ps2.frozenCarryEffect);
+						}
 						ps2.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
 						ps2.frozenCarryEffect.transform.parent = collision.gameObject.transform;
 					}
@@ -161,6 +181,10 @@ public class Bullet_Level3 : MonoBehaviour {
 					{
 						ps3.frozenSpeed = 0.5f;
 						ps3.frozenRemain = 6;
+						if(ps3.frozenCarryEffect)
+						{
+							Destroy(ps3.frozenCarryEffect);
+						}
 						ps3.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
 						ps3.frozenCarryEffect.transform.parent = collision.gameObject.transform;
 					}
@@ -182,13 +206,29 @@ public class Bullet_Level3 : MonoBehaviour {
 			{
 				if(collision.gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.playerIdentity == 1)
 				{
-					ps1.Damage(ps2.attackAbility);
-					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps2.attackAbility));
+					if(ps1.damageReflect)
+					{
+						ps2.Damage(ps2.attackAbility);
+						TcpClient_All._instance.SendHpChange(ps2.playerIdentity, -Mathf.RoundToInt(ps2.attackAbility));
+					}
+					else
+					{
+						ps1.Damage(ps2.attackAbility);
+						TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps2.attackAbility));
+					}
 				}
 				if(collision.gameObject.CompareTag("Player3") && PlayerStatusControl_Level3._instance.playerIdentity == 3)
 				{
-					ps3.Damage(ps2.attackAbility);
-					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps2.attackAbility));
+					if(ps3.damageReflect)
+					{
+						ps2.Damage(ps2.attackAbility);
+						TcpClient_All._instance.SendHpChange(ps2.playerIdentity,-Mathf.RoundToInt(ps2.attackAbility));
+					}
+					else
+					{
+						ps3.Damage(ps2.attackAbility);
+						TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps2.attackAbility));
+					}
 				}
 				if(isIceBullet)
 				{
@@ -196,6 +236,10 @@ public class Bullet_Level3 : MonoBehaviour {
 					{
 						ps1.frozenSpeed = 0.5f;
 						ps1.frozenRemain = 6;
+						if(ps1.frozenCarryEffect)
+						{
+							Destroy(ps1.frozenCarryEffect);
+						}
 						ps1.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
 						ps1.frozenCarryEffect.transform.parent = collision.gameObject.transform;
 					}
@@ -203,6 +247,10 @@ public class Bullet_Level3 : MonoBehaviour {
 					{
 						ps3.frozenSpeed = 0.5f;
 						ps3.frozenRemain = 6;
+						if(ps3.frozenCarryEffect)
+						{
+							Destroy(ps3.frozenCarryEffect);
+						}
 						ps3.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
 						ps3.frozenCarryEffect.transform.parent = collision.gameObject.transform;
 					}
@@ -224,13 +272,29 @@ public class Bullet_Level3 : MonoBehaviour {
 			{
 				if(collision.gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.playerIdentity == 1)
 				{
-					ps1.Damage(ps3.attackAbility);
-					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps3.attackAbility));
+					if(ps1.damageReflect)
+					{
+						ps3.Damage(ps3.attackAbility);
+						TcpClient_All._instance.SendHpChange(ps3.playerIdentity, -Mathf.RoundToInt(ps3.attackAbility));
+					}
+					else
+					{
+						ps1.Damage(ps3.attackAbility);
+						TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps3.attackAbility));
+					}
 				}
 				if(collision.gameObject.CompareTag("Player2") && PlayerStatusControl_Level3._instance.playerIdentity == 2)
 				{
-					ps2.Damage(ps3.attackAbility);
-					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps3.attackAbility));
+					if(ps2.damageReflect)
+					{
+						ps3.Damage(ps3.attackAbility);
+						TcpClient_All._instance.SendHpChange(ps3.playerIdentity, -Mathf.RoundToInt(ps3.attackAbility));
+					}
+					else
+					{
+						ps2.Damage(ps3.attackAbility);
+						TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -Mathf.RoundToInt(ps3.attackAbility));
+					}
 				}
 				if(isIceBullet)
 				{
@@ -238,6 +302,10 @@ public class Bullet_Level3 : MonoBehaviour {
 					{
 						ps1.frozenSpeed = 0.5f;
 						ps1.frozenRemain = 6;
+						if(ps1.frozenCarryEffect)
+						{
+							Destroy(ps1.frozenCarryEffect);
+						}
 						ps1.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
 						ps1.frozenCarryEffect.transform.parent = collision.gameObject.transform;
 					}
@@ -245,6 +313,10 @@ public class Bullet_Level3 : MonoBehaviour {
 					{
 						ps2.frozenSpeed = 0.5f;
 						ps2.frozenRemain = 6;
+						if(ps2.frozenCarryEffect)
+						{
+							Destroy(ps2.frozenCarryEffect);
+						}
 						ps2.frozenCarryEffect = Instantiate(frozenCarryEffect, collision.gameObject.transform.position, Quaternion.identity);
 						ps2.frozenCarryEffect.transform.parent = collision.gameObject.transform;
 					}

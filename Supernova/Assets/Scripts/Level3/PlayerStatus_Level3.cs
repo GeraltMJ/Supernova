@@ -58,6 +58,7 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	public bool isFire = false;
 	public bool isTeleport = false;
 	public bool gameStart = false;
+	public Sprite tombSprite;
 	
 	// Use this for initialization
 	void Awake () {
@@ -276,5 +277,11 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 			PlayerStatusControl_Level3._instance.player3Dead = true;
 		}
 		playerMove.enabled = false;
+		GetComponent<SpriteRenderer>().sprite = tombSprite;
+		GetComponent<Animator>().enabled = false;
+		if(PlayerStatusControl_Level3._instance.playerIdentity == playerIdentity)
+		{
+			TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -20);
+		}
 	}
 }

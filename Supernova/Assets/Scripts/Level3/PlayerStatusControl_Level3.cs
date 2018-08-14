@@ -43,6 +43,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	public Sprite player1WinSprite, player2WinSprite, player3WinSprite;
 	private bool selfDead = false;
 	public Camera cam;
+	private MapController mc;
 
 
 /*
@@ -90,6 +91,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		player1Status = player1.GetComponent<PlayerStatus_Level3>();
 		player2Status = player2.GetComponent<PlayerStatus_Level3>();
 		player3Status = player3.GetComponent<PlayerStatus_Level3>();
+		mc = GetComponent<MapController>();
 
 		win_lose_black.enabled = false;
 
@@ -386,6 +388,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 				player1Status.gameStart = true;
 				player2Status.gameStart = true;
 				player3Status.gameStart = true;
+				mc.gameStart = true;
 			}
 		}
 	}
