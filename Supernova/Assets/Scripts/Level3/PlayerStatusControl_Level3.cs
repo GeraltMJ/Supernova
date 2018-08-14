@@ -286,7 +286,6 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 				break;
 		}
 	}
-
 	void CheckSelfDead()
 	{
 		switch(playerIdentity)
@@ -298,13 +297,13 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 				}
 				break;
 			case 2:
-				if(player1Dead)
+				if(player2Dead)
 				{
 					selfDead = true;
 				}
 				break;
 			case 3:
-				if(player1Dead)
+				if(player3Dead)
 				{
 					selfDead = true;
 				}
@@ -342,8 +341,8 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		CheckPlayerWeaponText();
 		CheckPlayerSkillText();
 		CheckPlayerJob();
-		CheckSelfDead();
-		CameraMoveAfterSelfDead();
+		//CheckSelfDead();
+		//CameraMoveAfterSelfDead();
 	}
 	void WaitForStart()
 	{	
