@@ -315,7 +315,6 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	{
 		if(selfDead)
 		{
-			Debug.Log("check");
 			switch(playerIdentity)
 			{
 				case 1:

@@ -316,7 +316,7 @@ public class PlayerMove_Level3 : MonoBehaviour
 		if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 		{
 			//tcpClient.SendPlayerCurrentInfo(transform.position, dir, PlayerStatusControl_Level3._instance.playerIdentity);
-			//TcpClient_All._instance.SendPlayerCurrentInfo(transform.position, dir, PlayerStatusControl_Level3._instance.playerIdentity);
+			TcpClient_All._instance.SendPlayerCurrentInfo(transform.position, dir, PlayerStatusControl_Level3._instance.playerIdentity);
 			ControlMove();
 			NextMove();
 		}

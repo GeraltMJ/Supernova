@@ -99,10 +99,11 @@ public class TcpClient_All : MonoBehaviour
 		serverSocket.Send(byteToSend);
 	}
 
-	private void SynHandleRoomCommand(string[] number, int startIndex)
+	private void SynHandleRoomCommand(string[] number, int startIndex, int count)
 	{
 		int msgType = int.Parse(number[startIndex++]);
 		int player = int.Parse(number[startIndex++]);
+		count++;
 		if(msgType == 0)
 		{
 			RoomMenuLogic._instance.ReceiveNewIncomer(player);
@@ -205,6 +206,7 @@ public class TcpClient_All : MonoBehaviour
 					break;
 			}
 		}
+		/*
 		else if(msgType == 11)
 		{
 			Vector2 positionToSet = new Vector2(float.Parse(number[startIndex++]),float.Parse(number[startIndex++]));
@@ -227,7 +229,7 @@ public class TcpClient_All : MonoBehaviour
 					pm3.SetNextPosition(positionToSet);
 					pm3.SetDirection(dirCount);
 					break;
-			}
+			} 
 			if(fire > 0)
 			{
 				switch(player)
@@ -273,24 +275,25 @@ public class TcpClient_All : MonoBehaviour
 						break;
 				}
 			}
+		
 		}
+		*/
 		else if(msgType == 999)
 		{
 			RoomMenuLogic._instance.gameStart = true;
 		}
-		/*
-		if(startIndex < number.Length)
+		
+		if(startIndex < number.Length && count < 3)
 		{
-			SynHandleRoomCommand(number, startIndex);
+			SynHandleRoomCommand(number, startIndex, count);
 		}
-		*/
 	}
 
 	private void HandleRoomCommand(string command)
 	{
 		command = command.Replace("(","").Replace(")","");
 		string[] number = command.Split(',');
-		SynHandleRoomCommand(number, 1);
+		SynHandleRoomCommand(number, 1, 0);
 	}
 
 	void InitSocket()
@@ -352,9 +355,9 @@ public class TcpClient_All : MonoBehaviour
 				continue;
 			}
 			recvStr = Encoding.ASCII.GetString(recvData);
-			Debug.Log("Rcvd From Server: " + recvStr + "Before");
+			//Debug.Log("Rcvd From Server: " + recvStr + "Before");
 			HandleRoomCommand(recvStr);
-			Debug.Log("Rcvd From Server: " + recvStr + "END");
+			//Debug.Log("Rcvd From Server: " + recvStr + "END");
 		}
 	}
 

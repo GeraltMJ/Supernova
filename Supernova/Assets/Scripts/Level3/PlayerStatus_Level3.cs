@@ -198,11 +198,14 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		CheckDamageReflect();
 		CheckOverPoison();
 		CheckOverArea();
-		//CheckHpChange();
+		CheckHpChange();
 		CheckSkillRemain();
 		CheckFrozenStatus();
-		CheckUpdateHp();
-		SendSelfInfo();
+		//CheckUpdateHp();
+	}
+	/*
+	void FixedUpdate() {
+		SendSelfInfo();	
 	}
 
 	void SendSelfInfo(){
@@ -228,6 +231,7 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 			}
 		}
 	}
+	*/
 
 
 	public void Damage(float damage)
