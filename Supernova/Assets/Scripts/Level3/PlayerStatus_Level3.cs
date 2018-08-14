@@ -31,11 +31,12 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	private bool attackBuffFirst = true;
 	public float maxHp = 5.0f;
 	public float hp = 5.0f;
+	public float updateHp = 5.0f;
 	public float originAttack = 0.0f;
 	public float attackAbility = 0.0f;
 	private bool isDead = false;
-	private PlayerAttack_Level3 attack;
-	private PlayerMove_Level3 move;
+	private PlayerAttack_Level3 playerAttack;
+	private PlayerMove_Level3 playerMove;
 	private AudioSource[] audioSources;
 	private AudioSource audioSource;
 	private Camera cam;
@@ -54,14 +55,22 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	public float frozenSpeed = 1f;
 	public GameObject frozenCarryEffect;
 	public float frozenRemain = 0;
+	public bool isFire = false;
+	public bool isTeleport = false;
+	public bool gameStart = false;
 	
 	// Use this for initialization
 	void Awake () {
 		cam = Camera.main;
-		attack = GetComponent<PlayerAttack_Level3>();
-		move = GetComponent<PlayerMove_Level3>();
+		playerAttack = GetComponent<PlayerAttack_Level3>();
+		playerMove = GetComponent<PlayerMove_Level3>();
 		audioSources = GetComponents<AudioSource>();
 		audioSource = audioSources[2];
+	}
+
+	public void UpdateHp(float newHp)
+	{
+		updateHp  = newHp;
 	}
 
 	void CheckFrozenStatus()
@@ -152,6 +161,25 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		hpChange = 0;
 	}
 
+	void CheckUpdateHp()
+	{
+		if(playerIdentity != PlayerStatusControl_Level3._instance.playerIdentity)
+		{
+			if(hp != updateHp)
+			{
+				if(updateHp > hp)
+				{
+					Recover(updateHp - hp);
+				}
+				else
+				{
+					Damage(hp - updateHp);
+				}
+				hp = updateHp;
+			}
+		}
+	}
+
 	void CheckSkillRemain()
 	{
 		if(skillRemain == 0)
@@ -170,24 +198,35 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		CheckDamageReflect();
 		CheckOverPoison();
 		CheckOverArea();
-		CheckHpChange();
+		//CheckHpChange();
 		CheckSkillRemain();
 		CheckFrozenStatus();
+		CheckUpdateHp();
 	}
 
-	
-	void Unfreeze()
-	{
-		attack.enabled = true;
-		move.enabled = true;
+	void FixedUpdate() {
+		
+		if(gameStart)
+		{
+			if(PlayerStatusControl_Level3._instance.playerIdentity == playerIdentity)
+			{
+				int fire = 0;
+				int teleport = 0;
+				if(isFire)
+				{
+					fire = 1;
+					isFire = false;
+				}
+				if(isTeleport)
+				{
+					teleport = 1;
+					isTeleport = false;
+				}
+				TcpClient_All._instance.SendPlayerAllInfo(PlayerStatusControl_Level3._instance.playerIdentity, transform.position, playerMove.dir,
+															fire, transform.position, hp, teleport);
+			}
+		}
 	}
-
-	void Freeze()
-	{
-		attack.enabled = false;
-		move.enabled = false;
-	}
-	
 
 
 	public void Damage(float damage)
@@ -231,6 +270,6 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		{
 			PlayerStatusControl_Level3._instance.player3Dead = true;
 		}
-		gameObject.SetActive(false);
+		playerMove.enabled = false;
 	}
 }

@@ -205,14 +205,85 @@ public class TcpClient_All : MonoBehaviour
 					break;
 			}
 		}
+		else if(msgType == 11)
+		{
+			Vector2 positionToSet = new Vector2(float.Parse(number[startIndex++]),float.Parse(number[startIndex++]));
+			int dirCount = int.Parse(number[startIndex++]);
+			int fire = int.Parse(number[startIndex++]);
+			Vector2 firePositionToSet = new Vector2(float.Parse(number[startIndex++]),float.Parse(number[startIndex++]));
+			float hp = float.Parse(number[startIndex++]);
+			int teleport = int.Parse(number[startIndex]);
+			switch(player)
+			{
+				case 1:
+					pm1.SetNextPosition(positionToSet);
+					pm1.SetDirection(dirCount);
+					break;
+				case 2:
+					pm2.SetNextPosition(positionToSet);
+					pm2.SetDirection(dirCount);
+					break;
+				case 3:
+					pm3.SetNextPosition(positionToSet);
+					pm3.SetDirection(dirCount);
+					break;
+			}
+			if(fire > 0)
+			{
+				switch(player)
+				{
+					case 1:
+						pa1.SetFireCommand(firePositionToSet);
+						break;
+					case 2:
+						pa2.SetFireCommand(firePositionToSet);
+						break;
+					case 3:
+						pa3.SetFireCommand(firePositionToSet);
+						break;
+				}
+			}
+			switch(player)
+			{
+				case 1:
+					ps1.UpdateHp(hp);
+					break;
+				case 2:
+					ps2.UpdateHp(hp);
+					break;
+				case 3:
+					ps3.UpdateHp(hp);
+					break;
+			}
+			if(teleport > 0)
+			{
+				switch(PlayerStatusControl_Level3._instance.playerIdentity)
+				{
+					case 1:
+						pm1.starTeleport = true;
+						pm1.starRemain = 6f;
+						break;
+					case 2:
+						pm2.starTeleport = true;
+						pm2.starRemain = 6f;
+						break;
+					case 3:
+						pm3.starTeleport = true;
+						pm3.starRemain = 6f;
+						break;
+				}
+			}
+		}
 		else if(msgType == 999)
 		{
 			RoomMenuLogic._instance.gameStart = true;
 		}
+		/*
 		if(startIndex < number.Length)
 		{
 			SynHandleRoomCommand(number, startIndex);
 		}
+		*/
 	}
 
 	private void HandleRoomCommand(string command)
@@ -281,8 +352,9 @@ public class TcpClient_All : MonoBehaviour
 				continue;
 			}
 			recvStr = Encoding.ASCII.GetString(recvData);
+			Debug.Log("Rcvd From Server: " + recvStr + "Before");
 			HandleRoomCommand(recvStr);
-			//Debug.Log("Rcvd From Server: " + recvStr + "END");
+			Debug.Log("Rcvd From Server: " + recvStr + "END");
 		}
 	}
 
@@ -343,6 +415,31 @@ public class TcpClient_All : MonoBehaviour
 		byte[] commandSelf = new byte[msgLen];
 		commandSelf = Encoding.ASCII.GetBytes(str);
 		serverSocket.Send(commandSelf, 1, SocketFlags.None);
+	}
+
+	public void SendPlayerAllInfo(int player, Vector2 pos, FaceDirection dir, int fire, Vector2 firePos, float hp, int teleport)
+	{
+		int dirCount = 0;
+		switch(dir)
+		{
+			case FaceDirection.Up:
+				dirCount = 0;
+				break;
+			case FaceDirection.Down:
+				dirCount = 1;
+				break;
+			case FaceDirection.Left:
+				dirCount = 2;
+				break;
+			case FaceDirection.Right:
+				dirCount = 3;
+				break;
+		}
+		byte[] byteToSend = new byte[msgLen];
+		string infoStr = ",11" + "," + player.ToString() + "," + pos.ToString() + "," + dirCount.ToString() + ","
+						 + fire.ToString() + "," + firePos.ToString() + "," + hp.ToString() + "," + teleport.ToString();
+		byteToSend = Encoding.ASCII.GetBytes(infoStr);
+		serverSocket.Send(byteToSend);
 	}
 
 	public void SendPlayerCurrentInfo(Vector2 pos, FaceDirection dir, int player)

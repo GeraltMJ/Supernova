@@ -588,7 +588,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 						GameObject effect = Instantiate(poisonEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
 						Destroy(effect, 1);
@@ -602,7 +602,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 						GameObject effect = Instantiate(poisonEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
 						Destroy(effect, 1);
@@ -619,7 +619,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 						GameObject effect = Instantiate(poisonEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
 						Destroy(effect, 1);
@@ -633,7 +633,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 						GameObject effect = Instantiate(poisonEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
 						Destroy(effect, 1);
@@ -663,7 +663,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 						GameObject effect = Instantiate(poisonEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
 						Destroy(effect, 1);
@@ -705,7 +705,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 						GameObject effect = Instantiate(areaEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
 						Destroy(effect, 1);
@@ -719,7 +719,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 						GameObject effect = Instantiate(areaEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
 						Destroy(effect, 1);
@@ -735,7 +735,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 						GameObject effect = Instantiate(areaEffect, collision.gameObject.transform.position, Quaternion.identity) as GameObject;
 						Destroy(effect, 1);
@@ -796,7 +796,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 						{
 							playerStatus.Damage(1);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-1);
 						}
 					break;
 				case PlayerPower_Level3.BossPower:
@@ -825,7 +825,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 				{
 					playerStatus.Recover(2);
-					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,2);
+					//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,2);
 				}
 				audioSource.clip = recoverBuffClip;
 				audioSource.Play();
@@ -850,7 +850,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				if(playerStatus.playerIdentity == PlayerStatusControl_Level3._instance.playerIdentity)
 				{
 					playerStatus.Recover(4);
-					TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,4);
+					//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,4);
 				}
 				audioSource.clip = recoverBuffClip;
 				audioSource.Play();
@@ -1038,8 +1038,8 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 							int diff = Mathf.RoundToInt(enemy1Status.hp - playerStatus.hp);
 							playerStatus.Recover(diff);
 							enemy1Status.Damage(diff);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,diff);
-							TcpClient_All._instance.SendHpChange(enemy1Status.playerIdentity,-diff);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,diff);
+							//TcpClient_All._instance.SendHpChange(enemy1Status.playerIdentity,-diff);
 							Debug.Log("Player1 and Player2 exchange hp");
 						}
 					}
@@ -1050,8 +1050,8 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 							int diff = Mathf.RoundToInt(enemy2Status.hp - playerStatus.hp);
 							playerStatus.Recover(diff);
 							enemy2Status.Damage(diff);
-							TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,diff);
-							TcpClient_All._instance.SendHpChange(enemy2Status.playerIdentity,-diff);
+							//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,diff);
+							//TcpClient_All._instance.SendHpChange(enemy2Status.playerIdentity,-diff);
 							
 							Debug.Log("Player1 and Player3 exchange hp");
 						}
@@ -1143,7 +1143,8 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					playerMove.starTeleport = true;
 					playerMove.starRemain = 6f;
 					playerMove.speedUp = 2f;
-					TcpClient_All._instance.SendStarTeleportCommand(PlayerStatusControl_Level3._instance.playerIdentity);
+					//TcpClient_All._instance.SendStarTeleportCommand(PlayerStatusControl_Level3._instance.playerIdentity);
+					playerStatus.isTeleport = true;
 				}
 				RemovePowerRedCrossOnMap(10);
 			}

@@ -26,12 +26,12 @@ private PlayerStatus_Level3 ps1, ps2, ps3;
 			if(other.gameObject.CompareTag("Player2") && PlayerStatusControl_Level3._instance.playerIdentity == 2)
 			{
 				ps2.Damage(ps1.attackAbility);
-				TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps1.attackAbility));
+				//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps1.attackAbility));
 			}
 			if(other.gameObject.CompareTag("Player3") && PlayerStatusControl_Level3._instance.playerIdentity == 3)
 			{
 				ps3.Damage(ps1.attackAbility);
-				TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps1.attackAbility));
+				//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps1.attackAbility));
 			}
 		}
 		else if(gameObject.CompareTag("Player2Skill"))
@@ -43,12 +43,12 @@ private PlayerStatus_Level3 ps1, ps2, ps3;
 			if(other.gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.playerIdentity == 1)
 			{
 				ps1.Damage(ps2.attackAbility);
-				TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps2.attackAbility));
+				//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps2.attackAbility));
 			}
 			if(other.gameObject.CompareTag("Player3") && PlayerStatusControl_Level3._instance.playerIdentity == 3)
 			{
 				ps3.Damage(ps2.attackAbility);
-				TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps2.attackAbility));
+				//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps2.attackAbility));
 			}
 		}
 		else if(gameObject.CompareTag("Player3Skill"))
@@ -60,12 +60,12 @@ private PlayerStatus_Level3 ps1, ps2, ps3;
 			if(other.gameObject.CompareTag("Player1") && PlayerStatusControl_Level3._instance.playerIdentity == 1)
 			{
 				ps1.Damage(ps3.attackAbility);
-				TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps3.attackAbility));
+				//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps3.attackAbility));
 			}
 			if(other.gameObject.CompareTag("Player2") && PlayerStatusControl_Level3._instance.playerIdentity == 2)
 			{
 				ps2.Damage(ps3.attackAbility);
-				TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps3.attackAbility));
+				//TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity,-Mathf.RoundToInt(ps3.attackAbility));
 			}
 		}
 	}

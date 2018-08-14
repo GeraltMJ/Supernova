@@ -74,7 +74,8 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 		if(ETCInput.GetButton("Button_Level3") || Input.GetKeyDown(shootKey))
 		{
 			isShoot = true;
-			TcpClient_All._instance.SendFireCommand(transform.position, PlayerStatusControl_Level3._instance.playerIdentity);
+			//TcpClient_All._instance.SendFireCommand(transform.position, PlayerStatusControl_Level3._instance.playerIdentity);
+			playerStatus.isFire = true;
 			switch(playerStatus.playerSkill)
 			{
 				case PlayerSkill_Level3.ShieldSkill:

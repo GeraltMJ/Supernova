@@ -341,8 +341,8 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		CheckPlayerWeaponText();
 		CheckPlayerSkillText();
 		CheckPlayerJob();
-		//CheckSelfDead();
-		//CameraMoveAfterSelfDead();
+		CheckSelfDead();
+		CameraMoveAfterSelfDead();
 	}
 	void WaitForStart()
 	{	
@@ -384,6 +384,9 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 				player1Move.enabled = true;
 				player2Move.enabled = true;
 				player3Move.enabled = true;
+				player1Status.gameStart = true;
+				player2Status.gameStart = true;
+				player3Status.gameStart = true;
 			}
 		}
 	}
