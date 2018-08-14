@@ -19,9 +19,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	private bool onGame = false;
 	private bool first = true;
 	private AudioSource audioSource;
-	public Image p1Image, p2Image, p3Image;
 	public Image win_lose_black;
-	public Image p1WinImage, p2WinImage, p3WinImage;
 
 	public bool player1Win = false;
 	public bool player2Win = false;
@@ -42,6 +40,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	public Image playerJob, enemy1Job, enemy2Job;
 	public Sprite[] playerSprites;
 	public Sprite[] jobSprites;
+	public Sprite player1WinSprite, player2WinSprite, player3WinSprite;
 	private bool selfDead = false;
 	public Camera cam;
 
@@ -92,13 +91,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		player2Status = player2.GetComponent<PlayerStatus_Level3>();
 		player3Status = player3.GetComponent<PlayerStatus_Level3>();
 
-		p1Image.enabled = false;
-		p2Image.enabled = false;
-		p3Image.enabled = false;
 		win_lose_black.enabled = false;
-		p1WinImage.enabled = false;
-		p2WinImage.enabled = false;
-		p3WinImage.enabled = false;
 
 		player1Move.enabled = false;
 		player2Move.enabled = false;
@@ -143,10 +136,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		{
 			if(player1Win)
 			{
-				p1Image.enabled = true;
-				p2Image.enabled = true;
-				p3Image.enabled = true;
-				p1WinImage.enabled = true;
+				win_lose_black.sprite = player1WinSprite;
 				win_lose_black.enabled = true;
 				player1Move.enabled = false;
 				player2Move.enabled = false;
@@ -156,10 +146,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 			}
 			else if(player2Win)
 			{
-				p1Image.enabled = true;
-				p2Image.enabled = true;
-				p3Image.enabled = true;
-				p2WinImage.enabled = true;
+				win_lose_black.sprite = player2WinSprite;
 				win_lose_black.enabled = true;
 				player1Move.enabled = false;
 				player2Move.enabled = false;
@@ -169,10 +156,7 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 			}
 			else if(player3Win)
 			{
-				p1Image.enabled = true;
-				p2Image.enabled = true;
-				p3Image.enabled = true;
-				p3WinImage.enabled = true;
+				win_lose_black.sprite = player3WinSprite;
 				win_lose_black.enabled = true;
 				player1Move.enabled = false;
 				player2Move.enabled = false;
