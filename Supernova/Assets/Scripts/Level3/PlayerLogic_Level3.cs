@@ -22,7 +22,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 	private int assassinPower1Count = 10;
 	private int assassinPower2Count = 12;
 
-	private int bossPowerCount = 31;
+	private int bossPowerCount = 30;
 	private int startSkillCount = 13;
 
 
@@ -36,7 +36,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 	private int shieldSkillCount = 6;
 	private int gunSkillCount = 6;
 	private int changeHpSkillCount = 8;
-	private int iceSkillCount = 12;
+	private int iceSkillCount = 10;
 	private int teleportCount = 3;
 	//private TcpClient_Level3 tcpClient;
 
