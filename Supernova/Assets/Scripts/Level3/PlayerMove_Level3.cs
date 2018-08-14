@@ -24,7 +24,6 @@ public class PlayerMove_Level3 : MonoBehaviour
 	//public GameObject networkManager;
 	//private TcpClient_Level3 tcpClient;
 	public Camera cam;
-	private Animator camAnimator;
 
 	public Vector2 endPosition;
 	private float process;

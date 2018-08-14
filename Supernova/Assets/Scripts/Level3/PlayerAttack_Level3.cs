@@ -35,7 +35,7 @@ public class PlayerAttack_Level3 : MonoBehaviour {
 	{
 		anim = GetComponent<Animator>();
 		audioSources = GetComponents<AudioSource>();
-		audioSource = audioSources[0];
+		audioSource = audioSources[1];
 		firePosition = transform.position;
 		playerStatus = GetComponent<PlayerStatus_Level3>();
 	}

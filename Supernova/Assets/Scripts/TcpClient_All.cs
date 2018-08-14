@@ -254,7 +254,7 @@ public class TcpClient_All : MonoBehaviour
 			PlayerStatusControl_All._instance.playerIndex = 2;
 			RoomMenuLogic._instance.playerIndex = 2;
 		}
-		RoomMenuLogic._instance.SetPlayerCharacter(PlayerStatusControl_All._instance.playerIndex, 0);
+		RoomMenuLogic._instance.SetPlayerCharacter(PlayerStatusControl_All._instance.playerIndex, PlayerStatusControl_All._instance.playerIndex);
 		SendEnterRoomInfo(PlayerStatusControl_All._instance.playerIndex);
 		
 
@@ -282,14 +282,14 @@ public class TcpClient_All : MonoBehaviour
 			}
 			recvStr = Encoding.ASCII.GetString(recvData);
 			HandleRoomCommand(recvStr);
-			Debug.Log("Rcvd From Server: " + recvStr + "END");
+			//Debug.Log("Rcvd From Server: " + recvStr + "END");
 		}
 	}
 
 	void SocketQuit()
 	{
 
-		//SendQuitCommand(PlayerStatusControl_All._instance.playerIndex);
+		SendQuitCommand(PlayerStatusControl_All._instance.playerIndex);
 		if(serverSocket != null)
 		{
 			serverSocket.Close();

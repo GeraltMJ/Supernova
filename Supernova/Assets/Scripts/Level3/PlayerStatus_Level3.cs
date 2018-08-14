@@ -219,7 +219,18 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	public void Dead()
 	{
 		isDead = true;
-		PlayerStatusControl_Level3._instance.player2Win = true;
-		Debug.Log("Player1死了！！！");
+		if(gameObject.CompareTag("Player1"))
+		{
+			PlayerStatusControl_Level3._instance.player1Dead = true;
+		}
+		else if(gameObject.CompareTag("Player2"))
+		{
+			PlayerStatusControl_Level3._instance.player2Dead = true;
+		}
+		else if(gameObject.CompareTag("Player3"))
+		{
+			PlayerStatusControl_Level3._instance.player3Dead = true;
+		}
+		gameObject.SetActive(false);
 	}
 }

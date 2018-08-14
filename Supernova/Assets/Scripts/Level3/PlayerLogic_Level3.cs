@@ -159,13 +159,20 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		spriteRender.sortingLayerName = "Player";
 	}
 
-	void RemovePowerRedCrossOnMap()
+	void RemovePowerRedCrossOnMap(int cd)
 	{
 		for(int i = 0; i < deleteIndex; i++)
 		{
 			if(powerRedCrossToDelete[i])
-			{
-				Destroy(powerRedCrossToDelete[i]);
+			{	
+				if(cd == 0)
+				{
+					Destroy(powerRedCrossToDelete[i]);
+				}
+				else
+				{
+					Destroy(powerRedCrossToDelete[i], cd);
+				}
 			}
 		}
 		deleteIndex = 0;
@@ -325,7 +332,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					powerIndex++;
 				}else
 				{
-					RemovePowerRedCrossOnMap();
+					RemovePowerRedCrossOnMap(0);
 					powerIndex = 0;
 				}
 				if(powerIndex == dragonPower1Count && collision.gameObject.name == "DragonPower1Pic" + (powerIndex-1).ToString())
@@ -388,7 +395,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					powerIndex++;
 				}else
 				{
-					RemovePowerRedCrossOnMap();
+					RemovePowerRedCrossOnMap(0);
 					powerIndex = 0;
 				}
 				if(powerIndex == knightPower1Count && collision.gameObject.name == "KnightPower1Pic" + (powerIndex-1).ToString())
@@ -436,7 +443,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					powerIndex++;
 				}else
 				{
-					RemovePowerRedCrossOnMap();
+					RemovePowerRedCrossOnMap(0);
 					powerIndex = 0;
 				}
 				if(powerIndex == magicPower1Count && collision.gameObject.name == "MagicPower1Pic" + (powerIndex-1).ToString())
@@ -499,7 +506,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					powerIndex++;
 				}else
 				{
-					RemovePowerRedCrossOnMap();
+					RemovePowerRedCrossOnMap(0);
 					powerIndex = 0;
 				}
 				if(powerIndex == assassinPower1Count && collision.gameObject.name == "AssassinPower1Pic" + (powerIndex-1).ToString())
@@ -544,7 +551,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					powerIndex++;
 				}else
 				{
-					RemovePowerRedCrossOnMap();
+					RemovePowerRedCrossOnMap(0);
 					powerIndex = 0;
 				}
 				if(powerIndex == bossPowerCount)
@@ -763,6 +770,10 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					playerMove.speedUp = 2f;
 					break;
 				case PlayerPower_Level3.KnightPower2:
+					speedUpOnWind = true;
+					playerMove.speedUp = 2f;
+					playerStatus.attackAbility = playerStatus.originAttack + 2;
+					attackBuffOnArea = true;
 					break;
 				case PlayerPower_Level3.MagicPower1:
 					speedUpOnWind = true;
@@ -806,7 +817,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == addOneCount)
@@ -820,6 +831,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				audioSource.Play();
 				RecoverEffect(2);
 				Debug.Log("Player1 recorve 2 hp");
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("AddTwoPic"))
@@ -830,7 +842,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == addTwoCount)
@@ -844,6 +856,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				audioSource.Play();
 				RecoverEffect(4);
 				Debug.Log("Player1 recorve 4 hp");
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("OverPoisonPic"))
@@ -854,7 +867,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == overPoisonCount)
@@ -866,6 +879,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				effect.transform.parent = gameObject.transform;
 				Destroy(effect, 10);
 				Debug.Log("Player1 is poison no effect");
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("OverAreaPic"))
@@ -876,7 +890,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == overAreaCount)
@@ -888,6 +902,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				GameObject effect = Instantiate(overAreaEffect, gameObject.transform.position, Quaternion.identity) as GameObject;
 				effect.transform.parent = gameObject.transform;
 				Destroy(effect, 10);
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("DamageReflectPic"))
@@ -898,7 +913,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == damageReflectCount)
@@ -910,6 +925,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				effect.transform.parent = gameObject.transform;
 				Destroy(effect, 10);
 				Debug.Log("Player1 is damage Reflect");
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("AttackBuffPic"))
@@ -920,7 +936,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == attackBuffCount)
@@ -931,6 +947,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				audioSource.clip = gainDoubleDmgSkillClip;
 				audioSource.Play();
 				Debug.Log("Player1 is attack buff");
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("ShieldSkillPic"))
@@ -941,7 +958,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == shieldSkillCount)
@@ -952,6 +969,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				audioSource.clip = gainShieldSkillClip;
 				audioSource.Play();
 				Debug.Log("Player1 has shield skill");
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("GunSkillPic"))
@@ -962,7 +980,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == gunSkillCount)
@@ -973,6 +991,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				audioSource.clip = gainGunSkillClip;
 				audioSource.Play();
 				Debug.Log("Player1 has gun skill");
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("IceSkillPic"))
@@ -983,7 +1002,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == iceSkillCount)
@@ -994,6 +1013,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				audioSource.clip = gainIceSkillClip;
 				audioSource.Play();
 				Debug.Log("Player1 has ice skill");
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("ChangeHpPic"))
@@ -1004,7 +1024,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == changeHpSkillCount)
@@ -1042,6 +1062,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 				Destroy(effect, 1);
 				audioSource.clip = changeHpSkillClip;
 				audioSource.Play();
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("TeleportPic"))
@@ -1050,13 +1071,15 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			   collision.gameObject.name == "Teleport1Pic" + powerIndex.ToString() ||
 			   collision.gameObject.name == "Teleport2Pic" + powerIndex.ToString() ||
 			   collision.gameObject.name == "Teleport3Pic" + powerIndex.ToString() ||
-			   collision.gameObject.name == "Teleport4Pic" + powerIndex.ToString() )
+			   collision.gameObject.name == "Teleport4Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport5Pic" + powerIndex.ToString() ||
+			   collision.gameObject.name == "Teleport6Pic" + powerIndex.ToString())
 			{
 				RedCrossEffect(collision);
 				powerIndex++;
 			}else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == teleportCount)
@@ -1083,6 +1106,16 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 						playerMove.endPosition = teleportPosition[3].transform.position;
 						gameObject.transform.position = teleportPosition[3].transform.position;
 					}
+					else if(collision.gameObject.name == "Teleport5Pic" + (powerIndex-1).ToString())
+					{
+						playerMove.endPosition = teleportPosition[4].transform.position;
+						gameObject.transform.position = teleportPosition[4].transform.position;
+					}
+					else if(collision.gameObject.name == "Teleport6Pic" + (powerIndex-1).ToString())
+					{
+						playerMove.endPosition = teleportPosition[5].transform.position;
+						gameObject.transform.position = teleportPosition[5].transform.position;
+					}
 				}
 				TeleportEffect();
 				audioSource.clip = teleportClip;
@@ -1100,7 +1133,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 			}
 			else
 			{
-				RemovePowerRedCrossOnMap();
+				RemovePowerRedCrossOnMap(0);
 				powerIndex = 0;
 			}
 			if(powerIndex == startSkillCount)
@@ -1112,6 +1145,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 					playerMove.speedUp = 2f;
 					TcpClient_All._instance.SendStarTeleportCommand(PlayerStatusControl_Level3._instance.playerIdentity);
 				}
+				RemovePowerRedCrossOnMap(10);
 			}
 		}
 		else if(collision.gameObject.CompareTag("StarPic"))
@@ -1139,7 +1173,7 @@ public class PlayerLogic_Level3 : MonoBehaviour {
 		}
 		else
 		{
-			RemovePowerRedCrossOnMap();
+			RemovePowerRedCrossOnMap(0);
 			powerIndex = 0;
 		}
 		if(visible || ( PlayerStatusControl_Level3._instance.playerIdentity == enemy1Status.playerIdentity && 

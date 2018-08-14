@@ -13,20 +13,22 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	private PlayerMove_Level3 player1Move, player2Move, player3Move;
 	private PlayerStatus_Level3 player1Status, player2Status, player3Status;
 
-	public Text text;
 	private float remainSeconds;
 	private float durationSeconds;
 	public bool gameStart = false;
 	private bool onGame = false;
 	private bool first = true;
 	private AudioSource audioSource;
-	public Image win_lose_Image;
-	public Sprite p1winPic, p2winPic, p3winPic;
+	public Image p1Image, p2Image, p3Image;
 	public Image win_lose_black;
+	public Image p1WinImage, p2WinImage, p3WinImage;
 
 	public bool player1Win = false;
 	public bool player2Win = false;
 	public bool player3Win = false;
+	public bool player1Dead = false;
+	public bool player2Dead = false;
+	public bool player3Dead = false;
 
 	public GameObject restartButton, startButton;
 	private bool gameOver = false;
@@ -34,11 +36,14 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 	public bool[] playerReady;
 	private bool allPlayerReady = false;
 
-	public Text playerHpText, enemy1HpText, enemy2HpText;
-	public Text weaponText;
-	public Image weaponImage;
-	public Sprite defaultWeapon, dragonWeapon, knightWeapon, magicWeapon, assassinWeapon, bossWeapon;
-	public Text damageReflectText, attackBuffText, overPoisonText, overAreaText;
+	public Text playerCurrentHpText, playerMaxHpText, enemy1CurrentHpText, enemy1MaxHpText, enemy2CurrentHpText, enemy2MaxHpText;
+	public Slider playerHpSlider, enemy1HpSlider, enemy2HpSlider;
+	public Text weaponText, skillText;
+	public Image playerJob, enemy1Job, enemy2Job;
+	public Sprite[] playerSprites;
+	public Sprite[] jobSprites;
+	private bool selfDead = false;
+	public Camera cam;
 
 
 /*
@@ -87,20 +92,22 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		player2Status = player2.GetComponent<PlayerStatus_Level3>();
 		player3Status = player3.GetComponent<PlayerStatus_Level3>();
 
+		p1Image.enabled = false;
+		p2Image.enabled = false;
+		p3Image.enabled = false;
+		win_lose_black.enabled = false;
+		p1WinImage.enabled = false;
+		p2WinImage.enabled = false;
+		p3WinImage.enabled = false;
+
 		player1Move.enabled = false;
 		player2Move.enabled = false;
 		player3Move.enabled = false;
 		remainSeconds = 3f;
 		durationSeconds = 0;
-		text.text = "Wait for another player";
 		audioSource = GetComponent<AudioSource>();
-		win_lose_Image.enabled = false;
 		win_lose_black.enabled = false;
 		//tcpClient = GetComponent<TcpClient_Level3>();
-		damageReflectText.enabled = false;
-		attackBuffText.enabled = false;
-		overPoisonText.enabled = false;
-		overAreaText.enabled = false;
 		playerReady = new bool[3];
 		for(int i = 0; i < 3; i++)
 		{
@@ -110,14 +117,36 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 
 	}
 
+	void CheckWhoWin()
+	{
+		if(!gameOver)
+		{
+			if(player1Dead && player2Dead)
+			{
+				player3Win = true;
+			}
+			else if(player1Dead && player3Dead)
+			{
+				player2Win = true;
+			}
+			else if(player2Dead && player3Dead)
+			{
+				player1Win = true;
+			}
+
+		}
+	}
+
 	void CheckGameOver()
 	{
 		if(!gameOver)
 		{
 			if(player1Win)
 			{
-				win_lose_Image.sprite = p1winPic;
-				win_lose_Image.enabled = true;
+				p1Image.enabled = true;
+				p2Image.enabled = true;
+				p3Image.enabled = true;
+				p1WinImage.enabled = true;
 				win_lose_black.enabled = true;
 				player1Move.enabled = false;
 				player2Move.enabled = false;
@@ -127,8 +156,10 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 			}
 			else if(player2Win)
 			{
-				win_lose_Image.sprite = p2winPic;
-				win_lose_Image.enabled = true;
+				p1Image.enabled = true;
+				p2Image.enabled = true;
+				p3Image.enabled = true;
+				p2WinImage.enabled = true;
 				win_lose_black.enabled = true;
 				player1Move.enabled = false;
 				player2Move.enabled = false;
@@ -138,8 +169,10 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 			}
 			else if(player3Win)
 			{
-				win_lose_Image.sprite = p3winPic;
-				win_lose_Image.enabled = true;
+				p1Image.enabled = true;
+				p2Image.enabled = true;
+				p3Image.enabled = true;
+				p3WinImage.enabled = true;
 				win_lose_black.enabled = true;
 				player1Move.enabled = false;
 				player2Move.enabled = false;
@@ -162,82 +195,40 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		switch(playerIdentity)
 		{
 			case 1:
-				playerHpText.text = Mathf.RoundToInt(player1Status.hp).ToString() + "/" + Mathf.RoundToInt(player1Status.maxHp).ToString();
-				enemy1HpText.text = Mathf.RoundToInt(player2Status.hp).ToString() + "/" + Mathf.RoundToInt(player2Status.maxHp).ToString();
-				enemy2HpText.text = Mathf.RoundToInt(player3Status.hp).ToString() + "/" + Mathf.RoundToInt(player3Status.maxHp).ToString();
+				playerCurrentHpText.text = Mathf.RoundToInt(player1Status.hp).ToString();
+				playerMaxHpText.text = Mathf.RoundToInt(player1Status.maxHp).ToString();
+				enemy1CurrentHpText.text = Mathf.RoundToInt(player2Status.hp).ToString();
+				enemy1MaxHpText.text = Mathf.RoundToInt(player2Status.maxHp).ToString();
+				enemy2CurrentHpText.text = Mathf.RoundToInt(player3Status.hp).ToString();
+				enemy2MaxHpText.text = Mathf.RoundToInt(player3Status.maxHp).ToString();
+				playerHpSlider.value = player1Status.hp / player1Status.maxHp;
+				enemy1HpSlider.value = player2Status.hp / player2Status.maxHp;
+				enemy2HpSlider.value = player3Status.hp / player3Status.maxHp;
 				break;
 			case 2:
-				playerHpText.text = Mathf.RoundToInt(player2Status.hp).ToString() + "/" + Mathf.RoundToInt(player2Status.maxHp).ToString();
-				enemy1HpText.text = Mathf.RoundToInt(player1Status.hp).ToString() + "/" + Mathf.RoundToInt(player1Status.maxHp).ToString();
-				enemy2HpText.text = Mathf.RoundToInt(player3Status.hp).ToString() + "/" + Mathf.RoundToInt(player3Status.maxHp).ToString();
+				playerCurrentHpText.text = Mathf.RoundToInt(player2Status.hp).ToString();
+				playerMaxHpText.text = Mathf.RoundToInt(player2Status.maxHp).ToString();
+				enemy1CurrentHpText.text = Mathf.RoundToInt(player1Status.hp).ToString();
+				enemy1MaxHpText.text = Mathf.RoundToInt(player1Status.maxHp).ToString();
+				enemy2CurrentHpText.text = Mathf.RoundToInt(player3Status.hp).ToString();
+				enemy2MaxHpText.text = Mathf.RoundToInt(player3Status.maxHp).ToString();
+				playerHpSlider.value = player2Status.hp / player2Status.maxHp;
+				enemy1HpSlider.value = player1Status.hp / player1Status.maxHp;
+				enemy2HpSlider.value = player3Status.hp / player3Status.maxHp;
 				break;
 			case 3:
-				playerHpText.text = Mathf.RoundToInt(player3Status.hp).ToString() + "/" + Mathf.RoundToInt(player3Status.maxHp).ToString();
-				enemy1HpText.text = Mathf.RoundToInt(player1Status.hp).ToString() + "/" + Mathf.RoundToInt(player1Status.maxHp).ToString();
-				enemy2HpText.text = Mathf.RoundToInt(player2Status.hp).ToString() + "/" + Mathf.RoundToInt(player2Status.maxHp).ToString();
+				playerCurrentHpText.text = Mathf.RoundToInt(player3Status.hp).ToString();
+				playerMaxHpText.text = Mathf.RoundToInt(player3Status.maxHp).ToString();
+				enemy1CurrentHpText.text = Mathf.RoundToInt(player1Status.hp).ToString();
+				enemy1MaxHpText.text = Mathf.RoundToInt(player1Status.maxHp).ToString();
+				enemy2CurrentHpText.text = Mathf.RoundToInt(player2Status.hp).ToString();
+				enemy2MaxHpText.text = Mathf.RoundToInt(player2Status.maxHp).ToString();
+				playerHpSlider.value = player3Status.hp / player3Status.maxHp;
+				enemy1HpSlider.value = player1Status.hp / player1Status.maxHp;
+				enemy2HpSlider.value = player2Status.hp / player2Status.maxHp;
 				break;
 		}
 	}
-
-	void WeaponImageSelect(PlayerPower_Level3 playerPower)
-	{
-		switch(playerPower)
-		{
-			case PlayerPower_Level3.DragonPower1:
-				weaponImage.sprite = dragonWeapon;
-				break;
-			case PlayerPower_Level3.DragonPower2:
-				weaponImage.sprite = dragonWeapon;
-				break;
-			case PlayerPower_Level3.DragonPower3:
-				weaponImage.sprite = dragonWeapon;
-				break;
-			case PlayerPower_Level3.KnightPower1:
-				weaponImage.sprite = knightWeapon;
-				break;
-			case PlayerPower_Level3.KnightPower2:
-				weaponImage.sprite = knightWeapon;
-				break;
-			case PlayerPower_Level3.MagicPower1:
-				weaponImage.sprite = magicWeapon;
-				break;
-			case PlayerPower_Level3.MagicPower2:
-				weaponImage.sprite = magicWeapon;
-				break;
-			case PlayerPower_Level3.MagicPower3:
-				weaponImage.sprite = magicWeapon;
-				break;
-			case PlayerPower_Level3.AssassinPower1:
-				weaponImage.sprite = assassinWeapon;
-				break;
-			case PlayerPower_Level3.AssassinPower2:
-				weaponImage.sprite = assassinWeapon;
-				break;
-			case PlayerPower_Level3.BossPower:
-				weaponImage.sprite = bossWeapon;
-				break;
-			case PlayerPower_Level3.Default:
-				weaponImage.sprite = defaultWeapon;
-				break;
-		}
-	}
-
-	void CheckPlayerWeaponImage()
-	{
-		switch(playerIdentity)
-		{
-			case 1:
-				WeaponImageSelect(player1Status.playerPower);
-				break;
-			case 2:
-				WeaponImageSelect(player2Status.playerPower);
-				break;
-			case 3:
-				WeaponImageSelect(player3Status.playerPower);
-				break;
-		}
-	}
-
 	void CheckPlayerWeaponText()
 	{
 		switch(playerIdentity)
@@ -254,64 +245,121 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 		}
 	}
 
-	void CheckReflectDamage()
+	void CheckPlayerSkillText()
 	{
-		if ((playerIdentity == 1 && player1Status.damageReflect) || (playerIdentity == 2 && player2Status.damageReflect) || (playerIdentity == 3 && player3Status.damageReflect))
+		switch(playerIdentity)
 		{
-			damageReflectText.enabled = true;
-		}
-		else
-		{
-			damageReflectText.enabled = false;
+			case 1:
+				skillText.text = Mathf.RoundToInt(player1Status.skillRemain).ToString();
+				break;
+			case 2:
+				skillText.text = Mathf.RoundToInt(player2Status.skillRemain).ToString();
+				break;
+			case 3:
+				skillText.text = Mathf.RoundToInt(player3Status.skillRemain).ToString();
+				break;
 		}
 	}
 
-	void CheckAttackBuff()
+	Sprite SelectSpriteAccordingToJob(PlayerCharacter_Level3 playerCharacter, Sprite defaultSprite)
 	{
-		if ((playerIdentity == 1 && player1Status.attackBuff) || (playerIdentity == 2 && player2Status.attackBuff) || (playerIdentity == 3 && player3Status.attackBuff))
+		switch(playerCharacter)
 		{
-			attackBuffText.enabled = true;
+			case PlayerCharacter_Level3.Dragon:
+				return jobSprites[0];
+			case PlayerCharacter_Level3.Knight:
+				return jobSprites[1];
+			case PlayerCharacter_Level3.Magic:
+				return jobSprites[2];
+			case PlayerCharacter_Level3.Assassin:
+				return jobSprites[3];
+			case PlayerCharacter_Level3.Boss:
+				return jobSprites[4];
+			case PlayerCharacter_Level3.Default:
+				return defaultSprite;
 		}
-		else
+		return null;
+	}
+
+	void CheckPlayerJob()
+	{
+		switch(playerIdentity)
 		{
-			attackBuffText.enabled = false;
+			case 1:
+				playerJob.sprite = SelectSpriteAccordingToJob(player1Status.playerCharacter, playerSprites[0]);
+				enemy1Job.sprite = SelectSpriteAccordingToJob(player2Status.playerCharacter, playerSprites[1]);
+				enemy2Job.sprite = SelectSpriteAccordingToJob(player3Status.playerCharacter, playerSprites[2]);
+				break;
+			case 2:
+				playerJob.sprite = SelectSpriteAccordingToJob(player2Status.playerCharacter, playerSprites[1]);
+				enemy1Job.sprite = SelectSpriteAccordingToJob(player1Status.playerCharacter, playerSprites[0]);
+				enemy2Job.sprite = SelectSpriteAccordingToJob(player3Status.playerCharacter, playerSprites[2]);
+				break;
+			case 3:
+				playerJob.sprite = SelectSpriteAccordingToJob(player3Status.playerCharacter, playerSprites[2]);
+				enemy1Job.sprite = SelectSpriteAccordingToJob(player1Status.playerCharacter, playerSprites[0]);
+				enemy2Job.sprite = SelectSpriteAccordingToJob(player2Status.playerCharacter, playerSprites[1]);
+				break;
 		}
 	}
 
-	void CheckOverPoison()
+	void CheckSelfDead()
 	{
-		if ((playerIdentity == 1 && player1Status.overPoison) || (playerIdentity == 2 && player2Status.overPoison) || (playerIdentity == 3 && player3Status.overPoison))
+		switch(playerIdentity)
 		{
-			overPoisonText.enabled = true;
-		}
-		else
-		{
-			overPoisonText.enabled = false;
+			case 1:
+				if(player1Dead)
+				{
+					selfDead = true;
+				}
+				break;
+			case 2:
+				if(player1Dead)
+				{
+					selfDead = true;
+				}
+				break;
+			case 3:
+				if(player1Dead)
+				{
+					selfDead = true;
+				}
+				break;
 		}
 	}
 
-	void CheckOverArea()
+	void CameraMoveAfterSelfDead()
 	{
-		if ((playerIdentity == 1 && player1Status.overArea) || (playerIdentity == 2 && player2Status.overArea) || (playerIdentity == 3 && player3Status.overArea))
+		if(selfDead)
 		{
-			overAreaText.enabled = true;
-		}
-		else
-		{
-			overAreaText.enabled = false;
+			Debug.Log("check");
+			switch(playerIdentity)
+			{
+				case 1:
+					cam.transform.position = new Vector3(player2.gameObject.transform.position.x, player2.gameObject.transform.position.y, -10);
+					break;
+				case 2:
+					cam.transform.position = new Vector3(player3.gameObject.transform.position.x, player3.gameObject.transform.position.y, -10);
+					break;
+				case 3:
+					cam.transform.position = new Vector3(player1.gameObject.transform.position.x, player1.gameObject.transform.position.y, -10);
+					break;
+			}
 		}
 	}
+
+	
 
 	void Update()
 	{
+		CheckWhoWin();
 		CheckGameOver();
 		CheckPlayerHp();
-		CheckPlayerWeaponImage();
 		CheckPlayerWeaponText();
-		CheckAttackBuff();
-		CheckReflectDamage();
-		CheckOverPoison();
-		CheckOverArea();
+		CheckPlayerSkillText();
+		CheckPlayerJob();
+		CheckSelfDead();
+		CameraMoveAfterSelfDead();
 	}
 	void WaitForStart()
 	{	
@@ -350,7 +398,6 @@ public class PlayerStatusControl_Level3 : MonoBehaviour {
 			{
 				audioSource.Play();
 				first = false;
-				text.text = "";
 				player1Move.enabled = true;
 				player2Move.enabled = true;
 				player3Move.enabled = true;

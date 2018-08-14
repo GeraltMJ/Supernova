@@ -13,7 +13,6 @@ public class RoomMenuLogic : MonoBehaviour {
 	private Image[] playerCharacterImage;
 	public GameObject[] readyPic;//表示3个角色的Ready图片
 	public Sprite[] characterSprites; //3 个角色的立绘图像
-	public Sprite[] selectCharacterSprites; //选择地方的立绘
 	public Sprite[] mapSprites;
 	
 	public Sprite defaultCharacter;
@@ -24,8 +23,6 @@ public class RoomMenuLogic : MonoBehaviour {
 
 	private int readyCount = 0;
 
-	public GameObject characterSelect;
-	private Image characterSelectImage;
 	public GameObject mapSelect;
 	private Image mapSelectImage;
 
@@ -38,15 +35,21 @@ public class RoomMenuLogic : MonoBehaviour {
 	//载入游戏需要的数据成员
 	public Slider processBar;
 	private AsyncOperation async;
-	private int nowProcess;//当前进度
+	private int nowProcess = 0;//当前进度
 	public GameObject loadingPicture;//Lodading界面图片
 	private int sceneIndex = 0;//表示需要载入的游戏场景的Index
 	private int sceneTotal;//表示总共可以载入的游戏场景关卡
 
-	public int[] playerCharacterIndexArray;
+	private int[] playerCharacterIndexArray;
 	public int[] playerReadyStatus;
 
 	public bool gameStart = false;
+
+	public Sprite readySprite, unreadySprite;
+	public GameObject p1Arrow, p2Arrow, p3Arrow;
+	private float targetValue = 0;
+	private float loadingSpeed = 1;
+	private bool gameStartFirst = true;
 
 	// Use this for initialization
 
@@ -79,9 +82,9 @@ public class RoomMenuLogic : MonoBehaviour {
 
 	public void ReceiveNewIncomer(int player)
 	{
-		playerCharacterIndexArray[player] = 0;
+		playerCharacterIndexArray[player] = player;
 		playerTotal++;
-		TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
+		TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, playerCharacterIndexArray[playerIndex]);
 		if(isReady)
 		{
 			TcpClient_All._instance.SendReadyCommand(playerIndex);
@@ -123,8 +126,23 @@ public class RoomMenuLogic : MonoBehaviour {
 	{
 		if(gameStart)
 		{
-			SceneManager.LoadScene("03_GamePlay", LoadSceneMode.Single);
+			if(gameStartFirst)
+			{
+				gameStartFirst = false;
+				//SceneManager.LoadScene("03_GamePlay", LoadSceneMode.Single);
+				StartCoroutine(LoadGame());
+				loadingPicture.SetActive(true);
+				processBar.gameObject.SetActive(true);
+				processBar.value = 0f;
+			}
 		}
+	}
+
+	IEnumerator LoadGame()
+	{
+		async = SceneManager.LoadSceneAsync("03_GamePlay");
+		async.allowSceneActivation = false;
+		yield return async;
 	}
 
 
@@ -135,13 +153,11 @@ public class RoomMenuLogic : MonoBehaviour {
 		for(int i = 0; i < 3; i++){
 			playerCharacterImage[i] = playerCharacter[i].GetComponent<Image>();
 		}
-		characterSelectImage = characterSelect.GetComponent<Image>();
 		mapSelectImage = mapSelect.GetComponent<Image>();
 		for(int i = 0; i < 3; i++)
 		{
 			playerCharacterImage[i].sprite = defaultCharacter;
 		}
-		characterSelectImage.sprite = selectCharacterSprites[0];
 		mapIndex = 0;
 		playerCharacterIndexArray = new int[3];
 		playerReadyStatus = new int[3];
@@ -150,7 +166,8 @@ public class RoomMenuLogic : MonoBehaviour {
 		}
 	}
 
-	void Start () {
+	void Start () 
+	{
 		//TODO:进入房间，将4个玩家的人物显示出来
 		//如果之前有玩家进入，默认初始化玩家的头像
 		/*
@@ -160,6 +177,28 @@ public class RoomMenuLogic : MonoBehaviour {
 			playerTotal--;
 		}
 		*/
+	}
+
+	void CheckArrow()
+	{
+		switch(playerIndex)
+		{
+			case 0:
+				p1Arrow.SetActive(true);
+				p2Arrow.SetActive(false);
+				p3Arrow.SetActive(false);
+				break;
+			case 1:
+				p1Arrow.SetActive(false);
+				p2Arrow.SetActive(true);
+				p3Arrow.SetActive(false);
+				break;
+			case 2:
+				p1Arrow.SetActive(false);
+				p2Arrow.SetActive(false);
+				p3Arrow.SetActive(true);
+				break;
+		}
 	}
 	
 	// Update is called once per frame
@@ -179,59 +218,38 @@ public class RoomMenuLogic : MonoBehaviour {
 		CheckPlayerStatus();
 		CheckMapSelect();
 		CheckGameStart();
+		CheckArrow();
 	
-	/*
+	
 		if(async == null)
 		{
 			return;
 		}
-		int toProcess;
-		if(async.progress < 0.9f)
+		targetValue = async.progress;
+		if(async.progress >= 0.9f)
 		{
-			toProcess = (int)async.progress * 100;
+			targetValue = 1;
 		}
-		else
+		if(targetValue != processBar.value)
 		{
-			toProcess = 100;
+			processBar.value = Mathf.Lerp(processBar.value, targetValue, Time.deltaTime * loadingSpeed);
+			if (Mathf.Abs(processBar.value - targetValue) < 0.01f)
+			{
+				processBar.value = targetValue;
+			}
+
 		}
-		if(nowProcess < toProcess)
+
+		if ((int)(processBar.value * 100) == 100)
 		{
-			nowProcess++;
-		}
-		processBar.value = nowProcess / 100f;
-		if(nowProcess == 100)
-		{
+			//允许异步加载完毕后自动切换场景
 			async.allowSceneActivation = true;
 		}
-	*/
+	
 	}
 
 	//改变制定位置的立绘图像
 	//右选人按钮的点击事件
-	public void OnCharRightBtnDown()
-	{
-		if(!isReady)
-		{
-			picIndex = (picIndex + 1) % 2;
-			characterSelectImage.sprite = selectCharacterSprites[picIndex];
-			SetPlayerCharacter(playerIndex, picIndex);
-			TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
-		}
-
-	}
-
-	//左选人按钮的点击事件
-	public void OnCharLeftBtnDown()
-	{
-		if(!isReady)
-		{
-			picIndex = (picIndex + 1) % 2;
-			characterSelectImage.sprite = selectCharacterSprites[picIndex];
-			SetPlayerCharacter(playerIndex, picIndex);
-			TcpClient_All._instance.SendCharacterSelectCommand(playerIndex, picIndex);
-		}
-	
-	}
 
 	//TODO:地图按钮
 	
@@ -277,6 +295,8 @@ public class RoomMenuLogic : MonoBehaviour {
 			readyCount--;
 			isReady = false;
 			TcpClient_All._instance.SendNoReadyCommand(playerIndex);
+			Image readyButtonImage = readyBtn.GetComponent<Image>();
+			readyButtonImage.sprite = unreadySprite;
 		}
 		else
 		{
@@ -284,6 +304,9 @@ public class RoomMenuLogic : MonoBehaviour {
 			readyCount++;
 			isReady = true;
 			TcpClient_All._instance.SendReadyCommand(playerIndex);
+			Image readyButtonImage = readyBtn.GetComponent<Image>();
+			readyButtonImage.sprite = readySprite;
+
 		}
 	}
 
@@ -293,10 +316,4 @@ public class RoomMenuLogic : MonoBehaviour {
 		gameStart = true;
 	}
 
-	IEnumerator LoadGame(int sceneIndex)
-	{
-		async = SceneManager.LoadSceneAsync(sceneIndex);
-		async.allowSceneActivation = false;
-		yield return async;
-	}
 }
