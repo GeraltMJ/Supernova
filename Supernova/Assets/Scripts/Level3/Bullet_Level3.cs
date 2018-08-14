@@ -11,7 +11,7 @@ public class Bullet_Level3 : MonoBehaviour {
 	private TcpClient_Level2 tcpClient;
 	private float dragonSpeed = 6.0f;
 	private float assassinSpeed = 6.0f;
-	private float magicSpeed = 3.0f;
+	private float magicSpeed = 4.0f;
 	private float knightSpeed = 9.0f;
 	private float bossSpeed = 8f;
 	private float assassinTimeLimit = 1.5f;
