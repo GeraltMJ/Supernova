@@ -202,9 +202,10 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		CheckSkillRemain();
 		CheckFrozenStatus();
 		CheckUpdateHp();
+		SendSelfInfo();
 	}
 
-	void FixedUpdate() {
+	void SendSelfInfo(){
 		
 		if(gameStart)
 		{
