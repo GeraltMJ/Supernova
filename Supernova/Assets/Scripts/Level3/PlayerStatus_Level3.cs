@@ -209,7 +209,7 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 
 	void UpdateDeadMessage()
 	{
-		if(isDead)
+		if(isDead && PlayerStatusControl_Level3._instance.playerIdentity == playerIdentity)
 		{
 			deadCount += Time.deltaTime;
 			if(deadCount > 3)
