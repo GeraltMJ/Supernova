@@ -59,6 +59,7 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 	public bool isTeleport = false;
 	public bool gameStart = false;
 	public Sprite tombSprite;
+	private float deadCount = 0;
 	
 	// Use this for initialization
 	void Awake () {
@@ -203,6 +204,20 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		CheckSkillRemain();
 		CheckFrozenStatus();
 		//CheckUpdateHp();
+		UpdateDeadMessage();
+	}
+
+	void UpdateDeadMessage()
+	{
+		if(isDead)
+		{
+			deadCount += Time.deltaTime;
+			if(deadCount > 3)
+			{
+				TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -4);
+				deadCount = 0;
+			}
+		}
 	}
 	/*
 	void FixedUpdate() {
@@ -281,7 +296,7 @@ public class PlayerStatus_Level3 : MonoBehaviour {
 		GetComponent<Animator>().enabled = false;
 		if(PlayerStatusControl_Level3._instance.playerIdentity == playerIdentity)
 		{
-			TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -20);
+			TcpClient_All._instance.SendHpChange(PlayerStatusControl_Level3._instance.playerIdentity, -4);
 		}
 	}
 }
