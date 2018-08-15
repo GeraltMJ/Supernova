@@ -312,8 +312,11 @@ public class RoomMenuLogic : MonoBehaviour {
 
 	public void OnStartBtnDown()
 	{
-		TcpClient_All._instance.SendStartCommand(playerIndex);
-		gameStart = true;
+		if(readyCount == 2)
+		{
+			TcpClient_All._instance.SendStartCommand(playerIndex);
+			gameStart = true;
+		}
 	}
 
 }
